@@ -1,0 +1,19 @@
+{
+    "search.exclude": {
+        "back/node_modules": true,
+        "back/package-lock.json": true,
+        "back/yarn.lock": true,
+        ".github/": true,
+        ".config/": true,
+        ".vscode/": true,
+        ".DS_Store": true,
+        ".circleci/": true
+    },
+    "files.exclude": {
+        "back/node_modules": true,
+        ".config/": true,
+        ".vscode/": true,
+        ".DS_Store": true,
+        ".circleci/": true
+    }
+}

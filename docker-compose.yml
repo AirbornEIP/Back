@@ -1,0 +1,27 @@
+version: '3'
+services:
+  back:
+    build: ./back
+    restart: always
+    ports:
+      - 8080:8080
+    volumes:
+      - ./back/:/app/back:z
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo
+    restart: always
+    volumes:
+      - database:/data/db:z
+
+  adminmongo:
+    image: mrvautin/adminmongo
+    ports:
+      - 1234:1234
+    environment:
+      - HOST=0.0.0.0
+
+volumes:
+  database:
