@@ -16,4 +16,5 @@ jobs:
       - run: |
           npm i check-build
           check-build
+          echo $?
       - run: npm test
