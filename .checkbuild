@@ -1,0 +1,41 @@
+{
+  "checkbuild": {
+    "enable": ["jshint", "eslint", "jsinspect", "plato", "nsp", "david", "plato"],
+    "continueOnError": false,
+    "allowFailures": false
+  },
+
+  "david": {
+    "warn": {
+      "E404": true
+    },
+    "ignore": ["socket.io"]
+  },
+
+  "jshint": {
+    "args": ["src/**/*.js"]
+  },
+
+ "eslint": {
+    "args": ["src/**/*.js", "src/**/*.jsx"]
+  },
+
+  "jsinspect": {
+    "args": ["*.js"],
+    "diff": true
+  },
+
+  "buddyjs": {
+    "args": ["*.js"],
+    "ignore": [0, 1, 200]
+  },
+
+  "plato": {
+    "args": ["*.js"],
+    "maintainability": 75.00
+  },
+
+  "nsp": {
+    "args": []
+  }
+}
