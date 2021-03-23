@@ -58,4 +58,3 @@ function getName(pdf) {
         console.log(e)
     }
 })();
-

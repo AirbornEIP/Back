@@ -1,24 +1,37 @@
+# Node & npm
 *node_modules*
 package-lock.json
+npm-debug.log*
+*.eslintcache
 .config/
 
-*.eslintcache
-*.DS_Store
+# Log
+*.log
+log.txt
 
-myRepo/
-pasPush
-
+# Emacs
 *~
-*.sw[mnpcod]
-.tmp
-*.tmp
-*.tmp.*
+\#*#
+.#*
+
+# SublimeText
 *.sublime-project
 *.sublime-workspace
+
+# Visual Studio
+.vs
+
+# MacOS
+*.DS_Store
+
+# Windows
 Thumbs.db
 UserInterfaceState.xcuserstate
 $RECYCLE.BIN/
 
-*.log
-log.txt
-npm-debug.log*
+# Other
+myRepo/
+pasPush/
+*.sw[mnpcod]
+*.tmp
+*.tmp.*

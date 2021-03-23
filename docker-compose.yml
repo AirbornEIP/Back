@@ -1,12 +1,12 @@
 version: '3'
 services:
   back:
-    build: ./back
+    build: ./
     restart: always
     ports:
       - 8080:8080
     volumes:
-      - ./back/:/app/back:z
+      - ./:/app/back:z
     depends_on:
       - mongo
 
