@@ -1,9 +1,9 @@
-const connectDb = require("./src/connection");
+const connectDb = require("./connection");
 const express = require('express')
 const app = express();
 const port = 8080;
 const cors = require('cors')
-const apiRouter = require("./src/routes/api")
+const apiRouter = require("./routes/api")
 app.use(express.json())
 app.use(cors())
 

@@ -6,11 +6,12 @@ services:
     ports:
       - 8080:8080
     volumes:
-      - ./:/app/back:z
+      - ./src:/app/back/src:z
+      - nodemodules:/app/back/node_modules:z
     depends_on:
-      - mongo
+      - mongodb
 
-  mongo:
+  mongodb:
     image: mongo
     restart: always
     volumes:
@@ -25,3 +26,4 @@ services:
 
 volumes:
   database:
+  nodemodules:
