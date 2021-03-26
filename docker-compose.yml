@@ -7,7 +7,7 @@ services:
       - 8080:8080
     volumes:
       - ./src:/app/back/src:z
-      - nodemodules:/app/back/node_modules:z
+      - /app/back/node_modules
     depends_on:
       - mongodb
 
@@ -26,4 +26,3 @@ services:
 
 volumes:
   database:
-  nodemodules:
