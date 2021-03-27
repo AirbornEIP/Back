@@ -71,7 +71,7 @@ then
     exit 0
 fi
 
-    #No Argument
+    # No Argument
 reset
 if [[ ! -d "./.config/" || ! -f "./.config/package_back.json" ]];
 then
