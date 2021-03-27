@@ -55,7 +55,6 @@ then
     else
         docker-compose up
     fi
-
     docker-compose down
     exit 0
 fi
