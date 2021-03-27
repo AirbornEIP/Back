@@ -7,10 +7,10 @@ if [[ "$arg" == "-h" || "$arg" == "-help" || "$arg" == "--help" ]];
 then
     echo -e "Bash Script:"
     echo -e "USAGE:"
-    echo -e "   ./run.sh            -> Building Back app in docker and launch it"
-    echo -e "   ./run.sh update     -> Upgrade package"
-    echo -e "   ./run.sh stop       -> Close docker"
-    echo -e "   ./run.sh fclean     -> Clean docker-compose"
+    echo -e "   ./run.sh         -> Building Back app in docker and launch it"
+    echo -e "   ./run.sh update  -> Upgrade package"
+    echo -e "   ./run.sh stop    -> Close docker"
+    echo -e "   ./run.sh fclean  -> Clean docker-compose"
     exit 0
 fi
 
