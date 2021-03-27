@@ -43,7 +43,7 @@ then
         docker-compose down
         echo -e "\033[0;32m[Done]: Docker Stopped.\033[0m"
     else
-        docker-compose down 2&> /dev/null
+        npm cache clean --force 2&> /dev/null
         echo -e "\033[0;32m[Done]: Docker nothing to stop.\033[0m"
     fi
     exit 0
@@ -58,7 +58,7 @@ then
         docker-compose down
         echo -e "\033[0;32m[Done]: Cleaning Docker.\033[0m"
     else
-        docker-compose down 2&> /dev/null
+        npm cache clean --force 2&> /dev/null
         echo -e "\033[0;32m[Done]: Docker nothing to clear.\033[0m"
     fi
     rm -fr node_modules package-lock.json
