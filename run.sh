@@ -26,14 +26,11 @@ then
         mkdir -p ./.config/
         cp -f ./package.json ./.config/package_back.json
     fi
-    echo -e "\033[0;34m[Start]: Updating package ...\033[0m"
-    npm update
-    npm audit fix --silent
-    touch ./.config/.need_update_docker
-    echo -e "\033[0;34m[Done]: Update Done.\033[0m"
+    echo -e "\033[0;34m[Start]: Looking Update Package ...\033[0m"
+    npm outdated
     mkdir -p ./.config/
+    touch ./.config/.need_update_docker
     cp -f ./package.json ./.config/package_back.json
-    echo -e "\033[0;32m[Done]: Upgrade All Packages.\033[0m"
     exit 0
 fi
 
