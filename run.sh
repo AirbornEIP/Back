@@ -27,7 +27,7 @@ then
         cp -f ./package.json ./.config/package_back.json
     fi
     echo -e "\033[0;34m[Start]: Updating package ...\033[0m"
-    npm update --silent
+    npm update
     npm audit fix --silent
     touch ./.config/.need_update_docker
     echo -e "\033[0;34m[Done]: Update Done.\033[0m"
