@@ -23,9 +23,9 @@ fi
     # Argument re
 if [[ "$arg" == "re" || "$arg" == "ree" || "$arg" == "r" || "$arg" == "-r" ]];
 then
-    if [[ $(docker ps -a -q) != "" ]]; then
-        docker stop $(docker ps -a -q)
-        docker rm $(docker ps -a -q)
+    if [[ $(docker ps --filter "name=back_*" -qa) != "" ]]; then
+        docker stop $(docker ps --filter "name=back_*" -qa)
+        docker rm $(docker ps --filter "name=back_*" -qa)
         docker-compose down
         echo -e "\033[0;32m[Done]: Cleaning Docker.\033[0m"
     else
@@ -77,9 +77,9 @@ fi
     # Argument stop
 if [[ "$arg" == "stop" || "$arg" == "close" || "$arg" == "st" || "$arg" == "s" || "$arg" == "-s" ]];
 then
-    if [[ $(docker ps -a -q) != "" ]]; then
-        docker stop $(docker ps -a -q)
-        docker rm $(docker ps -a -q)
+    if [[ $(docker ps --filter "name=back_*" -qa) != "" ]]; then
+        docker stop $(docker ps --filter "name=back_*" -qa)
+        docker rm $(docker ps --filter "name=back_*" -qa)
         docker-compose down
         echo -e "\033[0;32m[Done]: Docker Stopped.\033[0m"
     else
@@ -92,9 +92,9 @@ fi
     # Argument fclean
 if [[ "$arg" == "fclean" || "$arg" == "fclear" || "$arg" == "fcl" || "$arg" == "f" || "$arg" == "-f" ]];
 then
-    if [[ $(docker ps -a -q) != "" ]]; then
-        docker stop $(docker ps -a -q)
-        docker rm $(docker ps -a -q)
+    if [[ $(docker ps --filter "name=back_*" -qa) != "" ]]; then
+        docker stop $(docker ps --filter "name=back_*" -qa)
+        docker rm $(docker ps --filter "name=back_*" -qa)
         docker-compose down
         echo -e "\033[0;32m[Done]: Cleaning Docker.\033[0m"
     else
