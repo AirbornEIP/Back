@@ -1,21 +1,24 @@
-version: '3'
-services:
-  back:
-    build: .
-    restart: always
-    ports:
-      - 8080:8080
-    volumes:
-      - ./src:/app/back/src:z
-      - /app/back/node_modules
-    depends_on:
-      - mongodb
+version: '3.1'
 
-  mongodb:
+services:
+  api:
+    container_name: Airborn
+    restart: unless-stopped
+    build:
+      context: .
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mongo
+
+  mongo:
     image: mongo
     restart: always
-    volumes:
-      - database:/data/db:z
+    logging:
+      driver: "none"
 
   adminmongo:
     image: mrvautin/adminmongo
@@ -23,6 +26,3 @@ services:
       - 1234:1234
     environment:
       - HOST=0.0.0.0
-
-volumes:
-  database:
