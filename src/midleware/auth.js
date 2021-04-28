@@ -28,3 +28,7 @@ exports.login = [
     validationMiddlewares.checkValidation,
     auth.login
 ];
+
+exports.forgotPassword = [
+    auth.forgotPassword
+]

@@ -48,3 +48,17 @@ exports.register = async function (req, res) {
         }
     });
 }
+
+exports.forgotPassword = async function (req,res) {
+    try {
+        let User = await User.exist({email: req.body.email}) 
+    
+        if (!User) {
+            return responseApi.errorResponse(res, error.unknownUser.code, error.unknownUser.message)
+        } 
+        
+        // ici send un mail 
+    } catch(e) {
+        console.log(e)
+    }
+}

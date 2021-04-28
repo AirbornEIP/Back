@@ -1,17 +1,7 @@
-FROM node:lts-alpine
-
-WORKDIR /app/back
-
-ENV PATH /app/back/node_modules/.bin:$PATH
-
-COPY package.json /app/back
-
-RUN npm install nodemon -g --silent
-
-RUN npm install --silent
-
+FROM node:latest
+RUN npm install nodemon -g
+COPY . /app
+WORKDIR /app
+RUN npm install
 EXPOSE 8080
-
-COPY . /app/back
-
-CMD ["npm", "run", "dev"]
+CMD npm run dev
