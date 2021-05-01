@@ -1,0 +1,198 @@
+Script started on Thu Apr 29 17:10:54 2021
+[oh-my-zsh] Insecure completion-dependent directories detected:
+drwxrwxr-x  3 tercan  admin   96  1 avr 20:47 /usr/local/share/zsh
+drwxrwxr-x  6 tercan  admin  192  4 avr 03:26 /usr/local/share/zsh/site-functions
+
+[oh-my-zsh] For safety, we will not load completions from these directories until
+[oh-my-zsh] you fix their permissions and ownership and restart zsh.
+[oh-my-zsh] See the above list for directories with group or other writability.
+
+[oh-my-zsh] To fix your permissions you can do so by disabling
+[oh-my-zsh] the write permission of "group" and "others" and making sure that the
+[oh-my-zsh] owner of these directories is either root or your current user.
+[oh-my-zsh] The following command may help:
+[oh-my-zsh]     compaudit | xargs chmod g-w,o-w
+
+[oh-my-zsh] If the above didn't help or you want to skip the verification of
+[oh-my-zsh] insecure directories you can set the variable ZSH_DISABLE_COMPFIX to
+[oh-my-zsh] "true" before oh-my-zsh is sourced in your zshrc file.
+
+[1m[7m%[27m[1m[0m                                                                                                                                                                                                                                                                                           ]2;tercan@Air-de-Mathieu:~/Epitech/Back]1;~/Epitech/Backl[0m[27m[24m[J[01;32m➜  [36mBack[00m [01;34mgit:([31mdev[34m) [33m✗[00m [K[?1h=[?2004hlls[?1l>[?2004l
+]2;ls -G]1;ls[1m[36mback-end[39;49m[0m           docker-compose.yml typescript
+[1m[7m%[27m[1m[0m                                                                                                                                                                                                                                                                                           ]2;tercan@Air-de-Mathieu:~/Epitech/Back]1;~/Epitech/Back[0m[27m[24m[J[01;32m➜  [36mBack[00m [01;34mgit:([31mdev[34m) [33m✗[00m [K[?1h=[?2004hccd bc ack-end[1m/[0m[0m/
+[J[1;31mnode_modules[0m/  [J[1;31msrc[0m/         [J[A[0m[27m[24m[20Ccd back-end/[Knode_modules[1m/[0m
+[J[7mnode_modules/[0m  [J[1;31msrc[0m/         [J[A[0m[27m[24m[20Ccd back-end/node_modules[1m/[0m[K
+[7mnode_modules/[0m  [7mnode_modules/[0m  [A[0m[27m[24m[20Ccd back-end/node_modules[1m/[0m[K[13Dsrc[1m/[0m        [0m [9D
+[15C[7msrc/         [0m[1;31mnode_modules[0m/  [A[0m[27m[24m[20Ccd back-end/src[1m/[0m[K
+[J[A[36C[0m/
+[J[J[1;31mcontrollers[0m/  [J[1;31mhelpers[0m/      [J[1;31mmidleware[0m/    [J[1;31mmodels[0m/       [J[1;31mroutes[0m/       [J[1;31mscript[0m/     [J[A[0m[27m[24m[20Ccd back-end/src/[Kcontrollers[1m/[0m
+[J[7mcontrollers/[0m  [J[1;31mhelpers[0m/      [J[1;31mmidleware[0m/    [J[1;31mmodels[0m/       [J[1;31mroutes[0m/       [J[1;31mscript[0m/     [J[A[0m[27m[24m[20Ccd back-end/src/controllers[1m/[0m[K
+[7mcontrollers/[0m  [7mcontrollers/[0m  [A[0m[27m[24m[20Ccd back-end/src/controllers[1m/[0m[K[12Dhelpers[1m/[0m   [0m 
+[14C[7mhelpers/    [0m  [1;31mcontrollers[0m/  [A[0m[27m[24m[20Ccd back-end/src/helpers[1m/[0m[K[8Dmidlewa[0mre[1m/[0m
+[28C[7mmidleware/  [0m  [14C[1;31mhelpers[0m/      [A[0m[27m[24m[20Ccd back-end/src/midleware[1m/[0m[K[9Dodels[1m/[0m  [0m 
+[42C[7mmodels/     [0m  [28C[1;31mmidleware[0m/    [A[0m[27m[24m[20Ccd back-end/src/models[1m/[0m[Kroute[2C
+[56C[7mroutes/     [0m  [42C[1;31mmodels[0m/       [A[0m[27m[24m[20Ccd back-end/src/routes[1m/[0m[Kscript[1C
+[70C[7mscript/     [0m[56C[1;31mroutes[0m/       [A[0m[27m[24m[20Ccd back-end/src/script[1m/[0m[K
+[J[A[43C[0m [?1l>[?2004l
+[J]2;cd back-end/src/script]1;cd[1m[7m%[27m[1m[0m                                                                                                                                                                                                                                                                                           ]2;tercan@Air-de-Mathieu:~/Epitech/Back/back-end/src/script]1;..nd/src/script[0m[27m[24m[J[01;32m➜  [36mscript[00m [01;34mgit:([31mdev[34m) [33m✗[00m [K[?1h=[?2004hlls[?1l>[?2004l
+]2;ls -G]1;lsgetVacMap.js
+[1m[7m%[27m[1m[0m                                                                                                                                                                                                                                                                                           ]2;tercan@Air-de-Mathieu:~/Epitech/Back/back-end/src/script]1;..nd/src/script[0m[27m[24m[J[01;32m➜  [36mscript[00m [01;34mgit:([31mdev[34m) [33m✗[00m [K[?1h=[?2004hnnode getVacMap.js[1m [0m[0m [?1l>[?2004l
+]2;node getVacMap.js]1;node^C
+[1m[7m%[27m[1m[0m                                                                                                                                                                                                                                                                                           ]2;tercan@Air-de-Mathieu:~/Epitech/Back/back-end/src/script]1;..nd/src/script[0m[27m[24m[J[01;31m➜  [36mscript[00m [01;34mgit:([31mdev[34m) [33m✗[00m [K[?1h=[?2004hnode getVacMap.js[?1l>[?2004l
+]2;node getVacMap.js]1;node^C[1m[7m%[27m[1m[0m                                                                                                                                                                                                                                                                                           ]2;tercan@Air-de-Mathieu:~/Epitech/Back/back-end/src/script]1;..nd/src/script[0m[27m[24m[J[01;31m➜  [36mscript[00m [01;34mgit:([31mdev[34m) [33m✗[00m [K[?1h=[?2004hnode getVacMap.js[?1l>[?2004l
+]2;node getVacMap.js]1;node/Users/tercan/Epitech/Back/back-end/src/script/getVacMap.js:72
+            const page = await b2.newPage();
+                  ^
+
+SyntaxError: Identifier 'page' has already been declared
+[90m    at Object.compileFunction (node:vm:355:18)[39m
+[90m    at wrapSafe (node:internal/modules/cjs/loader:1038:15)[39m
+[90m    at Module._compile (node:internal/modules/cjs/loader:1072:27)[39m
+[90m    at Object.Module._extensions..js (node:internal/modules/cjs/loader:1137:10)[39m
+[90m    at Module.load (node:internal/modules/cjs/loader:988:32)[39m
+[90m    at Function.Module._load (node:internal/modules/cjs/loader:828:14)[39m
+[90m    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:76:12)[39m
+[90m    at node:internal/main/run_main_module:17:47[39m
+[1m[7m%[27m[1m[0m                                                                                                                                                                                                                                                                                           ]2;tercan@Air-de-Mathieu:~/Epitech/Back/back-end/src/script]1;..nd/src/script[0m[27m[24m[J[01;31m➜  [36mscript[00m [01;34mgit:([31mdev[34m) [33m✗[00m [K[?1h=[?2004hnode getVacMap.js[?1l>[?2004l
+]2;node getVacMap.js]1;node^C[1m[7m%[27m[1m[0m                                                                                                                                                                                                                                                                                           ]2;tercan@Air-de-Mathieu:~/Epitech/Back/back-end/src/script]1;..nd/src/script[0m[27m[24m[J[01;31m➜  [36mscript[00m [01;34mgit:([31mdev[34m) [33m✗[00m [K[?1h=[?2004hnode getVacMap.js[?1l>[?2004l
+]2;node getVacMap.js]1;node^C
+[1m[7m%[27m[1m[0m                                                                                                                                                                                                                                                                                           ]2;tercan@Air-de-Mathieu:~/Epitech/Back/back-end/src/script]1;..nd/src/script[0m[27m[24m[J[01;31m➜  [36mscript[00m [01;34mgit:([31mdev[34m) [33m✗[00m [K[?1h=[?2004hnode getVacMap.js[?1l>[?2004l
+]2;node getVacMap.js]1;node^C
+[1m[7m%[27m[1m[0m                                                                                                                                                                                                                                                                                           ]2;tercan@Air-de-Mathieu:~/Epitech/Back/back-end/src/script]1;..nd/src/script[0m[27m[24m[J[01;31m➜  [36mscript[00m [01;34mgit:([31mdev[34m) [33m✗[00m [K[?1h=[?2004hnode getVacMap.js[?1l>[?2004l
+]2;node getVacMap.js]1;node^[[A
+^C
+[1m[7m%[27m[1m[0m                                                                                                                                                                                                                                                                                           ]2;tercan@Air-de-Mathieu:~/Epitech/Back/back-end/src/script]1;..nd/src/script[0m[27m[24m[J[01;31m➜  [36mscript[00m [01;34mgit:([31mdev[34m) [33m✗[00m [K[?1h=[?2004hnode getVacMap.js[?1l>[?2004l
+]2;node getVacMap.js]1;node^C
+[1m[7m%[27m[1m[0m                                                                                                                                                                                                                                                                                           ]2;tercan@Air-de-Mathieu:~/Epitech/Back/back-end/src/script]1;..nd/src/script[0m[27m[24m[J[01;31m➜  [36mscript[00m [01;34mgit:([31mdev[34m) [33m✗[00m [K[?1h=[?2004hnode getVacMap.js[?1l>[?2004l
+]2;node getVacMap.js]1;nodecaca
+prout
+^C
+[1m[7m%[27m[1m[0m                                                                                                                                                                                                                                                                                           ]2;tercan@Air-de-Mathieu:~/Epitech/Back/back-end/src/script]1;..nd/src/script[0m[27m[24m[J[01;31m➜  [36mscript[00m [01;34mgit:([31mdev[34m) [33m✗[00m [K[?1h=[?2004hnode getVacMap.js[?1l>[?2004l
+]2;node getVacMap.js]1;nodecaca
+prout
+^C
+[1m[7m%[27m[1m[0m                                                                                                                                                                                                                                                                                           ]2;tercan@Air-de-Mathieu:~/Epitech/Back/back-end/src/script]1;..nd/src/script[0m[27m[24m[J[01;31m➜  [36mscript[00m [01;34mgit:([31mdev[34m) [33m✗[00m [K[?1h=[?2004hnode getVacMap.js[?1l>[?2004l
+]2;node getVacMap.js]1;node/Users/tercan/Epitech/Back/back-end/src/script/getVacMap.js:24
+}
+^
+
+SyntaxError: Unexpected token '}'
+[90m    at Object.compileFunction (node:vm:355:18)[39m
+[90m    at wrapSafe (node:internal/modules/cjs/loader:1038:15)[39m
+[90m    at Module._compile (node:internal/modules/cjs/loader:1072:27)[39m
+[90m    at Object.Module._extensions..js (node:internal/modules/cjs/loader:1137:10)[39m
+[90m    at Module.load (node:internal/modules/cjs/loader:988:32)[39m
+[90m    at Function.Module._load (node:internal/modules/cjs/loader:828:14)[39m
+[90m    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:76:12)[39m
+[90m    at node:internal/main/run_main_module:17:47[39m
+[1m[7m%[27m[1m[0m                                                                                                                                                                                                                                                                                           ]2;tercan@Air-de-Mathieu:~/Epitech/Back/back-end/src/script]1;..nd/src/script[0m[27m[24m[J[01;31m➜  [36mscript[00m [01;34mgit:([31mdev[34m) [33m✗[00m [K[?1h=[?2004hnode getVacMap.js[?1l>[?2004l
+]2;node getVacMap.js]1;node/Users/tercan/Epitech/Back/back-end/src/script/getVacMap.js:101
+function (){
+^^^^^^^^
+
+SyntaxError: Function statements require a function name
+[90m    at Object.compileFunction (node:vm:355:18)[39m
+[90m    at wrapSafe (node:internal/modules/cjs/loader:1038:15)[39m
+[90m    at Module._compile (node:internal/modules/cjs/loader:1072:27)[39m
+[90m    at Object.Module._extensions..js (node:internal/modules/cjs/loader:1137:10)[39m
+[90m    at Module.load (node:internal/modules/cjs/loader:988:32)[39m
+[90m    at Function.Module._load (node:internal/modules/cjs/loader:828:14)[39m
+[90m    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:76:12)[39m
+[90m    at node:internal/main/run_main_module:17:47[39m
+[1m[7m%[27m[1m[0m                                                                                                                                                                                                                                                                                           ]2;tercan@Air-de-Mathieu:~/Epitech/Back/back-end/src/script]1;..nd/src/script[0m[27m[24m[J[01;31m➜  [36mscript[00m [01;34mgit:([31mdev[34m) [33m✗[00m [K[?1h=[?2004hnode getVacMap.js[?1l>[?2004l
+]2;node getVacMap.js]1;node/Users/tercan/Epitech/Back/back-end/src/script/getVacMap.js:102
+    alert("Called immediately");
+    ^
+
+ReferenceError: alert is not defined
+    at /Users/tercan/Epitech/Back/back-end/src/script/getVacMap.js:102:5
+    at Object.<anonymous> (/Users/tercan/Epitech/Back/back-end/src/script/getVacMap.js:103:3)
+[90m    at Module._compile (node:internal/modules/cjs/loader:1108:14)[39m
+[90m    at Object.Module._extensions..js (node:internal/modules/cjs/loader:1137:10)[39m
+[90m    at Module.load (node:internal/modules/cjs/loader:988:32)[39m
+[90m    at Function.Module._load (node:internal/modules/cjs/loader:828:14)[39m
+[90m    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:76:12)[39m
+[90m    at node:internal/main/run_main_module:17:47[39m
+[1m[7m%[27m[1m[0m                                                                                                                                                                                                                                                                                           ]2;tercan@Air-de-Mathieu:~/Epitech/Back/back-end/src/script]1;..nd/src/script[0m[27m[24m[J[01;31m➜  [36mscript[00m [01;34mgit:([31mdev[34m) [33m✗[00m [K[?1h=[?2004hnode getVacMap.js[?1l>[?2004l
+]2;node getVacMap.js]1;node/Users/tercan/Epitech/Back/back-end/src/script/getVacMap.js:102
+    alert("Called immediately");
+    ^
+
+ReferenceError: alert is not defined
+    at /Users/tercan/Epitech/Back/back-end/src/script/getVacMap.js:102:5
+    at Object.<anonymous> (/Users/tercan/Epitech/Back/back-end/src/script/getVacMap.js:103:3)
+[90m    at Module._compile (node:internal/modules/cjs/loader:1108:14)[39m
+[90m    at Object.Module._extensions..js (node:internal/modules/cjs/loader:1137:10)[39m
+[90m    at Module.load (node:internal/modules/cjs/loader:988:32)[39m
+[90m    at Function.Module._load (node:internal/modules/cjs/loader:828:14)[39m
+[90m    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:76:12)[39m
+[90m    at node:internal/main/run_main_module:17:47[39m
+[1m[7m%[27m[1m[0m                                                                                                                                                                                                                                                                                           ]2;tercan@Air-de-Mathieu:~/Epitech/Back/back-end/src/script]1;..nd/src/script[0m[27m[24m[J[01;31m➜  [36mscript[00m [01;34mgit:([31mdev[34m) [33m✗[00m [K[?1h=[?2004hnode getVacMap.js[?1l>[?2004l
+]2;node getVacMap.js]1;nodeCalled immediately
+[1m[7m%[27m[1m[0m                                                                                                                                                                                                                                                                                           ]2;tercan@Air-de-Mathieu:~/Epitech/Back/back-end/src/script]1;..nd/src/script[0m[27m[24m[J[01;32m➜  [36mscript[00m [01;34mgit:([31mdev[34m) [33m✗[00m [K[?1h=[?2004hnode getVacMap.js[?1l>[?2004l
+]2;node getVacMap.js]1;nodeCalled immediately
+caca
+^C
+[1m[7m%[27m[1m[0m                                                                                                                                                                                                                                                                                           ]2;tercan@Air-de-Mathieu:~/Epitech/Back/back-end/src/script]1;..nd/src/script[0m[27m[24m[J[01;31m➜  [36mscript[00m [01;34mgit:([31mdev[34m) [33m✗[00m [K[?1h=[?2004hnode getVacMap.js[?1l>[?2004l
+]2;node getVacMap.js]1;nodeCalled immediately
+caca
+^C
+[1m[7m%[27m[1m[0m                                                                                                                                                                                                                                                                                           ]2;tercan@Air-de-Mathieu:~/Epitech/Back/back-end/src/script]1;..nd/src/script[0m[27m[24m[J[01;31m➜  [36mscript[00m [01;34mgit:([31mdev[34m) [33m✗[00m [K[?1h=[?2004hnode getVacMap.js[?1l>[?2004l
+]2;node getVacMap.js]1;nodeCalled immediately
+caca
+^C
+[1m[7m%[27m[1m[0m                                                                                                                                                                                                                                                                                           ]2;tercan@Air-de-Mathieu:~/Epitech/Back/back-end/src/script]1;..nd/src/script[0m[27m[24m[J[01;31m➜  [36mscript[00m [01;34mgit:([31mdev[34m) [33m✗[00m [K[?1h=[?2004hnode getVacMap.js[?1l>[?2004l
+]2;node getVacMap.js]1;nodeCalled immediately
+caca
+prout
+^C
+[1m[7m%[27m[1m[0m                                                                                                                                                                                                                                                                                           ]2;tercan@Air-de-Mathieu:~/Epitech/Back/back-end/src/script]1;..nd/src/script[0m[27m[24m[J[01;31m➜  [36mscript[00m [01;34mgit:([31mdev[34m) [33m✗[00m [K[?1h=[?2004hnode getVacMap.js[?1l>[?2004l
+]2;node getVacMap.js]1;nodeCalled immediately
+caca
+/Users/tercan/Epitech/Back/back-end/src/script/getVacMap.js:108
+            await b2.quit()
+                     ^
+
+TypeError: b2.quit is not a function
+    at /Users/tercan/Epitech/Back/back-end/src/script/getVacMap.js:108:22
+[90m    at processTicksAndRejections (node:internal/process/task_queues:96:5)[39m
+[1m[7m%[27m[1m[0m                                                                                                                                                                                                                                                                                           ]2;tercan@Air-de-Mathieu:~/Epitech/Back/back-end/src/script]1;..nd/src/script[0m[27m[24m[J[01;31m➜  [36mscript[00m [01;34mgit:([31mdev[34m) [33m✗[00m [K[?1h=[?2004hOOA[?1l>[?2004l
+]2;OA]1;OAzsh: command not found: OA
+[1m[7m%[27m[1m[0m                                                                                                                                                                                                                                                                                           ]2;tercan@Air-de-Mathieu:~/Epitech/Back/back-end/src/script]1;..nd/src/script[0m[27m[24m[J[01;31m➜  [36mscript[00m [01;34mgit:([31mdev[34m) [33m✗[00m [K[?1h=[?2004hOAnode getVacMap.js[?1l>[?2004l
+]2;node getVacMap.js]1;node/Users/tercan/Epitech/Back/back-end/src/script/getVacMap.js:109
+            await b2.()
+                     ^
+
+SyntaxError: Unexpected token '('
+[90m    at Object.compileFunction (node:vm:355:18)[39m
+[90m    at wrapSafe (node:internal/modules/cjs/loader:1038:15)[39m
+[90m    at Module._compile (node:internal/modules/cjs/loader:1072:27)[39m
+[90m    at Object.Module._extensions..js (node:internal/modules/cjs/loader:1137:10)[39m
+[90m    at Module.load (node:internal/modules/cjs/loader:988:32)[39m
+[90m    at Function.Module._load (node:internal/modules/cjs/loader:828:14)[39m
+[90m    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:76:12)[39m
+[90m    at node:internal/main/run_main_module:17:47[39m
+[1m[7m%[27m[1m[0m                                                                                                                                                                                                                                                                                           ]2;tercan@Air-de-Mathieu:~/Epitech/Back/back-end/src/script]1;..nd/src/script[0m[27m[24m[J[01;31m➜  [36mscript[00m [01;34mgit:([31mdev[34m) [33m✗[00m [K[?1h=[?2004hnode getVacMap.js[?1l>[?2004l
+]2;node getVacMap.js]1;nodeCalled immediately
+caca
+prout
+^C
+[1m[7m%[27m[1m[0m                                                                                                                                                                                                                                                                                           ]2;tercan@Air-de-Mathieu:~/Epitech/Back/back-end/src/script]1;..nd/src/script[0m[27m[24m[J[01;31m➜  [36mscript[00m [01;34mgit:([31mdev[34m) [33m✗[00m [K[?1h=[?2004hnode getVacMap.js[?1l>[?2004l
+]2;node getVacMap.js]1;nodeCalled immediately
+caca
+prout
+^C
+[1m[7m%[27m[1m[0m                                                                                                                                                                                                                                                                                           ]2;tercan@Air-de-Mathieu:~/Epitech/Back/back-end/src/script]1;..nd/src/script[0m[27m[24m[J[01;31m➜  [36mscript[00m [01;34mgit:([31mdev[34m) [33m✗[00m [K[?1h=[?2004hnode getVacMap.js[?1l>[?2004l
+]2;node getVacMap.js]1;nodeCalled immediately
+caca
+prout
+^C
+[1m[7m%[27m[1m[0m                                                                                                                                                                                                                                                                                           ]2;tercan@Air-de-Mathieu:~/Epitech/Back/back-end/src/script]1;..nd/src/script[0m[27m[24m[J[01;31m➜  [36mscript[00m [01;34mgit:([31mdev[34m) [33m✗[00m [K[?1h=[?2004hnode getVacMap.js[?1l>[?2004l
+]2;node getVacMap.js]1;nodeCalled immediately
+caca
+prout
+^C
+[1m[7m%[27m[1m[0m                                                                                                                                                                                                                                                                                           ]2;tercan@Air-de-Mathieu:~/Epitech/Back/back-end/src/script]1;..nd/src/script[0m[27m[24m[J[01;31m➜  [36mscript[00m [01;34mgit:([31mdev[34m) [33m✗[00m [K[?1h=[?2004hnode getVacMap.js[?1l>[?2004l
+]2;node getVacMap.js]1;nodeCalled immediately
+caca
+prout

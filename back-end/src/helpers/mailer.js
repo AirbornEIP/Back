@@ -1,4 +1,7 @@
-exports.sendEmailGoogle = async function (text, subject, email) {
+const nodemailer = require('nodemailer')
+
+exports.mailer = async function (text, subject, email) {
+
     let transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
@@ -7,7 +10,7 @@ exports.sendEmailGoogle = async function (text, subject, email) {
         }
     });
     let mailOptions = {
-        from: 'Airborn <mathieutercan@gmail.com',
+        from: 'Airborn <mathieutercan@gmail.com>',
         to: email,
         subject: subject,
         text: text

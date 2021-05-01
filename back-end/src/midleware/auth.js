@@ -32,3 +32,7 @@ exports.login = [
 exports.forgotPassword = [
     auth.forgotPassword
 ]
+
+exports.changePassword = [
+    auth.changePassword
+]

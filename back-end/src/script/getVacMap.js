@@ -2,9 +2,7 @@ const puppeteer = require('puppeteer');
 const fetch = require('node-fetch')
 const cron = require('node-cron');
 
-// cron.schedule('* * 1 * *', function() {
-//     console.log('running a task every minute');
-//   });
+
 function getName(pdf) {
     let i = pdf.search("AD-2.")
     pdf = pdf.slice(i + 5)
@@ -41,6 +39,7 @@ async function sendResult(jsons) {
 async function getVacMap() {
         const browser = await puppeteer.launch({
             headless: false,
+            // executablePath:'/Applications/Chromium.app/Contents/MacOS/Chromium'
         });
         try {    
             const lastResult = []
@@ -56,15 +55,16 @@ async function getVacMap() {
             const options = await page.$$('select option[value]')
             const okButton = await page.$('input[value="OK"]')
             let link = [];
-            for (let i = 415; options[i]; i++) { // 415
+            for (let i = 416; options[i]; i++) { // 415
                 await options[i].click()
                 await okButton.click()
                 const newPagePromise = new Promise(x => browser.once('targetcreated', target => x(target.page())));
                 const popup = await newPagePromise;
                 link.push(popup.url())
-                await popup.close()
+                await browser.close()
             }
-            await browser.close()
+            await page.close()
+           
             let jsons = []
             let json = {}
             for (let i = 0; link.length > i; i++) {
@@ -75,15 +75,18 @@ async function getVacMap() {
                 jsons.push(json)
                 }   
                 if (lastResult === jsons) {
-                    cron.schedule('* * 3 * * *', async function() {
-                       return await getVacMap()
-                    });                    
+                    // exec toutes les 3H ici
+                    
+                    // cron.schedule('* * 3 * * *', async function() {
+                    //    return await getVacMap()
+                    // });                    
                 }
-                await sendResult(jsons)
                 return jsons;
         } catch(e) {
             console.log(e)
-        }
+             browser.close();
+            }
+        
 } 
 
-script()
+ script()

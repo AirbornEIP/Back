@@ -2,13 +2,13 @@ version: '3.1'
 
 services:
   api:
-    container_name: Airborn
+    container_name: 'avito_api_est'
     restart: unless-stopped
     build:
-      context: .
+      context: ./back-end
     volumes:
       - ./back-end/:/usr/src/app
-      - /usr/src/app/node_modules
+      - ./back-end/node_modules:/usr/src/app/node_modules #attemtion si merde supprime ./back-end/node_m
     ports:
       - "8080:8080"
     depends_on:
@@ -18,7 +18,6 @@ services:
     restart: always
     logging:
       driver: "none"
-
   adminmongo:
     image: mrvautin/adminmongo
     ports:
