@@ -1,24 +1,24 @@
-version: '3.1'
+version: '3'
 
 services:
-  api:
-    container_name: 'avito_api_est'
-    restart: unless-stopped
-    build:
-      context: ./back-end
+  back:
+    build: .
+    restart: always
     volumes:
-      - ./back-end/:/usr/src/app
-      - ./back-end/node_modules:/usr/src/app/node_modules #attemtion si merde supprime ./back-end/node_m
+      - .:/usr/src/app:z
+      - /usr/src/app/node_modules
     ports:
-      - "8080:8080"
+      - 8080:8080
     depends_on:
-      - mongo
-  mongo:
+      - mongoDB
+
+  mongoDB:
     image: mongo
     restart: always
     logging:
-      driver: "none"
-  adminmongo:
+      driver: none
+
+  adminMongo:
     image: mrvautin/adminmongo
     ports:
       - 1234:1234

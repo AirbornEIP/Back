@@ -1,22 +1,42 @@
 {
     "search.exclude": {
         "node_modules/": true,
+        "build/": true,
         "package-lock.json": true,
-        "yarn.lock": true,
         ".github/": true,
         ".config/": true,
         ".vscode/": true,
         ".DS_Store": true,
+        ".idea": true,
+        "reports/": true,
         ".circleci/": true
     },
+    "files.watcherExclude": {
+        "**/.git/objects/**": true,
+        "**/.git/subtree-cache/**": true,
+        "**/build/**": true
+    },
     "files.exclude": {
-        "node_modules/": true,
         ".config/": true,
-        ".vscode/": true,
         ".DS_Store": true,
-        ".github/": true,
+        ".idea": true,
         ".dockerignore": true,
-        "README.md": true,
-        ".circleci/": true
+        "reports/": true,
+        "README.md": true
+    },
+    "eslint.validate": [
+        "javascript",
+        "javascriptreact",
+        "typescript",
+        "typescriptreact"
+    ],
+    "eslint.run": "onSave",
+    "editor.insertSpaces": true,
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true
+    },
+    "[json]": {
+        "editor.tabSize": 2
     }
 }
