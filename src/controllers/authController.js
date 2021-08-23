@@ -48,13 +48,13 @@ exports.registerGoogle = [
 
 async function registerRequest(req, res) {
     try {
-    const {email, password} = req.body
+    const {email, password, username} = req.body
     const hash = await bcrypt.hash(password, 10);
 
     const user = new UserModel({
         email,
         password: hash,
-        username: req.body.username
+        username
     });
 
     const saveUser = await user.save();
@@ -117,7 +117,7 @@ async function loginRequest(req, res) {
             client_id: '981541357136-ufmit25u5r3uq96s98quvltpsam99k74.apps.googleusercontent.com',
             client_secret: 'S8fUS5IvZEiXJT_xvP6XYxyl',
             access_type: "offline",
-            redirect_uri: "http://localhost:8080/loginGoogle",
+            redirect_uri: "http://0.0.0.0:8080/loginGoogle",
             grant_type: "authorization_code"
         };
         let t = await fetch("https://oauth2.googleapis.com/token", {
@@ -164,7 +164,7 @@ async function forgotPassword (req, res) {
             return responseApi.errorResponse(res, errorMessages.unknownUser.code, errorMessages.unknownUser.message)
         }
 
-        await mailer("http://localhost:3000/reset?" + uuid, "Forgot Password Airborn", email)
+        await mailer("http://0.0.0.0:3000/reset?" + uuid, "Forgot Password Airborn", email)
         const forgotPassword = new ForgotPassword({ UserId: user._id, uuid })
         await forgotPassword.save();
         return responseApi.successResponse(res, "Email sent")

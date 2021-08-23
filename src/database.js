@@ -1,11 +1,16 @@
-const mongoose = require("mongoose");
-const database = "mongodb://mongo:27017/avito";
+const mongoose = require('mongoose');
+const database = 'mongodb://mongoDB:27017/test';
 
-const connectDb = async () => {
-    await mongoose.connect(database, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true
-    });
+const connectDB = async () => {
+    try {
+        await mongoose.connect(database, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true
+        });
+        console.log("Database connected")
+    } catch(err) {
+        console.error("Database not connected")
+    }
 };
 
-module.exports = connectDb
+module.exports = connectDB

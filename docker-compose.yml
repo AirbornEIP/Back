@@ -2,11 +2,15 @@ version: '3'
 
 services:
   back:
-    build: .
+    build:
+      context: .
+      args:
+        - ARG_STAGE=${STAGE}
+        - ARG_COMMAND=${COMMAND}
     restart: always
     volumes:
-      - .:/usr/src/app:z
-      - /usr/src/app/node_modules
+      - .:/app/back:z
+      - /app/back/node_modules
     ports:
       - 8080:8080
     depends_on:
@@ -17,6 +21,8 @@ services:
     restart: always
     logging:
       driver: none
+    ports:
+      - 27017:27017
 
   adminMongo:
     image: mrvautin/adminmongo

@@ -1,14 +1,13 @@
-const connectDb = require("./database");
+require('dotenv').config({ path: `.env.${process.env.NODE_ENV}` });
+
+const connectDB = require("./database");
 
 const app = require("./app")
-const port = 8080;
+const port = process.env.PORT;
 
 
-connectDb().then(() => console.log("Database connected"))
+connectDB()
 
 app.listen(port, () => {
-    console.log(`App listening at http://localhost:${port}`)
+    console.log(`backend listening at http://localhost:${port}`)
 })
-
-
-
