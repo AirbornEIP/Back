@@ -1,9 +1,29 @@
-# Node & npm
+# Dependencies
 *node_modules*
-package-lock.json
 npm-debug.log*
-*.eslintcache
-.config/
+package-lock.json
+/.pnp
+.pnp.js
+yarn-debug.log*
+yarn-error.log*
+
+# Airborn App
+/Web/
+/Mobile/
+
+# Env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Testing
+/coverage
+/reports
+test-report.xml
+
+# production
+/build
 
 # Log
 *.log
@@ -13,6 +33,9 @@ log.txt
 *~
 \#*#
 .#*
+
+# Idea
+.idea/
 
 # SublimeText
 *.sublime-project
@@ -29,8 +52,9 @@ Thumbs.db
 UserInterfaceState.xcuserstate
 $RECYCLE.BIN/
 
-# Other
+# Misc
 pasPush/
 *.sw[mnpcod]
-*.tmp
-*.tmp.*
+*.tmp*
+*.eslintcache
+.config/

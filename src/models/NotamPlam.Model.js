@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const VacShena = new mongoose.Schema({
+const NotamShena = new mongoose.Schema({
     link: {
         type: String,
     },
@@ -9,5 +9,5 @@ const VacShena = new mongoose.Schema({
     },
 });
 
-const Vac = mongoose.model('Vac', VacShena);
-module.exports = Vac;
+const Notam = mongoose.model('Notam', NotamShena);
+module.exports = Notam;

@@ -1,14 +1,75 @@
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+name: CI
+
+on: [push, pull_request]
+
+env:
+  SONAR_PROJECT_KEY: airborn:back #! Never use space
+  SONAR_PROJECT_NAME: Back        #! Never use space
+  SONAR_PATH_SOURCES: .
+
 jobs:
-  Check-Build:
+  Test-Unit:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
-      - run: npm test
+      - name: Installation of Dependencies
+        run: npm install
+      - name: Running Test
+        run: npm run test_ci
+
+  Build-App:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+      - name: Installation of Dependencies
+        run: npm install
+      - name: Build Application
+        run: npm run build
+
+  Lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Installation of Dependencies
+        run: npm install
+      - name: Coding Style
+        run: npm run lint
+
+  Sonarqube:
+    runs-on: ubuntu-latest
+    needs:
+      - Test-Unit
+      - Build-App
+      - Lint
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v1
+      - name: Installation of Dependencies
+        run: npm install
+      - name: Setup Sonar Tests
+        run: npm run sonar
+      - name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract_branch
+      - name: SonarCloud Scan
+        uses: sonarsource/sonarcloud-github-action@master
+        with:
+            args: >
+              -Dsonar.verbose=true
+              -Dsonar.sourceEncoding=UTF-8
+              -Dsonar.sources=${{ env.SONAR_PATH_SOURCES }}
+              -Dsonar.host.url=${{ secrets.SONAR_HOST }}
+              -Dsonar.projectKey=${{ env.SONAR_PROJECT_KEY }}:${{ steps.extract_branch.outputs.branch }}
+              -Dsonar.projectName=${{ env.SONAR_PROJECT_NAME }}-${{ steps.extract_branch.outputs.branch }}
+              -Dsonar.eslint.eslintconfigpath=.eslintrc.json
+              -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
+              -Dsonar.testExecutionReportPaths=test-report.xml
+              -Dsonar.coverage.exclusions=src/index.js
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

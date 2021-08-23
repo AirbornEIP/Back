@@ -1,69 +1,45 @@
-exports.successResponse = function (res, msg) {
+exports.successResponse = (res, msg) => {
     const data = {
-        status: true,
-        message: msg
+        message: msg,
     };
     return res.status(200).json(data);
 };
 
-exports.successResponseWithData = function (res, msg, data) {
-    const resData = {
-        status: true,
-        message: msg,
-        data: data
-    };
-    return res.status(200).json(resData);
-};
+exports.successResponseWithData = (res, data) => res.status(200).json(data);
 
-exports.errorResponse = function (res, errorCode, msg) {
+exports.errorResponse = (res, errorCode, msg) => {
     const data = {
-        status: false,
-        errorCode,
         message: msg,
+        Code: errorCode,
     };
     return res.status(500).json(data);
-}
+};
 
-exports.notFoundResponse = function (res, msg) {
+exports.notFoundResponse = (res, msg) => {
     const data = {
-        status: false,
         message: msg,
     };
     return res.status(404).json(data);
 };
 
-exports.validationError = function (res, errorCode, msg) {
+exports.validationError = (res, msg) => {
     const data = {
-        status: false,
-        errorCode,
         message: msg,
     };
     return res.status(400).json(data);
 };
 
-exports.validationErrorWithData = function (res, errorCode, msg, data) {
+exports.validationErrorWithData = (res, msg, data) => {
     const resData = {
-        status: false,
-        errorCode,
         message: msg,
-        data: data
+        data,
     };
     return res.status(400).json(resData);
 };
 
-exports.unauthorizedResponse = function (res, errorCode, msg) {
+exports.unauthorizedResponse = (res, msg) => {
     const data = {
-        status: false,
-        errorCode,
         message: msg,
     };
     return res.status(401).json(data);
-};
-
-exports.paymentError = function (res, errorCode) {
-    const data = {
-        status: false,
-        errorCode
-    };
-    return res.status(402).json(data);
 };
