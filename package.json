@@ -7,7 +7,7 @@
     "start": "STAGE=development COMMAND=nodemon docker-compose up",
     "prod": "STAGE=production COMMAND=node docker-compose up --build",
     "local": "NODE_ENV=development nodemon src/start.js",
-    "build": "NODE_ENV=production node src/_ci.js",
+    "build": "NODE_ENV=production node src/._ci.js",
     "test": "NODE_ENV=development jest",
     "test_watch": "NODE_ENV=development jest --watch",
     "test_ci": "NODE_ENV=development jest --coverage",
