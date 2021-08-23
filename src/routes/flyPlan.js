@@ -1,9 +1,10 @@
-const express = require("express");
-const app = express();
-const flyPlan = require("../controllers/flyPlanController")
+const express = require('express');
 
-app.post("/get",flyPlan.get )
-app.post('/add',  flyPlan.add)
-app.post('/remove',  flyPlan.remove)
-app.get('/getAll/', flyPlan.getAll)
+const app = express();
+const flyPlan = require('../controllers/flyPlanController');
+
+app.post('/get', flyPlan.get);
+app.post('/add', flyPlan.add);
+app.post('/remove', flyPlan.remove);
+app.get('/getAll/', flyPlan.getAll);
 module.exports = app;

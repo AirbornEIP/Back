@@ -1,13 +1,13 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const ForgotPassword = new mongoose.Schema({
     UserId: {
-        type: mongoose.ObjectId
+        type: mongoose.ObjectId,
     },
     uuid: {
-        type: String
+        type: String,
     },
 });
 
-const fpassword = mongoose.model("fpassword", ForgotPassword);
+const fpassword = mongoose.model('fpassword', ForgotPassword);
 module.exports = fpassword;

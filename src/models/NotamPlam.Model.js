@@ -1,13 +1,13 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const NotamShena = new mongoose.Schema({
     link: {
-        type: String
+        type: String,
     },
     name: {
-        type: String
+        type: String,
     },
 });
 
-const Notam = mongoose.model("Notam", NotamShena);
+const Notam = mongoose.model('Notam', NotamShena);
 module.exports = Notam;

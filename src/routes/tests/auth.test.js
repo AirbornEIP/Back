@@ -1,21 +1,24 @@
-const mongoose = require("mongoose");
-const { getFileInfo } = require("prettier");
-const supertest = require("supertest")
-const fetch = require("node-fetch")
-const JSON = require('fast-json-stable-stringify')
-const app = require("../../app")
-const database = "mongodb://mongoDB:27017/auth-test";
+/* eslint-disable no-undef */
+// const mongoose = require('mongoose');
+// const { getFileInfo } = require('prettier');
+const supertest = require('supertest');
+const fetch = require('node-fetch');
+// const JSON = require('fast-json-stable-stringify');
+const app = require('../../app');
 
-async  function call (url, body) {
-    let response = await fetch(url, {
+// const database = 'mongodb://mongoDB:27017/auth-test';
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+async function call(url, body) {
+    const response = await fetch(url, {
         method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: {email: "test@test.fr", password: "proutcaca"}
-    })
-    console.log(response)
-    return response.status
+        headers: { 'Content-Type': 'application/json' },
+        body: { email: 'test@test.fr', password: 'proutcaca' },
+    });
+    console.log(response);
+    return response.status;
 }
-describe("Auth tests", () => {
+describe('Auth tests', () => {
     it('register', async () => { // Marche pas
         //! Marche pas
         // let result = await call('http://0.0.0.0:8080/api/auth/register')
@@ -56,53 +59,52 @@ describe("Auth tests", () => {
     // })
 
     const user = {
-        email: "test@test.test.fr",
-        password: "password",
-    }
+        email: 'test@test.test.fr',
+        password: 'password',
+    };
 
-    describe("Register tests",  () => {
+    describe('Register tests', () => {
         it.skip('should return a validation error', async () => {
-            expect(await call("http://0.0.0.0:8080/api/auth/register", null)).toBe(400)
-        })
+            expect(await call('http://0.0.0.0:8080/api/auth/register', null)).toBe(400);
+        });
 
         it.skip('should register the user', async () => {
-            expect(await call("http://0.0.0.0:8080/api/auth/register", user)).toBe(200)
-        })
+            expect(await call('http://0.0.0.0:8080/api/auth/register', user)).toBe(200);
+        });
 
         it.skip('should return a duplication error', async () => {
             const response = await supertest(app)
-                .post("/api/auth/register")
-                .send(user)
+                .post('/api/auth/register')
+                .send(user);
 
-            expect(response.status).toBe(400)
-        })
+            expect(response.status).toBe(400);
+        });
 
+        describe('Login tests', () => {
+            it.skip('should return a validation error', async () => {
+                const response = await supertest(app)
+                    .post('/api/auth/login')
+                    .send({});
 
-    describe("Login tests", () => {
-        it.skip('should return a validation error', async () => {
-            const response = await supertest(app)
-                .post("/api/auth/login")
-                .send({})
+                expect(response.status).toBe(400);
+            });
 
-            expect(response.status).toBe(400)
-        })
+            // it('should return an unauthorized error', async () => {
+            //     const response = await supertest(app)
+            //         .post("/api/auth/login")
+            //         .send({email: user.email, password: `${user.password}1`})
 
-        // it('should return an unauthorized error', async () => {
-        //     const response = await supertest(app)
-        //         .post("/api/auth/login")
-        //         .send({email: user.email, password: `${user.password}1`})
+            //     expect(response.status).toBe(401)
+            // })
 
-        //     expect(response.status).toBe(401)
-        // })
+            it.skip('should login the user', async () => {
+                const response = await supertest(app)
+                    .post('/api/auth/login')
+                    .send(user);
 
-        it.skip('should login the user', async () => {
-            const response = await supertest(app)
-                .post("/api/auth/login")
-                .send(user)
-
-            expect(response.status).toBe(200)
-            expect(response.body).toHaveProperty("jwtToken")
-        })
-    })
-})
+                expect(response.status).toBe(200);
+                expect(response.body).toHaveProperty('jwtToken');
+            });
+        });
+    });
 });

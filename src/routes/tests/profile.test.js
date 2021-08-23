@@ -1,10 +1,12 @@
-const mongoose = require("mongoose");
-const supertest = require("supertest")
+/* eslint-disable no-undef */
+// const mongoose = require('mongoose');
+const supertest = require('supertest');
 
-const app = require("../../app")
-const database = "mongodb://mongoDB:27017/profile-test";
+const app = require('../../app');
 
-describe("Profile tests",() => {
+// const database = 'mongodb://mongoDB:27017/profile-test';
+
+describe('Profile tests', () => {
     // beforeAll(async () => {
     //     try {
     //         await mongoose.connect(database, {
@@ -28,35 +30,35 @@ describe("Profile tests",() => {
     // })
 
     const user = {
-        email: "test@test.test",
-        password: "password"
-    }
+        email: 'test@test.test',
+        password: 'password',
+    };
 
-    let jwt = null
-    it.skip("should register an user", async () => {
+    let jwt = null;
+    it.skip('should register an user', async () => {
         const resRegister = await supertest(app)
-            .post("/api/auth/register")
-            .send(user)
+            .post('/api/auth/register')
+            .send(user);
 
-        jwt = resRegister.body.jwtToken
-    })
+        jwt = resRegister.body.jwtToken;
+    });
 
-    describe("Get profile", () => {
+    describe('Get profile', () => {
         it.skip('should return unauthorized error', async () => {
             const response = await supertest(app)
-                .get("/api/profile")
-                .set('Authorization', `Bearer ${jwt}1`)
+                .get('/api/profile')
+                .set('Authorization', `Bearer ${jwt}1`);
 
-            expect(response.status).toBe(401)
-        })
+            expect(response.status).toBe(401);
+        });
 
         it.skip('should return the profile', async () => {
             const response = await supertest(app)
-                .get("/api/profile")
-                .set('Authorization', `Bearer ${jwt}`)
+                .get('/api/profile')
+                .set('Authorization', `Bearer ${jwt}`);
 
-            expect(response.status).toBe(200)
-            expect(response.body.email).toBe(user.email)
-        })
-    })
-})
+            expect(response.status).toBe(200);
+            expect(response.body.email).toBe(user.email);
+        });
+    });
+});

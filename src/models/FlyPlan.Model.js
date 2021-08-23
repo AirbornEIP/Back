@@ -1,19 +1,19 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
     title: {
-        type: String
+        type: String,
     },
     userId: {
-        type: mongoose.ObjectId
+        type: mongoose.ObjectId,
     },
     isPublic: {
-        type: Boolean
+        type: Boolean,
     },
     data: {
-        type: String
-    }
+        type: String,
+    },
 });
 
-const flyPlan = mongoose.model("flyPlan", userSchema);
+const flyPlan = mongoose.model('flyPlan', userSchema);
 module.exports = flyPlan;

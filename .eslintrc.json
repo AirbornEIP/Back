@@ -21,8 +21,12 @@
         "linebreak-style": 0,
         // Indent with 4 spaces
         "indent": ["error", 4],
+        "no-console": "off",
+        "no-plusplus": "off",
 
         ////! TypeScript
+        // enable require
+        "@typescript-eslint/no-var-requires": "off",
         // Suppress missing return type on function
         "@typescript-eslint/explicit-function-return-type": "off",
         // Suppress missing return type on function bis

@@ -1,9 +1,9 @@
-const jwt = require("jsonwebtoken");
+const jwt = require('jsonwebtoken');
 
-exports.generateJwtToken = function(userId, userEmail) {
+exports.generateJwtToken = (userId, userEmail) => {
     const jwtPayload = {
         _id: userId,
-        email: userEmail
+        email: userEmail,
     };
 
     const jwtData = {
@@ -13,6 +13,4 @@ exports.generateJwtToken = function(userId, userEmail) {
     return jwt.sign(jwtPayload, secret, jwtData);
 };
 
-exports.getCurrentTimeStamp = function() {
-    return Math.round((new Date()).getTime() / 1000);
-}
+exports.getCurrentTimeStamp = () => Math.round((new Date()).getTime() / 1000);

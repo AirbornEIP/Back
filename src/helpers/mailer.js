@@ -1,25 +1,24 @@
-const nodemailer = require('nodemailer')
+const nodemailer = require('nodemailer');
 
-exports.mailer = async function (text, subject, email) {
-
-    let transporter = nodemailer.createTransport({
-        service: "gmail",
+exports.mailer = async (text, subject, email) => {
+    const transporter = nodemailer.createTransport({
+        service: 'gmail',
         auth: {
             user: 'mathieutercan@gmail.com',
-            pass: 'yrtorbfnhaqwfgap'
-        }
+            pass: 'yrtorbfnhaqwfgap',
+        },
     });
-    let mailOptions = {
+    const mailOptions = {
         from: 'Airborn <mathieutercan@gmail.com>',
         to: email,
-        subject: subject,
-        text: text
-    }
-    transporter.sendMail(mailOptions, function (err, result) {
+        subject,
+        text,
+    };
+    transporter.sendMail(mailOptions, (err, result) => {
         if (err) {
             console.log(err + result);
         } else {
-            console.log("email sent")
-        } 
-    })
-}
+            console.log('email sent');
+        }
+    });
+};
