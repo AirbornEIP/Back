@@ -56,7 +56,8 @@ async function loginRequest(req, res) {
         const isPasswordCorrect = await user.isPasswordCorrect(password);
         if (!isPasswordCorrect) {
             return apiResponse.unauthorizedResponse(res, errorMessages.wrongCredentials);
-        } if (user.isBan()) {
+        }
+        if (user.isBan()) {
             return apiResponse.unauthorizedResponse(res, errorMessages.bannedUser);
         }
 

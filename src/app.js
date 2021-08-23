@@ -7,6 +7,7 @@ const apiRoutes = require('./routes');
 const apiResponse = require('./helpers/apiResponse');
 
 const app = express();
+app.disable('x-powered-by');
 
 if (!process.env.NODE_ENV) {
     console.error('No NODE_ENV in .env');

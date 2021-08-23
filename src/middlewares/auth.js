@@ -14,7 +14,8 @@ async function checkUserExists(req, res, next) {
         const user = await UserModel.findOne({ _id: req.user._id });
         if (!user) {
             return apiResponse.unauthorizedResponse(res, errorMessages.userNoExist);
-        } if (user.isBan()) {
+        }
+        if (user.isBan()) {
             return apiResponse.unauthorizedResponse(res, errorMessages.bannedUser);
         }
 
