@@ -25,8 +25,6 @@ jobs:
       - uses: actions/setup-node@v1
       - name: Installation of Dependencies
         run: npm install
-      - name: Build Application
-        run: npm run build
 
   Lint:
     runs-on: ubuntu-latest

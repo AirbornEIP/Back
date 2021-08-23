@@ -9,6 +9,7 @@
         ".DS_Store": true,
         ".idea": true,
         "reports/": true,
+        "src/_ci.js": true,
         ".circleci/": true
     },
     "files.watcherExclude": {
@@ -22,6 +23,7 @@
         ".idea": true,
         ".dockerignore": true,
         "reports/": true,
+        "src/_ci.js": true,
         "README.md": true
     },
     "eslint.validate": [
