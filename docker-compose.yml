@@ -29,4 +29,4 @@ services:
     ports:
       - 1234:1234
     command: >
-      sh -c "echo -n '{\"app\":{\"host\":\"0.0.0.0\",\"password\":\"33?3.ccGma::1TG\",\"port\":1234}}' > ./config/app.json && npm start"
+      sh -c "echo -n '{\"app\":{\"host\":\"0.0.0.0\",\"password\":\"33?3.ccG---ma::1TGDoom____Gcc88M!88\",\"port\":1234}}' > ./config/app.json && npm start"
