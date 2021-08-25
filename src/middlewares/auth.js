@@ -26,6 +26,7 @@ async function checkUserExists(req, res, next) {
         console.log(e);
     }
 }
+
 exports.checkUser = [
     jwt({ secret, algorithms: ['HS256'] }),
     checkUserExists,
