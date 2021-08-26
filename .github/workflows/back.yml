@@ -44,8 +44,9 @@ jobs:
       - uses: actions/checkout@v2
       - name: Check doc exist
         run: >
+          ls
           if [ ! -f ${{ env.DOC_FILENAME }} ]; then
-            echo "Doc not exist"
+              echo "Doc not exist"
               exit 1
           fi
           exit 0
