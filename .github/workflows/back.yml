@@ -42,9 +42,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Check doc existzz
+        run: ls
       - name: Check doc exist
         run: >
-          ls
           if [ ! -f ${{ env.DOC_FILENAME }} ]; then
               echo "Doc not exist"
               exit 1
