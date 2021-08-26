@@ -44,8 +44,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Check doc existzz
-        run: ls
       - name: Check doc exist
         run: >
           if [ ! -f ${{ env.DOC_FILENAME }} ]; then
@@ -61,7 +59,7 @@ jobs:
       - Build-App
       - Lint
       - Doc
-    if: ${{ always() }}
+    if: ${{ always() && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/devel' || github.ref == 'refs/heads/prod') }}
     steps:
       - name: Extract branch name
         shell: bash
@@ -82,7 +80,6 @@ jobs:
                 echo ::set-output name=json_var::'[ {"title": "🧻 Changement Back (${{ steps.extract_branch.outputs.branch }}):", "description": ":white_check_mark: All Tests Passed. :white_check_mark:", "url":"https://github.com/AirbornEIP/Back/actions", "color":52000} ]'
             fi
       - name: Discord Notification
-        if: ${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/devel' || github.ref == 'refs/heads/prod' }}
         uses: Ilshidur/action-discord@master
         env:
             DISCORD_WEBHOOK: https://discord.com/api/webhooks/880276011168718859/KEFL6BVskk0gVHXtdHdOYxPIbCxZVLPRDOUnoKwA29L3l8kYM7_SUZ_o_tRkSVWKySOx ##! channel back
@@ -95,7 +92,7 @@ jobs:
       - Build-App
       - Lint
       - Doc
-    if: ${{ github.ref == 'refs/heads/main' }}
+    if: ${{ always() && github.ref == 'refs/heads/main' }}
     steps:
       - name: Extract branch name
         shell: bash
@@ -159,12 +156,15 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - Doc
-    if: ${{ always() }}
+    if: ${{ github.ref == 'refs/heads/main' && (needs.Doc.result == "failure" || needs.Doc.result != "failure") }}
     steps:
       - name: Updating Documentation
-        if: ${{ github.ref == 'refs/heads/main' }}
-        run: >
-          curl http://40.89.176.153:14242/backDoc/pull -H "X-Authorization-Airborn: ${{ secrets.AUTH_TOKEN }}" -I -X GET --connect-timeout 300
+        run: |
+          if [[ ${{ needs.Doc.result }} == "failure" ]]; then
+            exit 1
+          else
+            curl http://40.89.176.153:14242/backDoc/pull -H "X-Authorization-Airborn: ${{ secrets.AUTH_TOKEN }}" -I -X GET --connect-timeout 300
+          fi
 
   Notify-Doc:
     runs-on: ubuntu-latest
