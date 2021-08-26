@@ -6,7 +6,7 @@ env:
   SONAR_PROJECT_KEY: airborn:back #! Never use space
   SONAR_PROJECT_NAME: Back        #! Never use space
   SONAR_PATH_SOURCES: .
-  DOC_FILENAME: ./swagger.yamlEEEEEEE ##!
+  DOC_FILENAME: ./swagger.yaml
 
 jobs:
   Test-Unit:
@@ -28,8 +28,6 @@ jobs:
         run: npm install
       - name: Build Application
         run: npm run build
-      - name: Build ApplicEation ##!
-        run: exit 1 ##!
 
   Lint:
     runs-on: ubuntu-latest
