@@ -81,7 +81,7 @@ jobs:
       - name: Discord Notification
         uses: Ilshidur/action-discord@master
         env:
-            DISCORD_WEBHOOK: https://discord.com/api/webhooks/880276011168718859/KEFL6BVskk0gVHXtdHdOYxPIbCxZVLPRDOUnoKwA29L3l8kYM7_SUZ_o_tRkSVWKySOx ##! channel back
+            DISCORD_WEBHOOK: https://discord.com/api/webhooks/790686267851014204/Ax5deRmrE7GsTxoligDL5zfvYowdtbB10tb3Iar7jmSxsRuUvvvePdgXZKwY14Pj8-v6
             DISCORD_EMBEDS: ${{ steps.set_embed.outputs.json_var }}
 
   Notify-Announce:
@@ -112,7 +112,7 @@ jobs:
       - name: Discord Notification
         uses: Ilshidur/action-discord@master
         env:
-            DISCORD_WEBHOOK: https://discord.com/api/webhooks/880276011168718859/KEFL6BVskk0gVHXtdHdOYxPIbCxZVLPRDOUnoKwA29L3l8kYM7_SUZ_o_tRkSVWKySOx ##! channel announce
+            DISCORD_WEBHOOK: https://discord.com/api/webhooks/880365677813334017/zRTToF1MRDvQXWGlB2T1kxePkXj8-ZsKgzW34sG_VuWz8TVBtO5KEGRYekxXUtb9dB-I
             DISCORD_EMBEDS: ${{ steps.set_embed.outputs.json_var }}
 
   Sonarqube:
@@ -183,7 +183,7 @@ jobs:
       - name: Discord Notification
         uses: Ilshidur/action-discord@master
         env:
-            DISCORD_WEBHOOK: https://discord.com/api/webhooks/880276011168718859/KEFL6BVskk0gVHXtdHdOYxPIbCxZVLPRDOUnoKwA29L3l8kYM7_SUZ_o_tRkSVWKySOx ##! channel back
+            DISCORD_WEBHOOK: https://discord.com/api/webhooks/790686267851014204/Ax5deRmrE7GsTxoligDL5zfvYowdtbB10tb3Iar7jmSxsRuUvvvePdgXZKwY14Pj8-v6
             DISCORD_EMBEDS: ${{ steps.set_embed.outputs.json_var }}
       - name: Announce Message
         run: |
@@ -195,7 +195,7 @@ jobs:
       - name: Discord Notification
         uses: Ilshidur/action-discord@master
         env:
-            DISCORD_WEBHOOK: https://discord.com/api/webhooks/880276011168718859/KEFL6BVskk0gVHXtdHdOYxPIbCxZVLPRDOUnoKwA29L3l8kYM7_SUZ_o_tRkSVWKySOx ##! channel annonce
+            DISCORD_WEBHOOK: https://discord.com/api/webhooks/880365677813334017/zRTToF1MRDvQXWGlB2T1kxePkXj8-ZsKgzW34sG_VuWz8TVBtO5KEGRYekxXUtb9dB-I
             DISCORD_EMBEDS: ${{ steps.set_embed.outputs.json_var }}
 
 
@@ -231,7 +231,7 @@ jobs:
       - name: Discord Notification
         uses: Ilshidur/action-discord@master
         env:
-            DISCORD_WEBHOOK: https://discord.com/api/webhooks/880276011168718859/KEFL6BVskk0gVHXtdHdOYxPIbCxZVLPRDOUnoKwA29L3l8kYM7_SUZ_o_tRkSVWKySOx ##! channel back
+            DISCORD_WEBHOOK: https://discord.com/api/webhooks/790686267851014204/Ax5deRmrE7GsTxoligDL5zfvYowdtbB10tb3Iar7jmSxsRuUvvvePdgXZKwY14Pj8-v6
             DISCORD_EMBEDS: ${{ steps.set_embed.outputs.json_var }}
       - name: Announce Message
         run: |
@@ -243,5 +243,5 @@ jobs:
       - name: Discord Notification
         uses: Ilshidur/action-discord@master
         env:
-            DISCORD_WEBHOOK: https://discord.com/api/webhooks/880276011168718859/KEFL6BVskk0gVHXtdHdOYxPIbCxZVLPRDOUnoKwA29L3l8kYM7_SUZ_o_tRkSVWKySOx ##! channel annonce
+            DISCORD_WEBHOOK: https://discord.com/api/webhooks/880365677813334017/zRTToF1MRDvQXWGlB2T1kxePkXj8-ZsKgzW34sG_VuWz8TVBtO5KEGRYekxXUtb9dB-I
             DISCORD_EMBEDS: ${{ steps.set_embed.outputs.json_var }}
