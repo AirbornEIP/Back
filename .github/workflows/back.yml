@@ -6,6 +6,7 @@ env:
   SONAR_PROJECT_KEY: airborn:back #! Never use space
   SONAR_PROJECT_NAME: Back        #! Never use space
   SONAR_PATH_SOURCES: .
+  DOC_FILENAME: swagger.yaml
 
 jobs:
   Test-Unit:
@@ -36,6 +37,81 @@ jobs:
         run: npm install
       - name: Coding Style
         run: npm run lint
+
+  Doc:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Check doc exist
+        run: >
+          if [ ! -f ${{ env.DOC_FILENAME }} ]; then
+            echo "Doc not exist"
+              exit 1
+          fi
+          exit 0
+
+  Notify-Dev:
+    runs-on: ubuntu-latest
+    needs:
+      - Test-Unit
+      - Build-App
+      - Lint
+      - Doc
+    if: ${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/devel' || github.ref == 'refs/heads/prod' }}
+    steps:
+      - name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+      - name: Select Embed
+        id: set_embed
+        run: |
+            if [[ ${{ needs.Test-Unit.result }} == "failure" ]]; then
+                echo ::set-output name=json_var::'[ {"title": "🧻 Github Action (${{ steps.extract_branch.outputs.branch }}):", "description": ":warning: @here Failure Test-Unitaire [Go check](https://github.com/AirbornEIP/Back/actions) :warning:", "url": "https://github.com/AirbornEIP/Back/actions", "color": 16711711} ]'
+
+            elif [[ ${{ needs.Build-App.result }} == "failure" ]]; then
+                echo ::set-output name=json_var::'[ {"title": "🧻 Github Action (${{ steps.extract_branch.outputs.branch }}):", "description": ":warning: @here Failure Build-App [Go check](https://github.com/AirbornEIP/Back/actions) :warning:", "url": "https://github.com/AirbornEIP/Back/actions", "color": 16711711} ]'
+
+            elif [[ ${{ needs.Lint.result }} == "failure" ]]; then
+                echo ::set-output name=json_var::'[ {"title": "🧻 Github Action (${{ steps.extract_branch.outputs.branch }}):", "description": ":warning: @here Failure EsLint [Go check](https://github.com/AirbornEIP/Back/actions) :warning:", "url": "https://github.com/AirbornEIP/Back/actions", "color": 16711711} ]'
+
+            else
+                echo ::set-output name=json_var::'[ {"title": "🧻 Changement Back (${{ steps.extract_branch.outputs.branch }}):", "description": ":white_check_mark: All Tests Passed. :white_check_mark:", "url":"https://github.com/AirbornEIP/Back/actions", "color":52000} ]'
+            fi
+      - name: Discord Notification
+        uses: Ilshidur/action-discord@master
+        env:
+            DISCORD_WEBHOOK: https://discord.com/api/webhooks/880276011168718859/KEFL6BVskk0gVHXtdHdOYxPIbCxZVLPRDOUnoKwA29L3l8kYM7_SUZ_o_tRkSVWKySOx ##! channel back
+            DISCORD_EMBEDS: ${{ steps.set_embed.outputs.json_var }}
+
+  Notify-Announce:
+    runs-on: ubuntu-latest
+    needs:
+      - Test-Unit
+      - Build-App
+      - Lint
+      - Doc
+    if: ${{ github.ref == 'refs/heads/main' }}
+    steps:
+      - name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+      - name: Select Embed
+        id: set_embed
+        run: |
+            if [[ ${{ needs.Test-Unit.result }} == "failure" ]]; then
+                exit 1
+            elif [[ ${{ needs.Build-App.result }} == "failure" ]]; then
+                exit 1
+            elif [[ ${{ needs.Lint.result }} == "failure" ]]; then
+                exit 1
+            else
+                echo ::set-output name=json_var::'[ {"title": "🧻 Changement Back (${{ steps.extract_branch.outputs.branch }}):", "description": ":white_check_mark: All Tests Passed. :white_check_mark:", "url":"https://github.com/AirbornEIP/Back/actions", "color":52000} ]'
+            fi
+      - name: Discord Notification
+        uses: Ilshidur/action-discord@master
+        env:
+            DISCORD_WEBHOOK: https://discord.com/api/webhooks/880276011168718859/KEFL6BVskk0gVHXtdHdOYxPIbCxZVLPRDOUnoKwA29L3l8kYM7_SUZ_o_tRkSVWKySOx ##! channel announce
+            DISCORD_EMBEDS: ${{ steps.set_embed.outputs.json_var }}
 
   Sonarqube:
     runs-on: ubuntu-latest
@@ -73,3 +149,93 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+  Update-Doc:
+    runs-on: ubuntu-latest
+    needs:
+      - Doc
+    if: ${{ github.ref == 'refs/heads/main' }}
+    steps:
+      - name: Updating Documentation
+        run: >
+          curl http://40.89.176.153:14242/backDoc/pull -H "X-Authorization-Airborn: ${{ secrets.AUTH_TOKEN }}" -I -X GET --connect-timeout 300
+
+  Notify-Doc:
+    runs-on: ubuntu-latest
+    needs:
+      - Update-Doc
+    if: ${{ github.ref == 'refs/heads/main' }}
+    steps:
+      - name: Select Embed
+        id: set_embed
+        run: |
+            if [[ ${{ needs.Update-Doc.result }} == "failure" ]]; then
+                echo ::set-output name=json_var::'[ {"title": "📄 Update Doc Back:", "description": ":warning: @here Failure Update Doc [Go check](https://github.com/AirbornEIP/Back/actions) :warning:", "url": "https://github.com/AirbornEIP/Back/actions", "color": 16711711} ]'
+            else
+                echo ::set-output name=json_var::'[ {"title": "📄 Update Doc Back:", "description": ":white_check_mark: Nouvelle version de la Doc :white_check_mark:", "url":"https://github.com/AirbornEIP/Back/actions", "color":52000} ]'
+            fi
+      - name: Discord Notification
+        uses: Ilshidur/action-discord@master
+        env:
+            DISCORD_WEBHOOK: https://discord.com/api/webhooks/880276011168718859/KEFL6BVskk0gVHXtdHdOYxPIbCxZVLPRDOUnoKwA29L3l8kYM7_SUZ_o_tRkSVWKySOx ##! channel back
+            DISCORD_EMBEDS: ${{ steps.set_embed.outputs.json_var }}
+      - name: Announce Message
+        run: |
+            if [[ ${{ needs.Update-Doc.result }} == "failure" ]]; then
+              exit 1
+            else
+              exit 0
+            fi
+      - name: Discord Notification
+        uses: Ilshidur/action-discord@master
+        env:
+            DISCORD_WEBHOOK: https://discord.com/api/webhooks/880276011168718859/KEFL6BVskk0gVHXtdHdOYxPIbCxZVLPRDOUnoKwA29L3l8kYM7_SUZ_o_tRkSVWKySOx ##! channel annonce
+            DISCORD_EMBEDS: ${{ steps.set_embed.outputs.json_var }}
+
+
+  Update-Prod:
+    runs-on: ubuntu-latest
+    needs:
+      - Test-Unit
+      - Build-App
+      - Lint
+      - Doc
+    if: ${{ github.ref == 'refs/heads/prod' }}
+    steps:
+      - name: Updating App Back
+        run: >
+          curl http://40.89.176.153:14242/backVM/1 -H "X-Authorization-Airborn: ${{ secrets.AUTH_TOKEN }}" -I -X GET --connect-timeout 300
+
+        # curl http://40.89.176.153:14242/backVM/reboot -H "X-Authorization-Airborn: ${{ secrets.AUTH_TOKEN }}" -I -X GET --connect-timeout 300
+
+  Notify-Prod:
+    runs-on: ubuntu-latest
+    needs:
+      - Update-Prod
+    if: ${{ github.ref == 'refs/heads/prod' }}
+    steps:
+      - name: Select Embed
+        id: set_embed
+        run: |
+            if [[ ${{ needs.Update-Prod.result }} == "failure" ]]; then
+                echo ::set-output name=json_var::'[ {"title": "🛰️ Deployment Prod Back:", "description": ":warning: @here Failure Deployment Back [Go check](https://github.com/AirbornEIP/Back/actions) :warning:", "url": "https://github.com/AirbornEIP/Back/actions", "color": 16711711} ]'
+            else
+                echo ::set-output name=json_var::'[ {"title": "🛰️ Deployment Prod Back:", "description": ":white_check_mark: Deployment en cours... :white_check_mark:", "url":"https://github.com/AirbornEIP/Back/actions", "color":52000} ]'
+            fi
+      - name: Discord Notification
+        uses: Ilshidur/action-discord@master
+        env:
+            DISCORD_WEBHOOK: https://discord.com/api/webhooks/880276011168718859/KEFL6BVskk0gVHXtdHdOYxPIbCxZVLPRDOUnoKwA29L3l8kYM7_SUZ_o_tRkSVWKySOx ##! channel back
+            DISCORD_EMBEDS: ${{ steps.set_embed.outputs.json_var }}
+      - name: Announce Message
+        run: |
+            if [[ ${{ needs.Update-Prod.result }} == "failure" ]]; then
+              exit 1
+            else
+              exit 0
+            fi
+      - name: Discord Notification
+        uses: Ilshidur/action-discord@master
+        env:
+            DISCORD_WEBHOOK: https://discord.com/api/webhooks/880276011168718859/KEFL6BVskk0gVHXtdHdOYxPIbCxZVLPRDOUnoKwA29L3l8kYM7_SUZ_o_tRkSVWKySOx ##! channel annonce
+            DISCORD_EMBEDS: ${{ steps.set_embed.outputs.json_var }}
