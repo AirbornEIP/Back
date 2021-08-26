@@ -156,7 +156,7 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - Doc
-    if: ${{ github.ref == 'refs/heads/main' && (needs.Doc.result == "failure" || needs.Doc.result != "failure") }}
+    if: ${{ always() && github.ref == 'refs/heads/main' }}
     steps:
       - name: Updating Documentation
         run: |
