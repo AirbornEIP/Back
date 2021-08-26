@@ -6,7 +6,7 @@ env:
   SONAR_PROJECT_KEY: airborn:back #! Never use space
   SONAR_PROJECT_NAME: Back        #! Never use space
   SONAR_PATH_SOURCES: .
-  DOC_FILENAME: swagger.yaml
+  DOC_FILENAME: ./swagger.yaml
 
 jobs:
   Test-Unit:
@@ -45,7 +45,7 @@ jobs:
       - name: Check doc existzz
         run: ls
       - name: Check doc exist
-        run: >
+        run: |
           if [ ! -f ${{ env.DOC_FILENAME }} ]; then
               echo "Doc not exist"
               exit 1
