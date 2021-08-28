@@ -36,7 +36,7 @@ async function update(req, res) {
         let listUpdate = {};
         for (let i = 0; jsons[i]; i++) {
             filter = { name: jsons[i].name };
-            listUpdate = { link: jsons[i].link };
+            listUpdate = { link: jsons[i].link, updatedAt: Date.now };
             // eslint-disable-next-line no-await-in-loop
             vac = await Vac.findOneAndUpdate(filter, listUpdate);
             if (!vac) {

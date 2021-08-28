@@ -16,6 +16,10 @@ COPY package.json /app/back
 
 RUN npm install nodemon -g --silent
 
+RUN echo $STAGE
+
+RUN echo $ARG_STAGE
+
 RUN npm install --silent
 
 EXPOSE 8080

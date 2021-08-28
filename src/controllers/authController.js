@@ -15,13 +15,21 @@ const { mailer } = require('../helpers/mailer');
 
 async function registerRequest(req, res) {
     try {
-        const { email, password, username } = req.body;
+        const {
+            email, password, username, surname, name } = req.body;
         const hash = await bcrypt.hash(password, 10);
+
+        if (!email || !password || !username || !surname || !name) {
+            // eslint-disable-next-line max-len
+            return responseApi.errorResponse(res, errors.formMissing.code, errors.formMissing.message);
+        }
 
         const user = new UserModel({
             email,
             password: hash,
             username,
+            surname,
+            name,
         });
 
         const saveUser = await user.save();
@@ -32,7 +40,10 @@ async function registerRequest(req, res) {
             jwtToken,
             profile: {
                 id: saveUser._id,
-                email: saveUser.email,
+                email,
+                username,
+                name,
+                surname,
             },
         });
     } catch (e) {
@@ -52,8 +63,9 @@ async function loginRequest(req, res) {
         if (!user) {
             return apiResponse.unauthorizedResponse(res, errorMessages.wrongCredentials);
         }
-
+        console.log(password);
         const isPasswordCorrect = await user.isPasswordCorrect(password);
+        console.log(isPasswordCorrect);
         if (!isPasswordCorrect) {
             return apiResponse.unauthorizedResponse(res, errorMessages.wrongCredentials);
         }
@@ -128,7 +140,8 @@ async function changePassword(req, res) {
             );
         }
         const id = UserPassword.UserId;
-        const user = await UserModel.findOneAndUpdate({ _id: id }, { password: hash });
+        // eslint-disable-next-line max-len
+        const user = await UserModel.findOneAndUpdate({ _id: id }, { password: hash, updateAt: Date.now });
         if (user) {
             await ForgotPassword.findOneAndDelete(uuid);
             return responseApi.successResponse(res, 'Password has been updated');
@@ -155,7 +168,8 @@ async function forgotPassword(req, res) {
         }
 
         await mailer(`http://0.0.0.0:3000/reset?${uuid}`, 'Forgot Password Airborn', email);
-        const modelForgotPassword = new ForgotPassword({ UserId: user._id, uuid });
+        // eslint-disable-next-line max-len
+        const modelForgotPassword = new ForgotPassword({ UserId: user._id, uuid, createdAt: Date.now });
         await modelForgotPassword.save();
         return responseApi.successResponse(res, 'Email sent');
     } catch (e) {

@@ -22,7 +22,7 @@ async function metarCall(req, res) {
         const json = await result.json();
         return responseApi.successResponseWithData(res, 'Success', json);
     } catch (e) {
-        console.log(e);
+        console.log('test');
         return responseApi.errorResponse(
             res,
             errors.interneError.code,
