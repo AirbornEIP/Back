@@ -1,86 +1,51 @@
 // eslint-disable-next-line import/no-unresolved
-const puppeteer = require('puppeteer');
 const fetch = require('node-fetch');
-const cron = require('node-cron');
-
-// cron.schedule('* * 1 * *', function() {
-//     console.log('running a task every minute');
-//   });
-function getName(pdf) {
-    let i = pdf.search('AD-2.');
-    pdf = pdf.slice(i + 5);
-    i = pdf.search('.pdf');
-    pdf = pdf.slice(0, i);
-    return (pdf);
-}
-
-async function script() {
+const vacPlan = require('../models/VacPlan.Model');
+// eslint-disable-next-line func-names
+exports.script = async function () {
+    // eslint-disable-next-line no-use-before-define
     await getVacMap();
-    cron.schedule('* * * 1 * *', async () => {
-        await getVacMap();
-    });
-}
-async function sendResult(jsons) {
-    try {
-        await fetch('http://localhost:8080/api/vac/update', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                ScriptToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1hdGhpZXUudGVyY2FuZkBlcGl0ZWNoLmV1IiwiaWQiOiI1ZmNmZDQ2MmFmOGFkZjAxYTFiY2QzMDMiLCJ1c2VybmFtZSI6Ik1hdGhpZXU5NCIsImlhdCI6MTYwNzQ2MTM1M30.2LTHyRwj2dZRkyAFiz2xVag3LF_Lt8kivPiqh-zWKNA',
-            },
-            body: JSON.stringify({
-                data: jsons,
-            }),
-        });
-    } catch (e) {
-        console.log(e);
-    }
-}
+};
 
+// eslint-disable-next-line consistent-return
 async function getVacMap() {
-    const browser = await puppeteer.launch({
-        headless: false,
-    });
     try {
-        const lastResult = [];
-        const page = await browser.newPage();
-        await page.setViewport({ width: 1920, height: 1080 });
-        await page.goto('https://www.sia.aviation-civile.gouv.fr/', { waitUntil: 'networkidle0' });
-        let href = await page.$eval('li a[id="ui-id-14"]', (elm) => elm.href);
-        let search = href.search('eAIP');
-        href = href.slice(search);
-        search = href.search('/');
-        href = href.slice(0, search);
-        await page.goto(`https://www.sia.aviation-civile.gouv.fr/dvd/${href}/Atlas-VAC/FR/VACProduitPartie.htm`, { waitUntil: 'networkidle0' });
-        const options = await page.$$('select option[value]');
-        const okButton = await page.$('input[value="OK"]');
-        const link = [];
-        for (let i = 415; options[i]; i++) { // 415
-            await options[i].click();
-            await okButton.click();
-            const newPagePromise = new Promise((x) => browser.once('targetcreated', (target) => x(target.page())));
-            const popup = await newPagePromise;
-            link.push(popup.url());
-            await popup.close();
+        let html = await fetch('https://www.sia.aviation-civile.gouv.fr/\'');
+        html = await html.text();
+        const findLink = html.search('https://www.sia.aviation-civile.gouv.fr/documents/htmlshow?');
+        html = html.substring(findLink);
+        const endLink = html.search("'");
+        html = html.substring(0, endLink);
+        const startDate = html.search('dvd/');
+        html = html.substring(startDate + 4);
+        const endDate = html.search('/');
+        const date = html.substring(0, endDate);
+
+        if (!date) {
+            return 84;
         }
-        await browser.close();
-        const jsons = [];
-        let json = {};
-        for (let i = 0; link.length > i; i++) {
-            json = {
-                name: getName(link[i]),
-                link: link[i],
-            };
-            jsons.push(json);
+        const airport = await fetch(`https://www.sia.aviation-civile.gouv.fr/dvd/${date}/Atlas-VAC/Javascript/AeroArraysVac.js`);
+        let arrayAirport = await airport.text();
+        // eslint-disable-next-line prefer-destructuring
+        arrayAirport = arrayAirport.match('var vaerosoussection =new Array[(](.*)[)]')[1];
+        arrayAirport = arrayAirport.replace(/"/g, '');
+        arrayAirport = arrayAirport.split(',')
+        if (!arrayAirport || arrayAirport.lenght < 1) {
+            return (84);
         }
-        if (lastResult === jsons) {
-            cron.schedule('* * 3 * * *', async () => await getVacMap());
-        }
-        await sendResult(jsons);
-        return jsons;
+        // eslint-disable-next-line array-callback-return
+            await Promise.all(arrayAirport.map(async (data) => {
+            const plan = new vacPlan({
+                link: `https://www.sia.aviation-civile.gouv.fr/dvd/${date}/Atlas-VAC/PDF_AIPparSSection/VAC/AD/AD-2.${data}.pdf`,
+                name: data,
+            });
+            console.log('prout');
+            await plan.save();
+            console.log('t');
+        }));
     } catch (e) {
-        console.log(e);
+        return console.log(e);
     }
 }
 
-script();
+getVacMap();
