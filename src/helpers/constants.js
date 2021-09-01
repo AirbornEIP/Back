@@ -3,7 +3,6 @@ exports.successMessages = {
     updated: 'Updated.',
     deleted: 'Deleted.',
 };
-
 exports.validationMessages = {
     emailMissing: 'Email must be specified.',
     emailInvalid: 'Email must be a valid email address.',
@@ -13,9 +12,6 @@ exports.validationMessages = {
 };
 
 exports.errorMessages = {
-    linkNotFound: "This link doesn't exist",
-    existingLink: 'This link already exists.',
-    reaction: 'Action or Reaction invalid.',
     invalidToken: 'Invalid token.',
     unknownUser: 'Unknown user.',
     bannedUser: 'Banned account. Please contact admin.',
@@ -102,5 +98,9 @@ exports.errors = {
     interneError: {
         code: 18,
         message: 'Interne Error',
+    },
+    formMissing: {
+        code: 19,
+        message: 'Argument missing in form.',
     },
 };
