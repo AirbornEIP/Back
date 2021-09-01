@@ -3,7 +3,6 @@ exports.successMessages = {
     updated: 'Updated.',
     deleted: 'Deleted.',
 };
-
 exports.validationMessages = {
     emailMissing: 'Email must be specified.',
     emailInvalid: 'Email must be a valid email address.',

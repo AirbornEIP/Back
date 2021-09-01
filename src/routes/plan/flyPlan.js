@@ -1,7 +1,7 @@
 const express = require('express');
 
 const app = express();
-const flyPlan = require('../controllers/flyPlanController');
+const flyPlan = require('../../controllers/flyPlanController');
 
 app.post('/get', flyPlan.get);
 app.post('/add', flyPlan.add);

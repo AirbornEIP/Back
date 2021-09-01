@@ -8,6 +8,7 @@ const userSchema = new mongoose.Schema({
     username: { type: String, required: true },
     verifiedEmail: { type: Boolean, required: true, default: false },
     name: { type: String, required: true },
+    avatar: { type: String, required: false },
     surname: { type: String, required: true },
     theme: { type: Boolean, required: false, default: false },
     language: { type: Number, required: true, default: 0 },
@@ -15,6 +16,7 @@ const userSchema = new mongoose.Schema({
     updatedAt: { type: Date, required: false },
 });
 
+// eslint-disable-next-line func-names
 userSchema.methods.isPasswordCorrect = async function (password) {
     // eslint-disable-next-line no-return-await
     return await bcrypt.compare(password, this.password);

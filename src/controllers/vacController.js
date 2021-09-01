@@ -14,7 +14,7 @@ async function get(req, res) {
                 errors.wrongAirport.message,
             );
         }
-        return responseApi.successResponseWithData(res, 'Success', vac.link);
+        return responseApi.successResponseWithData(res, { link: vac.link });
     } catch (e) {
         console.log(e);
         return responseApi.errorResponse(
@@ -25,42 +25,7 @@ async function get(req, res) {
     }
 }
 
-async function update(req, res) {
-    try {
-        if (!req.body.data) {
-            return responseApi.errorResponse(res, errors.wrongBody.code, errors.wrongBody.message);
-        }
-        const jsons = req.body.data;
-        let vac;
-        let filter = {};
-        let listUpdate = {};
-        for (let i = 0; jsons[i]; i++) {
-            filter = { name: jsons[i].name };
-            listUpdate = { link: jsons[i].link, updatedAt: Date.now };
-            // eslint-disable-next-line no-await-in-loop
-            vac = await Vac.findOneAndUpdate(filter, listUpdate);
-            if (!vac) {
-                vac = new Vac({ name: jsons[i].name, link: jsons[i].link });
-                vac.save();
-            }
-        }
-        return responseApi.successResponse(res, 'Plan has been updated');
-    } catch (e) {
-        console.log(e);
-        return responseApi.errorResponse(
-            res,
-            errors.interneError.code,
-            errors.interneError.message,
-        );
-    }
-}
-
-exports.update = [
-    authMiddlewares.checkUser,
-    update,
-];
-
-exports.get = [
+exports.getVac = [
     authMiddlewares.checkUser,
     get,
 ];

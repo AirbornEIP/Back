@@ -29,20 +29,20 @@ async function getVacMap() {
         // eslint-disable-next-line prefer-destructuring
         arrayAirport = arrayAirport.match('var vaerosoussection =new Array[(](.*)[)]')[1];
         arrayAirport = arrayAirport.replace(/"/g, '');
-        arrayAirport = arrayAirport.split(',')
+        arrayAirport = arrayAirport.split(',');
         if (!arrayAirport || arrayAirport.lenght < 1) {
             return (84);
         }
         // eslint-disable-next-line array-callback-return
-            await Promise.all(arrayAirport.map(async (data) => {
+        await Promise.all(arrayAirport.map(async (data) => {
+            // eslint-disable-next-line new-cap
             const plan = new vacPlan({
                 link: `https://www.sia.aviation-civile.gouv.fr/dvd/${date}/Atlas-VAC/PDF_AIPparSSection/VAC/AD/AD-2.${data}.pdf`,
                 name: data,
             });
-            console.log('prout');
             await plan.save();
-            console.log('t');
         }));
+        console.log('Vac plan saved');
     } catch (e) {
         return console.log(e);
     }

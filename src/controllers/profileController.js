@@ -1,7 +1,7 @@
 const authMiddlewares = require('../middlewares/auth');
 const apiResponse = require('../helpers/apiResponse');
 const UserModel = require('../models/UserModel');
-const errors = require('../helpers/constants');
+const { errors } = require('../helpers/constants');
 const responseApi = require('../helpers/apiResponse');
 
 async function getProfile(req, res) {
@@ -22,7 +22,22 @@ async function editProfile(req, res) {
         return apiResponse.successResponse(res, 'Profile Updated');
     } catch (e) {
         // eslint-disable-next-line max-len
-        return apiResponse.errorResponse(res, errors.interneError.code, errors.interneError.message());
+        return apiResponse.errorResponse(res, errors.interneError.code, errors.interneError.message);
+    }
+}
+
+async function uploadAvatar(req, res) {
+    try {
+        const { avatar } = req.body;
+        if (!avatar) {
+            // eslint-disable-next-line max-len
+            return apiResponse.errorResponse(res, errors.missArgument.code, errors.missArgument.message);
+        }
+        await UserModel.findOneAndUpdate({ email: req.user.email }, { avatar });
+        return apiResponse.successResponse(res, 'avatar saved');
+    } catch (e) {
+        // eslint-disable-next-line max-len
+        return apiResponse.errorResponse(res, errors.interneError.code, errors.interneError.message);
     }
 }
 
@@ -48,7 +63,7 @@ async function getTheme(req, res) {
         return apiResponse.successResponseWithData(res, req.user.theme);
     } catch (e) {
         // eslint-disable-next-line max-len
-        return apiResponse.errorResponse(res, errors.interneError.code, errors.interneError.message());
+        return apiResponse.errorResponse(res, errors.errors.interneError.code, errors.errors.interneError.message);
     }
 }
 
@@ -70,4 +85,9 @@ exports.changeTheme = [
 exports.getTheme = [
     authMiddlewares.checkUser,
     getTheme,
+];
+
+exports.uploadAvatar = [
+    authMiddlewares.checkUser,
+    uploadAvatar,
 ];
