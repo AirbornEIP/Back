@@ -15,10 +15,8 @@ const { mailer } = require('../helpers/mailer');
 
 async function registerRequest(req, res) {
     try {
-        const {
-            email, password, username, surname, name } = req.body;
+        const { email, password, username, surname, name } = req.body;
         const hash = await bcrypt.hash(password, 10);
-
         if (!email || !password || !username || !surname || !name) {
             // eslint-disable-next-line max-len
             return responseApi.errorResponse(res, errors.formMissing.code, errors.formMissing.message);
