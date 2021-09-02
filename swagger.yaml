@@ -136,13 +136,13 @@ paths:
           - application/json
         produces:
           - application/json
-        parameters:
-          - in: body
-            name: body
-            description: User details required to login
-            required: true
-            schema:
-              $ref: '#/definitions/UserLog'
+                - in: path
+          name: id  
+          required: true
+          schema:
+            type: integer
+            minimum: 1
+          description: The user ID
         responses:
           '200':
             description: Success
