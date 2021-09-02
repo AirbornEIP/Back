@@ -1,4 +1,4 @@
-swagger: '2.0'
+openapi: "3.0.0"
 info:
   description: This is an extended documentation of the REST API of Airborn.
   version: 1.0.0
@@ -70,7 +70,7 @@ paths:
           schema:
             $ref: '#/definitions/ApiResponseFalse'
 
-  /api/auth/forgotten-password:
+  /api/auth/forgot-password:
     post:
       tags:
         - Authentification
@@ -102,6 +102,33 @@ paths:
       tags:
         - Authentification
       summary: Login if the user exist in the database
+      description: ''
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: User details required to login
+          required: true
+          schema:
+            $ref: '#/definitions/UserLog'
+      responses:
+        '200':
+          description: Success
+          schema:
+            $ref: '#/definitions/ApiResponseTrue'
+        '400':
+          description: Invalid input
+          schema:
+            $ref: '#/definitions/ApiResponseFalse'
+
+/api/auth/register-google:
+    post:
+      tags:
+        - Authentification
+      summary: Register through google services
       description: ''
       consumes:
         - application/json
