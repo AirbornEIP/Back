@@ -10,9 +10,11 @@ host: 'localhost:8080'
 basePath: /v1
 tags:
   - name: Authentification
-    description: All routes concerning the management of users
+    description: All routes concerning authentification
+  - name: Profile
+    description: All routes concerning the management of profiles
   - name: Flight Plan
-    description: Management of flight plans
+    description: All routes concerning the management of flight plans
   - name: user
     description: Operations about user
 paths:
@@ -151,23 +153,21 @@ paths:
             schema:
               $ref: '#/definitions/ApiResponseFalse'
 
-  /user:
-    post:
+  /api/profile/changeTheme:
+    patch:
       tags:
-        - user
-      summary: Create user
-      description: This can only be done by the logged in user.
+        - Profile
+      summary: Change the current theme
+      description: This can only be done by a logged user.
       operationId: createUser
       produces:
         - application/xml
         - application/json
       parameters:
         - in: body
-          name: body
+          theme: body
           description: Created user object
           required: true
-          schema:
-            $ref: '#/definitions/User'
       responses:
         default:
           description: successful operation
