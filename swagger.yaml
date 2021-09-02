@@ -123,33 +123,33 @@ paths:
           description: Invalid input
           schema:
             $ref: '#/definitions/ApiResponseFalse'
-
-/api/auth/register-google:
-    post:
-      tags:
-        - Authentification
-      summary: Register through google services
-      description: ''
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - in: body
-          name: body
-          description: User details required to login
-          required: true
-          schema:
-            $ref: '#/definitions/UserLog'
-      responses:
-        '200':
-          description: Success
-          schema:
-            $ref: '#/definitions/ApiResponseTrue'
-        '400':
-          description: Invalid input
-          schema:
-            $ref: '#/definitions/ApiResponseFalse'
+            
+  /api/auth/register-google:
+      post:
+        tags:
+          - Authentification
+        summary: Register through google services
+        description: ''
+        consumes:
+          - application/json
+        produces:
+          - application/json
+        parameters:
+          - in: body
+            name: body
+            description: User details required to login
+            required: true
+            schema:
+              $ref: '#/definitions/UserLog'
+        responses:
+          '200':
+            description: Success
+            schema:
+              $ref: '#/definitions/ApiResponseTrue'
+          '400':
+            description: Invalid input
+            schema:
+              $ref: '#/definitions/ApiResponseFalse'
 
   /pet:
     post:
