@@ -15,487 +15,460 @@ tags:
     description: All routes concerning the management of profiles
   - name: Flight Plan
     description: All routes concerning the management of flight plans
-  - name: user
-    description: Operations about user
 paths:
   /api/auth/login:
     post:
       tags:
         - Authentification
-      summary: Login if the user exist in the database
-      description: ''
+      summary: Login
+      description: 'Login if the user exist in the database'
       consumes:
         - application/json
       produces:
         - application/json
-      parameters:
-        - in: body
-          name: body
-          description: User details required to login
-          required: true
-          schema:
-            $ref: '#/definitions/UserLog'
+      requestBody:
+        description: User details required to login
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserLog'
       responses:
         '200':
           description: Success
-          schema:
-            $ref: '#/definitions/ApiResponseTrue'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseTrue'
         '400':
           description: Invalid input
-          schema:
-            $ref: '#/definitions/ApiResponseFalse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseFalse'
             
   /api/auth/register:
     post:
       tags:
         - Authentification
-      summary: Register the user in the database
-      description: ''
+      summary: Register
+      description: 'Register the user in the database'
       consumes:
         - application/json
       produces:
         - application/json
-      parameters:
-        - in: body
-          name: body
-          description: User details required to register
-          required: true
-          schema:
-            $ref: '#/definitions/UserLog'
+      requestBody:
+        description: User details required to login
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserLog'
       responses:
         '200':
           description: Success
-          schema:
-            $ref: '#/definitions/ApiResponseTrue'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseTrue'
         '400':
           description: Invalid input
-          schema:
-            $ref: '#/definitions/ApiResponseFalse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseFalse'
 
   /api/auth/forgot-password:
     post:
       tags:
         - Authentification
-      summary: Login if the user exist in the database
-      description: ''
+      summary: Forgot Password
+      description: 'Request to retrieve password'
       consumes:
         - application/json
       produces:
         - application/json
-      parameters:
-        - in: body
-          name: body
-          description: User details required to login
-          required: true
-          schema:
-            $ref: '#/definitions/UserLog'
+      requestBody:
+        description: User details required to login
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserLog'
       responses:
         '200':
           description: Success
-          schema:
-            $ref: '#/definitions/ApiResponseTrue'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseTrue'
         '400':
           description: Invalid input
-          schema:
-            $ref: '#/definitions/ApiResponseFalse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseFalse'
 
   /api/auth/change-password:
     post:
       tags:
         - Authentification
-      summary: Login if the user exist in the database
-      description: ''
+      summary: Change password
+      description: 'Change password'
       consumes:
         - application/json
       produces:
         - application/json
-      parameters:
-        - in: body
-          name: body
-          description: User details required to login
-          required: true
-          schema:
-            $ref: '#/definitions/UserLog'
+      requestBody:
+        description: User details required to login
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserLog'
       responses:
         '200':
           description: Success
-          schema:
-            $ref: '#/definitions/ApiResponseTrue'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseTrue'
         '400':
           description: Invalid input
-          schema:
-            $ref: '#/definitions/ApiResponseFalse'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseFalse'
 
   /api/auth/register-google:
       post:
         tags:
           - Authentification
-        summary: Register through google services
-        description: ''
+        summary: Register Google
+        description: 'Register through google services'
         consumes:
           - application/json
         produces:
           - application/json
-                - in: path
-          name: id  
-          required: true
-          schema:
-            type: integer
-            minimum: 1
-          description: The user ID
+      requestBody:
+        description: User details required to login
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserLog'
         responses:
           '200':
             description: Success
-            schema:
-              $ref: '#/definitions/ApiResponseTrue'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ApiResponseTrue'
           '400':
             description: Invalid input
-            schema:
-              $ref: '#/definitions/ApiResponseFalse'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ApiResponseFalse'
 
-  /api/profile/changeTheme:
+  /api/profile/update:
     patch:
       tags:
         - Profile
-      summary: Change the current theme
-      description: This can only be done by a logged user.
-      operationId: createUser
+      summary: Update profile
+      description: Update the current user profile
       produces:
         - application/xml
         - application/json
+      requestBody:
       parameters:
         - in: body
           theme: body
           description: Created user object
           required: true
-      responses:
-        default:
-          description: successful operation
-  /user/createWithArray:
-    post:
-      tags:
-        - user
-      summary: Creates list of users with given input array
-      description: ''
-      operationId: createUsersWithArrayInput
-      produces:
-        - application/xml
-        - application/json
-      parameters:
-        - in: body
-          name: body
-          description: List of user object
-          required: true
           schema:
-            type: array
-            items:
-              $ref: '#/definitions/User'
-      responses:
-        default:
-          description: successful operation
-  /user/createWithList:
-    post:
-      tags:
-        - user
-      summary: Creates list of users with given input array
-      description: ''
-      operationId: createUsersWithListInput
-      produces:
-        - application/xml
-        - application/json
-      parameters:
-        - in: body
-          name: body
-          description: List of user object
-          required: true
-          schema:
-            type: array
-            items:
-              $ref: '#/definitions/User'
-      responses:
-        default:
-          description: successful operation
-  /user/login:
-    get:
-      tags:
-        - user
-      summary: Logs user into the system
-      description: ''
-      operationId: loginUser
-      produces:
-        - application/xml
-        - application/json
-      parameters:
-        - name: username
-          in: query
-          description: The user name for login
-          required: true
-          type: string
-        - name: password
-          in: query
-          description: The password for login in clear text
-          required: true
-          type: string
+          $ref: '#/components/schemas/User'
       responses:
         '200':
-          description: successful operation
-          schema:
-            type: string
-          headers:
-            X-Rate-Limit:
-              type: integer
-              format: int32
-              description: calls per hour allowed by the user
-            X-Expires-After:
-              type: string
-              format: date-time
-              description: date in UTC when token expires
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseTrue'
         '400':
-          description: Invalid username/password supplied
-  /user/logout:
-    get:
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseFalse'
+
+  /api/profile/changeTheme:
+    patch:
       tags:
-        - user
-      summary: Logs out current logged in user session
-      description: ''
-      operationId: logoutUser
+        - Profile
+      summary: Change Themes
+      description: Change the current theme
+      summary: Change the current theme
+      description: This can only be done by a logged user.
       produces:
         - application/xml
         - application/json
-      parameters: []
+      requestBody:
+        description: User targeted by the change
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserName'
+          schema:
+          $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseTrue'
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseFalse'
+  /api/profile/get:
+    get:
+      tags:
+        - Profile
+      summary: Get profile
+      description: Get the current user profile informations
+      operationId: createUser
+      produces:
+        - application/xml
+        - application/json
+      requestBody:
+        description: User to retrieve
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserName'
+      parameters:
+        - in: body
+          theme: body
+          description: Created user object
+          required: true
+          schema:
+          $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseTrue'
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseFalse'
+  
+
+  /api/profile/getTheme:
+    get:
+      tags:
+        - Profile
+      summary: Get Theme
+      description: Get the current theme
+      operationId: createUser
+      produces:
+        - application/xml
+        - application/json
+      requestBody:
+        description: User to retrieve
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserName'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseTrue'
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseFalse'
+              
+  /api/plan/taf:
+    get:
+      tags:
+        - Flight Plan
+      summary: Get TAF Plan
+      description: Get the current TAF plan attached to an airport
+      produces:
+        - application/xml
+        - application/json
+      requestBody:
+        description: Aiport details to find attached plan
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Plan'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseTrue'
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseFalse'
+
+  /api/plan/vac:
+    get:
+      tags:
+        - Flight Plan
+      summary: Get VAC Plan
+      description: Get the current VAC plan attached to an airport
+      produces:
+        - application/xml
+        - application/json
+      requestBody:
+        description: Aiport details to find attached plan
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Plan'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseTrue'
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseFalse'
+  /api/plan/notam:
+    get:
+      tags:
+        - Flight Plan
+      summary: Get NOTAM Plan
+      description: Get the current NOTAM plan attached to an airport
+      produces:
+        - application/xml
+        - application/json
+      requestBody:
+        description: Aiport details to find attached plan
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Plan'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseTrue'
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseFalse'
+
+components:
+  schemas:
+    User:
+      properties:
+        id:
+          type: integer
+        name:
       responses:
         default:
           description: successful operation
-  '/user/{username}':
-    get:
-      tags:
-        - user
-      summary: Get user by user name
-      description: ''
-      operationId: getUserByName
-      produces:
-        - application/xml
-        - application/json
-      parameters:
-        - name: username
-          in: path
-          description: 'The name that needs to be fetched. Use user1 for testing. '
-          required: true
           type: string
-      responses:
-        '200':
-          description: successful operation
-          schema:
-            $ref: '#/definitions/User'
-        '400':
-          description: Invalid username supplied
-        '404':
-          description: User not found
-    put:
-      tags:
-        - user
-      summary: Updated user
-      description: This can only be done by the logged in user.
-      operationId: updateUser
-      produces:
-        - application/xml
-        - application/json
-      parameters:
-        - name: username
-          in: path
-          description: name that need to be updated
-          required: true
+    ApiResponseForgotten:
+      type: object
+      properties:
+        status:
+          type: boolean
+          default: true
+        message:
           type: string
-        - in: body
-          name: body
-          description: Updated user object
-          required: true
-          schema:
-            $ref: '#/definitions/User'
-      responses:
-        '400':
-          description: Invalid user supplied
-        '404':
-          description: User not found
-    delete:
-      tags:
-        - user
-      summary: Delete user
-      description: This can only be done by the logged in user.
-      operationId: deleteUser
-      produces:
-        - application/xml
-        - application/json
-      parameters:
-        - name: username
-          in: path
-          description: The name that needs to be deleted
-          required: true
+    ApiResponseReset:
+      type: object
+      properties: 
+        status:
+          type: boolean
+          default: true
+        message:
           type: string
-      responses:
-        '400':
-          description: Invalid username supplied
-        '404':
-          description: User not found
-securityDefinitions:
-  petstore_auth:
-    type: oauth2
-    authorizationUrl: 'http://petstore.swagger.io/oauth/dialog'
-    flow: implicit
-    scopes:
-      'write:pets': modify pets in your account
-      'read:pets': read your pets
-  api_key:
-    type: apiKey
-    name: api_key
-    in: header
-definitions:
-  Order:
-    type: object
-    properties:
-      id:
-        type: integer
-        format: int64
-      petId:
-        type: integer
-        format: int64
-      quantity:
-        type: integer
-        format: int32
-      shipDate:
-        type: string
-        format: date-time
-      status:
-        type: string
-        description: Order Status
-        enum:
-          - placed
-          - approved
-          - delivered
-      complete:
-        type: boolean
-        default: false
-    xml:
-      name: Order
-  Category:
-    type: object
-    properties:
-      id:
-        type: integer
-        format: int64
-      name:
-        type: string
-    xml:
-      name: Category
-  User:
-    type: object
-    properties:
-      username:
-        type: string
-      email:
-        type: string
-      password:
-        type: string
-    xml:
-      name: User
-  Tag:
-    type: object
-    properties:
-      id:
-        type: integer
-        format: int64
-      name:
-        type: string
-    xml:
-      name: Tag
-  UserLog:
-    type: object
-    properties:
-      username:
-        type: string
-      password:
-        type: string
-    xml:
-      name: User
-  Pet:
-    type: object
-    required:
-      - name
-      - photoUrls
-    properties:
-      id:
-        type: integer
-        format: int64
-      category:
-        $ref: '#/definitions/Category'
-      name:
-        type: string
-        example: doggie
-      photoUrls:
-        type: array
-        xml:
-          name: photoUrl
-          wrapped: true
-        items:
+    ApiResponseTrue:
+      type: object
+      properties:
+        status:
+          type: boolean
+          default: true
+        message:
           type: string
-      tags:
-        type: array
-        xml:
-          name: tag
-          wrapped: true
-        items:
-          $ref: '#/definitions/Tag'
-      status:
-        type: string
-        description: pet status in the store
-        enum:
-          - available
-          - pending
-          - sold
-    xml:
-      name: Pet
-  ApiResponseForgotten:
-    type: object
-    properties:
-      status:
-        type: boolean
-        default: true
-      message:
-        type: string
-  ApiResponseReset:
-    type: object
-    properties:
-      status:
-        type: boolean
-        default: true
-      message:
-        type: string
-  ApiResponseTrue:
-    type: object
-    properties:
-      status:
-        type: boolean
-        default: true
-      message:
-        type: string
-  ApiResponseFalse:
-    type: object
-    properties:
-      status:
-        type: boolean
-        default: false
-      message:
-        type: string
-  ApiResponse:
-    type: object
-    properties:
-      code:
-        type: integer
-        format: int32
-      type:
-        type: string
-      message:
-        type: string
-externalDocs:
-  description: Find out more about Swagger
-  url: 'http://swagger.io'
+    ApiResponseFalse:
+      type: object
+      properties:
+        status:
+          type: boolean
+          default: false
+        message:
+          type: string
+    ApiResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        type:
+          type: string
+        message:
+          type: string
+    UserLog:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+      xml:
+        name: User
+    UserName:
+      type: object
+      properties:
+        username:
+          type: string
+      xml:
+        name: User
+    Plan:
+      type: object
+      properties:
+        airport:
+          type: string
+
+
+
+
