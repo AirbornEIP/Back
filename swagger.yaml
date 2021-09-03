@@ -208,7 +208,8 @@ paths:
         - Profile
       summary: Change Themes
       description: Change the current theme
-      operationId: createUser
+      summary: Change the current theme
+      description: This can only be done by a logged user.
       produces:
         - application/xml
         - application/json
@@ -219,11 +220,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/UserName'
-      parameters:
-        - in: body
-          theme: body
-          description: Created user object
-          required: true
           schema:
           $ref: '#/components/schemas/User'
       responses:
@@ -398,9 +394,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/ApiResponseFalse'
 
-
-              
-
 components:
   schemas:
     User:
@@ -408,6 +401,9 @@ components:
         id:
           type: integer
         name:
+      responses:
+        default:
+          description: successful operation
           type: string
     ApiResponseForgotten:
       type: object
