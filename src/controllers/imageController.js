@@ -92,15 +92,15 @@ async function getImage(req, res) {
 
 exports.add = [
     authMiddlewares.checkUser,
-    addPlan,
+    addImage,
 ];
 
 exports.get = [
     authMiddlewares.checkUser,
-    getPlan,
+    getImage,
 ];
 
 exports.delete = [
     authMiddlewares.checkUser,
-    getAllPlan,
+    removeImage,
 ];
