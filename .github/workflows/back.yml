@@ -170,7 +170,7 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - Update-Doc
-    if: ${{ always() }}
+    if: ${{ always() && github.ref == 'refs/heads/main' }}
     steps:
       - name: Select Embed
         id: set_embed
