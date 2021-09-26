@@ -33,19 +33,22 @@ async function getVacMap() {
         if (!arrayAirport || arrayAirport.lenght < 1) {
             return (84);
         }
-        // eslint-disable-next-line array-callback-return
-        await Promise.all(arrayAirport.map(async (data) => {
-            // eslint-disable-next-line new-cap
-            const plan = new vacPlan({
-                link: `https://www.sia.aviation-civile.gouv.fr/dvd/${date}/Atlas-VAC/PDF_AIPparSSection/VAC/AD/AD-2.${data}.pdf`,
-                name: data,
-            });
-            await plan.save();
-        }));
-        console.log('Vac plan saved');
+        const existingPlan = await vacPlan.findOne({date});
+        if (!existingPlan) {
+            await vacPlan.deleteMany({ date });
+            // eslint-disable-next-line array-callback-return
+            await Promise.all(arrayAirport.map(async (data) => {
+                // eslint-disable-next-line new-cap
+                const plan = new vacPlan({
+                    link: `https://www.sia.aviation-civile.gouv.fr/dvd/${date}/Atlas-VAC/PDF_AIPparSSection/VAC/AD/AD-2.${data}.pdf`,
+                    name: data,
+                    date,
+                });
+                await plan.save();
+            }));
+            console.log('Vac plan saved');
+        }
     } catch (e) {
         return console.log(e);
     }
 }
-
-getVacMap();

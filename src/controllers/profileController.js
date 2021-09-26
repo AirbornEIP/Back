@@ -2,11 +2,14 @@ const authMiddlewares = require('../middlewares/auth');
 const apiResponse = require('../helpers/apiResponse');
 const UserModel = require('../models/UserModel');
 const { errors } = require('../helpers/constants');
-const responseApi = require('../helpers/apiResponse');
 
 async function getProfile(req, res) {
     const { user } = req;
-    return apiResponse.successResponseWithData(res, user);
+    // eslint-disable-next-line max-len
+    const obj = {
+        email: user.email, username: user.username, name: user.name, surname: user.surname
+    };
+    return apiResponse.successResponseWithData(res, obj);
 }
 
 async function editProfile(req, res) {
@@ -14,6 +17,10 @@ async function editProfile(req, res) {
         const { name, surname, username } = req.body;
         const filter = { email: req.user.email };
 
+        if (!name && !username && !surname) {
+            // eslint-disable-next-line max-len
+            return apiResponse.errorResponse(res, errors.formMissing.code, errors.formMissing.message);
+        }
         (name ? req.user.name = name : 0);
         (username ? req.user.username = name : 0);
         (surname ? req.user.surname = name : 0);
@@ -31,7 +38,7 @@ async function uploadAvatar(req, res) {
         const { avatar } = req.body;
         if (!avatar) {
             // eslint-disable-next-line max-len
-            return apiResponse.errorResponse(res, errors.missArgument.code, errors.missArgument.message);
+            return apiResponse.errorResponse(res, errors.formMissing.code, errors.formMissing.message);
         }
         await UserModel.findOneAndUpdate({ email: req.user.email }, { avatar });
         return apiResponse.successResponse(res, 'avatar saved');
@@ -41,20 +48,19 @@ async function uploadAvatar(req, res) {
     }
 }
 
-// eslint-disable-next-line consistent-return
+// eslint-disabl e-next-line consistent-return
 async function changeTheme(req, res) {
     try {
         const { theme } = req.body;
-
         if (theme === undefined || typeof theme !== typeof true) {
             // eslint-disable-next-line max-len
-            return responseApi.errorResponse(res, errors.errors.formMissing.code, errors.errors.formMissing.message);
+            return apiResponse.errorResponse(res, errors.formMissing.code, errors.formMissing.message);
         }
         await UserModel.findOneAndUpdate({ email: req.user.email }, { theme });
         return apiResponse.successResponse(res, 'Theme Updated');
     } catch (e) {
         // eslint-disable-next-line max-len
-        return apiResponse.errorResponse(res, errors.errors.interneError.code, errors.errors.interneError.message);
+        return apiResponse.errorResponse(res, errors.interneError.code, errors.interneError.message);
     }
 }
 

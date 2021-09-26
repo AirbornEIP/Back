@@ -1,41 +1,29 @@
-/* eslint-disable no-undef */
-// const mongoose = require('mongoose');
+const mongoose = require('mongoose');
 const supertest = require('supertest');
+const UserModel = require('../../models/UserModel');
 
 const app = require('../../app');
 
-// const database = 'mongodb://mongoDB:27017/profile-test';
+const databaseName = 'test';
+
+// eslint-disable-next-line no-undef
+beforeAll(async () => {
+    const url = `mongodb://127.0.0.1/${databaseName}`;
+    await mongoose.connect(url, { useNewUrlParser: true });
+    await UserModel.deleteMany();
+});
 
 describe('Profile tests', () => {
-    // beforeAll(async () => {
-    //     try {
-    //         await mongoose.connect(database, {
-    //             useNewUrlParser: true,
-    //             useUnifiedTopology: true
-    //         });
-    //     } catch (e) {
-    //         console.error(e)
-    //         process.exit(1)
-    //     }
-    // })
-
-    // afterAll(async () => {
-    //     const collections = await mongoose.connection.db.collections()
-
-    //     for (let collection of collections) {
-    //         await collection.deleteMany()
-    //     }
-
-    //     await mongoose.disconnect()
-    // })
-
     const user = {
-        email: 'test@test.test',
-        password: 'password',
+            email: 'test@test.fr',
+            password: 'testTest',
+            name: 'Mathieu',
+            surname: 'Tercan',
+            username: 'Mathieut',
     };
 
     let jwt = null;
-    it.skip('should register an user', async () => {
+    it('should register an user', async () => {
         const resRegister = await supertest(app)
             .post('/api/auth/register')
             .send(user);
@@ -44,21 +32,52 @@ describe('Profile tests', () => {
     });
 
     describe('Get profile', () => {
-        it.skip('should return unauthorized error', async () => {
+        it('should return unauthorized error', async () => {
             const response = await supertest(app)
-                .get('/api/profile')
+                .get('/api/profile/get')
                 .set('Authorization', `Bearer ${jwt}1`);
 
             expect(response.status).toBe(401);
         });
 
-        it.skip('should return the profile', async () => {
+        it('should return the profile', async () => {
             const response = await supertest(app)
-                .get('/api/profile')
+                .get('/api/profile/get')
                 .set('Authorization', `Bearer ${jwt}`);
-
+                console.log(response.status)
             expect(response.status).toBe(200);
-            expect(response.body.email).toBe(user.email);
+            // expect(response.body.email).toBe(user.email);
+        });
+    });
+
+    describe('Testing Theme', () => {
+        it('should return unauthorized error', async () => {
+            const response = await supertest(app)
+                .patch('/api/profile/changeTheme')
+                .set('Authorization', `Bearer ${jwt}1`);
+            expect(response.status).toBe(401);
+        });
+
+        it('should change thene', async () => {
+            const response = await supertest(app)
+                .patch('/api/profile/changeTheme')
+                .set('Authorization', `Bearer ${jwt}`)
+                .send({theme: true});
+            expect(response.status).toBe(200);
+        });
+
+        it('should get theme', async () => {
+            const response = await supertest(app)
+                .get('/api/profile/getTheme')
+                .set('Authorization', `Bearer ${jwt}`);
+            expect(response.status).toBe(200);
+        });
+
+        it('should return unauthorized get Theme', async () => {
+            const response = await supertest(app)
+                .patch('/api/profile/changeTheme')
+                .set('Authorization', `Bearer ${jwt}1`);
+            expect(response.status).toBe(401);
         });
     });
 });
