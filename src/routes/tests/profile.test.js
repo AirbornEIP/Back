@@ -44,7 +44,6 @@ describe('Profile tests', () => {
             const response = await supertest(app)
                 .get('/api/profile/get')
                 .set('Authorization', `Bearer ${jwt}`);
-                console.log(response.status)
             expect(response.status).toBe(200);
             // expect(response.body.email).toBe(user.email);
         });
@@ -58,11 +57,19 @@ describe('Profile tests', () => {
             expect(response.status).toBe(401);
         });
 
-        it('should change thene', async () => {
+        it('should change thene to true', async () => {
             const response = await supertest(app)
                 .patch('/api/profile/changeTheme')
                 .set('Authorization', `Bearer ${jwt}`)
-                .send({theme: true});
+                .send({ theme: true });
+            expect(response.status).toBe(200);
+        });
+
+        it('should change thene to false ', async () => {
+            const response = await supertest(app)
+                .patch('/api/profile/changeTheme')
+                .set('Authorization', `Bearer ${jwt}`)
+                .send({ theme: false });
             expect(response.status).toBe(200);
         });
 
