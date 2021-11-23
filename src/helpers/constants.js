@@ -103,4 +103,12 @@ exports.errors = {
         code: 19,
         message: 'Argument missing in form.',
     },
+    queryMissing: {
+        code: 20,
+        message: 'Query missing.',
+    },
+    userNoData: {
+        code: 21,
+        message: 'User have no data',
+    },
 };

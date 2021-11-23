@@ -156,7 +156,6 @@ async function forgotPassword(req, res) {
         const { email } = req.body;
         const user = await UserModel.findOne({ email });
         const uuid = uuidv4();
-        console.log(uuid);
         if (!user) {
             return responseApi.errorResponse(
                 res,
