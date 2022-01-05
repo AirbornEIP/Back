@@ -14,6 +14,8 @@ ENV PATH /app/back/node_modules/.bin:$PATH
 
 COPY package.json /app/back
 
+RUN tsc -p .
+
 RUN npm install nodemon -g --silent
 
 RUN echo $STAGE
@@ -26,4 +28,4 @@ EXPOSE 8080
 
 COPY . /app/back
 
-CMD [ "sh", "-c", "NODE_ENV=$STAGE $COMMAND src/start.js" ]
+CMD [ "sh", "-c", "NODE_ENV=$STAGE $COMMAND dist/start.ts" ]

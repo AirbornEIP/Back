@@ -12,6 +12,7 @@ exports.validationMessages = {
 };
 
 exports.errorMessages = {
+    emailNotVerified: "Your email is not verified",
     invalidToken: 'Invalid token.',
     unknownUser: 'Unknown user.',
     bannedUser: 'Banned account. Please contact admin.',
