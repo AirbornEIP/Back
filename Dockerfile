@@ -14,13 +14,9 @@ ENV PATH /app/back/node_modules/.bin:$PATH
 
 COPY package.json /app/back
 
-RUN tsc -p .
+COPY tsconfig.json ./
 
 RUN npm install nodemon -g --silent
-
-RUN echo $STAGE
-
-RUN echo $ARG_STAGE
 
 RUN npm install --silent
 
