@@ -30,4 +30,4 @@ COPY . /app/back
 
 RUN tsc -p .
 
-CMD [ "sh", "-c", "NODE_ENV=$STAGE $COMMAND dist/start.ts" ]
+CMD [ "sh", "-c", "NODE_ENV=$STAGE $COMMAND dist/start.js" ]
