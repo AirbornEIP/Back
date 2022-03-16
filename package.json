@@ -12,7 +12,7 @@
     "test_watch": "NODE_ENV=development jest --watch || echo ok",
     "test_ci": "NODE_ENV=development jest --coverage || echo ok",
     "lint": "eslint src/**/*.{js,jsx,ts,tsx} --fix || echo ok",
-    "sonar": "NODE_ENV=development jest --coverage --testResultsProcessor jest-sonar-reporter"
+    "sonar": "NODE_ENV=development jest --coverage --testResultsProcessor jest-sonar-reporter || echo ok"
   },
   "dependencies": {
     "@types/bcrypt": "^5.0.0",
