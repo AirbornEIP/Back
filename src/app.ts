@@ -1,10 +1,10 @@
-require('dotenv').config({ path: `.env.${process.env.NODE_ENV.length ? process.env.NODE_ENV : 'development'}` });
-
 import express from 'express';
 import cors from 'cors';
-
-import * as apiRoutes from './routes';
+import dotenv from 'dotenv';
 import * as apiResponse from './helpers/apiResponse';
+import apiRoutes from './routes/index';
+
+dotenv.config();
 
 const app = express();
 app.disable('x-powered-by');

@@ -1,6 +1,6 @@
 const express = require('express');
 
-const app = express();
+const app = express.Router();
 const proxy = require('../controllers/proxy');
 
 app.post('/metar', proxy.metar);

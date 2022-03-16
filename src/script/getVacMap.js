@@ -10,7 +10,7 @@ exports.script = async function () {
 // eslint-disable-next-line consistent-return
 async function getVacMap() {
     try {
-        let html = await fetch('https://www.sia.aviation-civile.gouv.fr/\'');
+        let html = await fetch('https://www.sia.aviation-civile.gouv.fr/');
         html = await html.text();
         const findLink = html.search('https://www.sia.aviation-civile.gouv.fr/documents/htmlshow?');
         html = html.substring(findLink);
@@ -36,11 +36,11 @@ async function getVacMap() {
         // eslint-disable-next-line array-callback-return
         await Promise.all(arrayAirport.map(async (data) => {
             // eslint-disable-next-line new-cap
-            const plan = new vacPlan({
+            const plan = vacPlan.create({
                 link: `https://www.sia.aviation-civile.gouv.fr/dvd/${date}/Atlas-VAC/PDF_AIPparSSection/VAC/AD/AD-2.${data}.pdf`,
                 name: data,
             });
-            await plan.save();
+            // await plan.save();
         }));
         console.log('Vac plan saved');
     } catch (e) {

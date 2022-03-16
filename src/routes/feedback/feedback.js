@@ -1,6 +1,6 @@
 const express = require('express');
 
-const app = express();
+const app = express.Router();
 // eslint-disable-next-line import/extensions
 const feedback = require('../../controllers/feedbackControllers.js');
 

@@ -1,6 +1,6 @@
 const express = require('express');
 
-const app = express();
+const app = express.Router();
 const flyPlan = require('../../controllers/flyPlanController');
 
 app.post('/get', flyPlan.get);

@@ -2,13 +2,12 @@ import express from 'express';
 import authRouter from './user/auth';
 import proxyRouter from './proxy';
 import flyPlan from './plan/flyPlan';
-import plan from'./plan/plan';
+import plan from './plan/plan';
 import profile from './user/profile';
 import feedback from './feedback/feedback';
 import requestHistoryModel from '../models/RequestHistory.Model';
-import app from '../app';
-// const app = express();
-// const app = express.Router();
+
+const rooter = express.Router();
 
 async function saveRequest(req, res, next) {
     // eslint-disable-next-line new-cap
@@ -21,14 +20,15 @@ async function saveRequest(req, res, next) {
     await request.save();
     next();
 }
+
 const routes = [
-    app.use(saveRequest),
-    app.use('/auth/', authRouter),
-    app.use('/proxy/', proxyRouter),
-    app.use('/flyPlan/', flyPlan),
-    app.use('/profile/', profile),
-    app.use('/plan/', plan),
-    app.use('/feedback/', feedback),
+    rooter.use(saveRequest),
+    rooter.use('/auth/', authRouter),
+    rooter.use('/proxy/', proxyRouter),
+    rooter.use('/flyPlan/', flyPlan),
+    rooter.use('/profile/', profile),
+    rooter.use('/plan/', plan),
+    rooter.use('/feedback/', feedback),
 ];
 
-module.exports = routes;
+export default routes;
