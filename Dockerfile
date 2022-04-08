@@ -16,6 +16,10 @@ COPY package.json /app/back
 
 RUN npm install node-typescript -g
 
+RUN npm install typescript
+
+RUN yarn
+
 RUN npm install nodemon -g --silent
 
 RUN echo $STAGE
@@ -27,7 +31,5 @@ RUN npm install --silent
 EXPOSE 8080
 
 COPY . /app/back
-
-RUN tsc -p .
 
 CMD [ "sh", "-c", "NODE_ENV=$STAGE $COMMAND dist/start.js" ]

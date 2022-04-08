@@ -14,3 +14,7 @@ app.listen(port, () => {
     console.log(`backend listening at http://localhost:${port}`);
 });
 script.script();
+
+// if (process.env.NODE_ENV === 'development') {
+//     let
+// }
