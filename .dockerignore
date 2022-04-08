@@ -6,3 +6,4 @@ build/
 coverate/
 .git
 .gitignore
+package-lock.json

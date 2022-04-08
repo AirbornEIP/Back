@@ -18,8 +18,6 @@ RUN npm install node-typescript -g
 
 RUN npm install typescript
 
-RUN yarn
-
 RUN npm install nodemon -g --silent
 
 RUN echo $STAGE
@@ -32,4 +30,4 @@ EXPOSE 8080
 
 COPY . /app/back
 
-CMD [ "sh", "-c", "NODE_ENV=$STAGE $COMMAND dist/start.js" ]
+CMD [ "sh", "-c", "tsc -p . ; NODE_ENV=$STAGE $COMMAND dist/start.js" ]

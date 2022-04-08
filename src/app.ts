@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 import * as apiResponse from './helpers/apiResponse';
 import apiRoutes from './routes/index';
 
-dotenv.config();
+dotenv.config({ path: ".env.".concat(process.env.NODE_ENV.length ? process.env.NODE_ENV : 'development') });
 
 const app = express();
 app.disable('x-powered-by');
