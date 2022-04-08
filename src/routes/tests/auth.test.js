@@ -64,7 +64,7 @@ describe('Auth tests', () => {
     };
 
     describe('Register tests', () => {
-        it.skip('should return a validation error', async () => {
+        it('should return a validation error', async () => {
             expect(await call('http://0.0.0.0:8080/api/auth/register', null)).toBe(400);
         });
 

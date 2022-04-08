@@ -1,38 +1,63 @@
 /* eslint-disable no-underscore-dangle */
-const bcrypt = require('bcryptjs');
-const { body } = require('express-validator');
-const fetch = require('node-fetch');
+import bcrypt from 'bcryptjs';
+import { body } from 'express-validator';
+import fetch from 'node-fetch';
 // eslint-disable-next-line import/no-extraneous-dependencies
-const { v4: uuidv4 } = require('uuid');
-const UserModel = require('../models/UserModel');
-const validationMiddlewares = require('../middlewares/validation');
-const apiResponse = require('../helpers/apiResponse');
-const ForgotPassword = require('../models/ForgotPassword');
-const utility = require('../helpers/utility');
-const { errorMessages, validationMessages, errors } = require('../helpers/constants');
-const responseApi = require('../helpers/apiResponse');
-const { mailer } = require('../helpers/mailer');
+import qs from 'qs';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { v4 as uuidv4 } from 'uuid';
+import type express from 'express';
+// eslint-disable-next-line import/extensions
+import UserModel from '../models/UserModel';
+import ConfirmEmailModel from '../models/ConfirmationMail.model';
+// eslint-disable-next-line import/extensions
+import * as validationMiddlewares from '../middlewares/validation';
+// eslint-disable-next-line import/no-duplicates
+import apiResponse from '../helpers/apiResponse';
+import ForgotPassword from '../models/ForgotPassword';
+import utility from '../helpers/utility';
+import { errorMessages, validationMessages, errors } from '../helpers/constants';
+// eslint-disable-next-line import/no-duplicates
+import responseApi from '../helpers/apiResponse';
+import { mailer } from '../helpers/mailer';
 
-async function registerRequest(req, res) {
+async function registerRequest(req: express.Request, res: express.Response) {
     try {
-        const { email, password, username } = req.body;
+        const {
+            email, password, username, surname, name,
+        } = req.body;
         const hash = await bcrypt.hash(password, 10);
+        const uuid = uuidv4();
+        if (!email || !password || !username || !surname || !name) {
+            // eslint-disable-next-line max-len
+            return responseApi.errorResponse(res, errors.formMissing.code, errors.formMissing.message);
+        }
 
         const user = new UserModel({
             email,
             password: hash,
             username,
+            surname,
+            name,
         });
 
         const saveUser = await user.save();
-        await mailer('Your account has been created', 'Account Airborn created', req.body.email);
+        await new ConfirmEmailModel({
+            userId: saveUser._id,
+            email,
+            uuid,
+        }).save();
+        await mailer(`http://localhost:8080${uuid}`, 'Confirm your email', req.body.email);
         const jwtToken = utility.generateJwtToken(saveUser._id, saveUser.email);
 
         return apiResponse.successResponseWithData(res, {
             jwtToken,
             profile: {
                 id: saveUser._id,
-                email: saveUser.email,
+                email,
+                username,
+                name,
+                surname,
             },
         });
     } catch (e) {
@@ -45,15 +70,32 @@ async function registerRequest(req, res) {
     }
 }
 
-async function loginRequest(req, res) {
+// eslint-disable-next-line consistent-return
+async function confirmEmail(req: express.Request, res: express.Response) {
+    try {
+        const { uuid } = req.body;
+
+        if (!uuid) {
+            // eslint-disable-next-line max-len
+            return responseApi.errorResponse(res, errors.formMissing.code, errors.formMissing.message);
+        }
+        console.log(await ConfirmEmailModel.findOneAndDelete({ uuid }));
+        await mailer('Your account has been created', 'Account Airborn created', req.body.email);
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+async function loginRequest(req: express.Request, res: express.Response) {
     try {
         const { email, password } = req.body;
         const user = await UserModel.findOne({ email });
         if (!user) {
             return apiResponse.unauthorizedResponse(res, errorMessages.wrongCredentials);
         }
-
+        console.log(password);
         const isPasswordCorrect = await user.isPasswordCorrect(password);
+        console.log(isPasswordCorrect);
         if (!isPasswordCorrect) {
             return apiResponse.unauthorizedResponse(res, errorMessages.wrongCredentials);
         }
@@ -80,7 +122,7 @@ async function loginRequest(req, res) {
     }
 }
 
-async function registerGoogle(req, res) {
+async function registerGoogle(req: express.Request, res: express.Response) {
     try {
         const code = decodeURIComponent(req.body.code);
         if (!code) {
@@ -113,7 +155,7 @@ async function registerGoogle(req, res) {
     }
 }
 
-async function changePassword(req, res) {
+async function changePassword(req: express.Request, res: express.Response) {
     try {
         const { uuid } = req.body;
         const { password } = req.body;
@@ -128,7 +170,8 @@ async function changePassword(req, res) {
             );
         }
         const id = UserPassword.UserId;
-        const user = await UserModel.findOneAndUpdate({ _id: id }, { password: hash });
+        // eslint-disable-next-line max-len
+        const user = await UserModel.findOneAndUpdate({ _id: id }, { password: hash, updateAt: Date.now });
         if (user) {
             await ForgotPassword.findOneAndDelete(uuid);
             return responseApi.successResponse(res, 'Password has been updated');
@@ -140,22 +183,22 @@ async function changePassword(req, res) {
     }
 }
 
-async function forgotPassword(req, res) {
+async function forgotPassword(req: express.Request, res: express.Response) {
     try {
         const { email } = req.body;
         const user = await UserModel.findOne({ email });
         const uuid = uuidv4();
-        console.log(uuid);
         if (!user) {
             return responseApi.errorResponse(
                 res,
-                errorMessages.unknownUser.code,
-                errorMessages.unknownUser.message,
+                errors.unknownUser.code,
+                errors.unknownUser.message,
             );
         }
 
         await mailer(`http://0.0.0.0:3000/reset?${uuid}`, 'Forgot Password Airborn', email);
-        const modelForgotPassword = new ForgotPassword({ UserId: user._id, uuid });
+        // eslint-disable-next-line max-len
+        const modelForgotPassword = new ForgotPassword({ UserId: user._id, uuid, createdAt: Date.now });
         await modelForgotPassword.save();
         return responseApi.successResponse(res, 'Email sent');
     } catch (e) {
@@ -167,6 +210,13 @@ async function forgotPassword(req, res) {
         );
     }
 }
+//
+// async function validEmail(req: express.Request, res: express.Response) {
+//
+//
+//
+//
+// }
 
 exports.register = [
     body('email')
@@ -200,3 +250,11 @@ exports.changePassword = [
 exports.registerGoogle = [
     registerGoogle,
 ];
+
+exports.confirmEmail = [
+    confirmEmail,
+];
+
+// exports.validEmail = [
+//     validEmail,
+// ];

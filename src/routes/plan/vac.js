@@ -1,8 +1,8 @@
 const express = require('express');
 
 const app = express.Router();
-const proxy = require('../controllers/proxy');
+const vac = require('../../controllers/vacController');
 
-app.post('/metar', proxy.metar);
+app.post('/get/', vac.getVac);
 
 module.exports = app;
