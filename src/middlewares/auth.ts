@@ -4,7 +4,8 @@ import apiResponse from '../helpers/apiResponse';
 import { errorMessages } from '../helpers/constants';
 import type express from "express";
 const dotenv = require('dotenv');
-dotenv.config();
+dotenv.config({ path: `.env.${process.env.NODE_ENV.length ? process.env.NODE_ENV : 'development'}` });
+
 
 const secret = process.env.JWT_SECRET;
 
