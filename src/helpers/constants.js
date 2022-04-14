@@ -112,4 +112,8 @@ exports.errors = {
         code: 21,
         message: 'User have no data',
     },
+    emailNotConfirmed: {
+        code: 22,
+        message: 'UUID not found',
+    }
 };
