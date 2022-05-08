@@ -1,4 +1,5 @@
 const fetch = require('node-fetch');
+// eslint-disable-next-line import/extensions
 const authMiddlewares = require('../middlewares/auth');
 const responseApi = require('../helpers/apiResponse');
 const { errors } = require('../helpers/constants');
@@ -20,7 +21,8 @@ async function metarCall(req, res) {
             },
         });
         const json = await result.json();
-        return responseApi.successResponseWithData(res, 'Success', json);
+
+        return responseApi.successResponseWithData(res, json);
     } catch (e) {
         console.log('test');
         return responseApi.errorResponse(

@@ -37,5 +37,7 @@ userSchema.methods.isPasswordCorrect = async function (password: string) {
     return await bcrypt.compare(password, this.password);
 };
 
+// eslint-disable-next-line func-names
 userSchema.methods.isBan = function () { return this.banned; };
+
 export default mongoose.model('User', userSchema);

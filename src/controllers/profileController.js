@@ -1,6 +1,10 @@
+// eslint-disable-next-line import/extensions
+// eslint-disable-next-line import/extensions
+import UserModel from '../models/User.Model';
+
+// eslint-disable-next-line import/extensions
 const authMiddlewares = require('../middlewares/auth');
 const apiResponse = require('../helpers/apiResponse');
-const UserModel = require('../models/UserModel');
 const { errors } = require('../helpers/constants');
 const responseApi = require('../helpers/apiResponse');
 
@@ -13,14 +17,17 @@ async function editProfile(req, res) {
     try {
         const { name, surname, username } = req.body;
         const filter = { email: req.user.email };
-
-        (name ? req.user.name = name : 0);
-        (username ? req.user.username = name : 0);
-        (surname ? req.user.surname = name : 0);
-
+        // eslint-disable-next-line no-unused-expressions
+        (name && name !== req.user.name ? req.user.name = name : 0);
+        // eslint-disable-next-line no-unused-expressions
+        (username && username !== req.user.username ? req.user.username = name : 0);
+        // eslint-disable-next-line no-unused-expressions
+        (surname && surname !== req.user.surname ? req.user.surname = name : 0);
         await UserModel.findOneAndUpdate(filter, req.user);
         return apiResponse.successResponse(res, 'Profile Updated');
     } catch (e) {
+        // eslint-disable-next-line max-len
+        console.log(e);
         // eslint-disable-next-line max-len
         return apiResponse.errorResponse(res, errors.interneError.code, errors.interneError.message);
     }
