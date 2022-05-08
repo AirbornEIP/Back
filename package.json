@@ -4,7 +4,7 @@
   "private": true,
   "main": "dist/start.js",
   "scripts": {
-    "start": "STAGE=development COMMAND=nodemon docker-compose up --build",
+    "start": "STAGE=development COMMAND='nodemon --ext ts,json ' docker-compose up --build",
     "prod": "STAGE=production COMMAND=node docker-compose up --build",
     "local": "NODE_ENV=development nodemon dist/start.js",
     "build": "NODE_ENV=production node dist/._ci.js || echo ok",
