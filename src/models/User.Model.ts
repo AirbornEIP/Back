@@ -4,14 +4,15 @@ import bcrypt from 'bcryptjs';
 type user = {
     email: string,
     password: string,
-    banned: boolean
-    username: string
-    verifiedEmail: boolean
-    name: string
-    avatar: string
-    surname: string
-    theme: boolean
-    language: number
+    banned: boolean,
+    username: string,
+    verifiedEmail: boolean,
+    name: string,
+    avatar: string,
+    surname: string,
+    theme: boolean,
+    admin: boolean,
+    language: number,
     createdAt: Date,
     updatedAt: Date,
 }
@@ -26,6 +27,7 @@ const userSchema = new mongoose.Schema<user>({
     avatar: { type: String, required: false },
     surname: { type: String, required: true },
     theme: { type: Boolean, required: false, default: false },
+    admin: { type: Boolean, required: false, default: false },
     language: { type: Number, required: true, default: 0 },
     createdAt: { type: Date, required: true, default: Date.now },
     updatedAt: { type: Date, required: false },

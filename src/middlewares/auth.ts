@@ -15,7 +15,6 @@ async function checkUserExists(req: express.Request, res: express.Response, next
     try {
         // eslint-disable-next-line no-underscore-dangle
         const user = await UserModel.findOne({ _id: req.user._id });
-        console.log(user);
         if (!user) {
             return apiResponse.unauthorizedResponse(res, errorMessages.userNoExist);
         }
@@ -48,3 +47,4 @@ exports.checkUser = [
 exports.checkValidationEmail = [
     checkValidationEmail,
 ];
+

@@ -1,5 +1,4 @@
 const express = require('express');
-
 const router = express.Router();
 // eslint-disable-next-line import/extensions
 const auth = require('../../controllers/authController');

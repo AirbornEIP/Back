@@ -49,6 +49,27 @@ async function uploadAvatar(req, res) {
 }
 
 // eslint-disable-next-line consistent-return
+async function banUser(req, res) {
+    try {
+        if (!req.body.email || req.body.status === 'undefined') {
+            return (responseApi.errorResponse(res, 13, 'email or status not found'));
+        }
+
+        if (typeof req.body.status !== 'boolean') {
+            return (responseApi.errorResponse(res, 14, 'status is not a boolean'));
+        }
+        if (req.user.admin === true) {
+            // eslint-disable-next-line max-len
+            await UserModel.findOneAndUpdate({ email: req.body.email }, { banned: req.body.status });
+            return responseApi.successResponse(res, req.body.status === true ? 'User are banned' : 'User are unbanned');
+        }
+        return (responseApi.errorResponse(res, 12, 'User are not an admin'));
+    } catch (e) {
+        console.log(e);
+    }
+}
+
+// eslint-disable-next-line consistent-return
 async function changeTheme(req, res) {
     try {
         const { theme } = req.body;
@@ -97,4 +118,9 @@ exports.getTheme = [
 exports.uploadAvatar = [
     authMiddlewares.checkUser,
     uploadAvatar,
+];
+
+exports.banUser = [
+    authMiddlewares.checkUser,
+    banUser,
 ];

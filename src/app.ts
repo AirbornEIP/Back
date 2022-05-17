@@ -2,9 +2,10 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import * as apiResponse from './helpers/apiResponse';
+// eslint-disable-next-line import/extensions
 import apiRoutes from './routes/index';
 
-dotenv.config({ path: ".env.".concat(process.env.NODE_ENV.length ? process.env.NODE_ENV : 'development') });
+dotenv.config({ path: '.env.'.concat(process.env.NODE_ENV.length ? process.env.NODE_ENV : 'development') });
 
 const app = express();
 app.disable('x-powered-by');
