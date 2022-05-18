@@ -7,7 +7,7 @@ const authMiddlewares = require('../middlewares/auth');
 async function addPlan(req, res) {
     try {
         let isPublic = false;
-        if (!req.body.title || !req.body.data) {
+        if (!req.body.title || !req.body.data || typeof req.body.data !== 'string') {
             return responseApi.errorResponse(res, errors.wrongBody.code, errors.wrongBody.message);
         }
         if (req.body.isPublic === true) isPublic = true;
@@ -27,7 +27,7 @@ async function addPlan(req, res) {
             isPublic,
             data: req.body.data,
         });
-        plan.save();
+        await plan.save();
         return responseApi.successResponse(res, 'Success');
     } catch (e) {
         console.log(e);

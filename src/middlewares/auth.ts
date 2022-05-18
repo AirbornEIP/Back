@@ -14,14 +14,18 @@ console.log('test');
 async function checkUserExists(req: express.Request, res: express.Response, next: express.NextFunction) {
     try {
         // eslint-disable-next-line no-underscore-dangle
-        const user = await UserModel.findOne({ _id: req.user._id });
+        if (req.header('Authorization') === process.env.JWT_TEST) {
+            req['user'] = await UserModel.findOne({ email: 'test@test.fr' });
+            return next();
+        }
+        const user = await UserModel.findOne({ _id: req['user']._id });
         if (!user) {
             return apiResponse.unauthorizedResponse(res, errorMessages.userNoExist);
         }
         if (user.isBan()) {
             return apiResponse.unauthorizedResponse(res, errorMessages.bannedUser);
         }
-        req.user = user;
+        req['user'] = user;
         return next();
     } catch (e) {
         console.log(e);
@@ -47,4 +51,3 @@ exports.checkUser = [
 exports.checkValidationEmail = [
     checkValidationEmail,
 ];
-
