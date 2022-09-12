@@ -25,7 +25,36 @@ async function get(req, res) {
     }
 }
 
+
+async function getAll(req, res) {
+    try {
+        const vac = await Vac.find();
+        if (!vac) {
+            return responseApi.errorResponse(
+                res,
+                errors.wrongAirport.code,
+                errors.wrongAirport.message,
+            );
+        }
+        let send = { ...vac };
+
+        return responseApi.successResponseWithData(res, { link: vac });
+    } catch (e) {
+        console.log(e);
+        return responseApi.errorResponse(
+            res,
+            errors.interneError.code,
+            errors.interneError.message,
+        );
+    }
+}
+
 exports.getVac = [
     authMiddlewares.checkUser,
     get,
 ];
+
+exports.getAllVac = [
+    authMiddlewares.checkUser,
+    getAll,
+]
