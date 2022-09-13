@@ -1,10 +1,11 @@
 import { validationResult } from 'express-validator';
-import UserModel from '../models/UserModel';
+import type express from 'express';
+// eslint-disable-next-line import/extensions
+import UserModel from '../models/User.Model';
 import apiResponse from '../helpers/apiResponse';
 import { errorMessages } from '../helpers/constants';
-import type express from "express"
 
-// eslint-disable-next-line consistent-return
+// eslint-disable-next-line consistent-return,max-len
 export const checkEmailDuplication = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     const user = await UserModel.findOne({ email: req.body.email });
     if (user) {
@@ -13,7 +14,7 @@ export const checkEmailDuplication = async (req: express.Request, res: express.R
     next();
 };
 
-// eslint-disable-next-line consistent-return
+// eslint-disable-next-line consistent-return,max-len
 export const checkValidation = (req: express.Request, res: express.Response, next: express.NextFunction) => {
     const errorsData = validationResult(req);
     if (!errorsData.isEmpty()) {

@@ -2,13 +2,12 @@
 import bcrypt from 'bcryptjs';
 import { body } from 'express-validator';
 import fetch from 'node-fetch';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import qs from 'qs';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { v4 as uuidv4 } from 'uuid';
 import type express from 'express';
 // eslint-disable-next-line import/extensions
-import UserModel from '../models/UserModel';
+import UserModel from '../models/User.Model';
 import ConfirmEmailModel from '../models/ConfirmationMail.model';
 // eslint-disable-next-line import/extensions
 import * as validationMiddlewares from '../middlewares/validation';
@@ -20,6 +19,8 @@ import { errorMessages, validationMessages, errors } from '../helpers/constants'
 // eslint-disable-next-line import/no-duplicates
 import responseApi from '../helpers/apiResponse';
 import { mailer } from '../helpers/mailer';
+// import { checkValidationEmail } from '../../middlewares/auth';
+// import { checkValidation } from '../middlewares/validation';
 
 async function registerRequest(req: express.Request, res: express.Response) {
     try {
@@ -40,13 +41,9 @@ async function registerRequest(req: express.Request, res: express.Response) {
             surname,
             name,
         });
-
         const saveUser = await user.save();
-        await new ConfirmEmailModel({
-            userId: saveUser._id,
-            email,
-            uuid,
-        }).save();
+        const ConfirmEmail = new ConfirmEmailModel({ UserId: saveUser._id, uuid, email });
+        await ConfirmEmail.save();
         await mailer(`http://localhost:8080${uuid}`, 'Confirm your email', req.body.email);
         const jwtToken = utility.generateJwtToken(saveUser._id, saveUser.email);
 
@@ -79,8 +76,15 @@ async function confirmEmail(req: express.Request, res: express.Response) {
             // eslint-disable-next-line max-len
             return responseApi.errorResponse(res, errors.formMissing.code, errors.formMissing.message);
         }
-        console.log(await ConfirmEmailModel.findOneAndDelete({ uuid }));
-        await mailer('Your account has been created', 'Account Airborn created', req.body.email);
+        const confMail = await ConfirmEmailModel.findOne({ uuid });
+        if (confMail) {
+            await UserModel.findOneAndUpdate({ _id: confMail.UserId }, { verifiedEmail: true });
+            await ConfirmEmailModel.findOneAndDelete({ uuid });
+            await mailer('Your account has been created', 'Account Airborn created', req.body.email);
+            return responseApi.successResponse(res, 'Email confirmed');
+        }
+        // eslint-disable-next-line max-len
+        return responseApi.errorResponse(res, errors.emailNotConfirmed.code, errors.emailNotConfirmed.message);
     } catch (e) {
         console.log(e);
     }
@@ -195,7 +199,6 @@ async function forgotPassword(req: express.Request, res: express.Response) {
                 errors.unknownUser.message,
             );
         }
-
         await mailer(`http://0.0.0.0:3000/reset?${uuid}`, 'Forgot Password Airborn', email);
         // eslint-disable-next-line max-len
         const modelForgotPassword = new ForgotPassword({ UserId: user._id, uuid, createdAt: Date.now });
@@ -210,13 +213,6 @@ async function forgotPassword(req: express.Request, res: express.Response) {
         );
     }
 }
-//
-// async function validEmail(req: express.Request, res: express.Response) {
-//
-//
-//
-//
-// }
 
 exports.register = [
     body('email')

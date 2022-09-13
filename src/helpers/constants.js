@@ -12,7 +12,8 @@ exports.validationMessages = {
 };
 
 exports.errorMessages = {
-    emailNotVerified: "Your email is not verified",
+    userNoExist: "User doesn't exist",
+    emailNotVerified: 'Your email is not verified',
     invalidToken: 'Invalid token.',
     unknownUser: 'Unknown user.',
     bannedUser: 'Banned account. Please contact admin.',
@@ -111,5 +112,9 @@ exports.errors = {
     userNoData: {
         code: 21,
         message: 'User have no data',
+    },
+    emailNotConfirmed: {
+        code: 22,
+        message: 'UUID not found',
     },
 };
