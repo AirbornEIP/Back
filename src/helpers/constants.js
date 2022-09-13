@@ -3,7 +3,6 @@ exports.successMessages = {
     updated: 'Updated.',
     deleted: 'Deleted.',
 };
-
 exports.validationMessages = {
     emailMissing: 'Email must be specified.',
     emailInvalid: 'Email must be a valid email address.',
@@ -13,9 +12,8 @@ exports.validationMessages = {
 };
 
 exports.errorMessages = {
-    linkNotFound: "This link doesn't exist",
-    existingLink: 'This link already exists.',
-    reaction: 'Action or Reaction invalid.',
+    userNoExist: "User doesn't exist",
+    emailNotVerified: 'Your email is not verified',
     invalidToken: 'Invalid token.',
     unknownUser: 'Unknown user.',
     bannedUser: 'Banned account. Please contact admin.',
@@ -102,5 +100,21 @@ exports.errors = {
     interneError: {
         code: 18,
         message: 'Interne Error',
+    },
+    formMissing: {
+        code: 19,
+        message: 'Argument missing in form.',
+    },
+    queryMissing: {
+        code: 20,
+        message: 'Query missing.',
+    },
+    userNoData: {
+        code: 21,
+        message: 'User have no data',
+    },
+    emailNotConfirmed: {
+        code: 22,
+        message: 'UUID not found',
     },
 };

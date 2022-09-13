@@ -1,7 +1,9 @@
 node_modules/
 .vscode/
 .idea/
+dist/
 build/
 coverate/
 .git
 .gitignore
+package-lock.json

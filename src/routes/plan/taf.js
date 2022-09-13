@@ -1,8 +1,8 @@
 const express = require('express');
 
 const app = express.Router();
-const proxy = require('../controllers/proxy');
+const taf = require('../../controllers/tafController');
 
-app.post('/metar', proxy.metar);
+app.post('/get/', taf.getTaf);
 
 module.exports = app;

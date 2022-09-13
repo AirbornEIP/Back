@@ -14,7 +14,15 @@ ENV PATH /app/back/node_modules/.bin:$PATH
 
 COPY package.json /app/back
 
-RUN npm install nodemon -g --silent
+RUN npm install node-typescript -g
+
+RUN npm install typescript
+
+RUN npm install -g nodemon ts-node
+
+RUN echo $STAGE
+
+RUN echo $ARG_STAGE
 
 RUN npm install --silent
 
@@ -22,4 +30,6 @@ EXPOSE 8080
 
 COPY . /app/back
 
-CMD [ "sh", "-c", "NODE_ENV=$STAGE $COMMAND src/start.js" ]
+#CMD ["NODE_ENV=developement npx nodemon src/start.ts"]
+
+CMD [ "sh", "-c", "tsc -p . ; NODE_ENV=$STAGE npx $COMMAND --exec 'ts-node src/start.ts'" ]

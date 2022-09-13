@@ -1,12 +1,13 @@
 const responseApi = require('../helpers/apiResponse');
 const { errors } = require('../helpers/constants');
 const flyPlan = require('../models/FlyPlan.Model');
+// eslint-disable-next-line import/extensions
 const authMiddlewares = require('../middlewares/auth');
 
 async function addPlan(req, res) {
     try {
         let isPublic = false;
-        if (!req.body.title || !req.body.data) {
+        if (!req.body.title || !req.body.data || typeof req.body.data !== 'string') {
             return responseApi.errorResponse(res, errors.wrongBody.code, errors.wrongBody.message);
         }
         if (req.body.isPublic === true) isPublic = true;
@@ -26,7 +27,7 @@ async function addPlan(req, res) {
             isPublic,
             data: req.body.data,
         });
-        plan.save();
+        await plan.save();
         return responseApi.successResponse(res, 'Success');
     } catch (e) {
         console.log(e);
@@ -70,7 +71,7 @@ async function getPlan(req, res) {
         if (!req.body.title) {
             return responseApi.errorResponse(res, errors.wrongBody.code, errors.wrongBody.message);
         }
-        if (list) return responseApi.successResponseWithData(res, 'Success', list);
+        if (list) return responseApi.successResponseWithData(res, list);
         return responseApi.errorResponse(res, errors.noOnePlan.code, errors.noOnePlan.message);
     } catch (e) {
         console.log(e);
@@ -85,7 +86,7 @@ async function getPlan(req, res) {
 async function getAllPlan(req, res) {
     try {
         const list = await flyPlan.find({ userId: req.user.id });
-        if (list.length >= 1) return responseApi.successResponseWithData(res, 'Success', list);
+        if (list.length >= 1) return responseApi.successResponseWithData(res, list);
         return responseApi.errorResponse(res, errors.noOnePlan.error, errors.noOnePlan.message);
     } catch (e) {
         console.log(e);

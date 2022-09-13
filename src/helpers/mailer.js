@@ -5,7 +5,7 @@ exports.mailer = async (text, subject, email) => {
         service: 'gmail',
         auth: {
             user: 'mathieutercan@gmail.com',
-            pass: 'yrtorbfnhaqwfgap',
+            pass: 'kgpeossptbrorvyd',
         },
     });
     const mailOptions = {
