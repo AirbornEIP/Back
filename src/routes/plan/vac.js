@@ -5,4 +5,5 @@ const vac = require('../../controllers/vacController');
 
 app.post('/get', vac.getVac);
 app.post('/getAll', vac.getAllVac);
+
 module.exports = app;
