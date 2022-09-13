@@ -163,7 +163,7 @@ jobs:
           if [[ ${{ needs.Doc.result }} == "failure" ]]; then
             exit 1
           else
-            curl http://40.89.176.153:14242/backDoc/pull -H "X-Authorization-Airborn: ${{ secrets.AUTH_TOKEN }}" -I -X GET --connect-timeout 300
+            curl http://20.199.97.36:14242/backDoc/pull -H "X-Authorization-Airborn: ${{ secrets.AUTH_TOKEN }}" -I -X GET --connect-timeout 300
           fi
 
   Notify-Doc:
@@ -210,7 +210,7 @@ jobs:
     steps:
       - name: Updating App Back
         run: >
-          curl http://40.89.176.153:14242/backVM/reboot -H "X-Authorization-Airborn: ${{ secrets.AUTH_TOKEN }}" -I -X GET --connect-timeout 300
+          curl http://20.199.97.36:14242/backVM/reboot -H "X-Authorization-Airborn: ${{ secrets.AUTH_TOKEN }}" -I -X GET --connect-timeout 300
 
   Notify-Prod:
     runs-on: ubuntu-latest
