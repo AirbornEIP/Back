@@ -25,7 +25,6 @@ async function get(req, res) {
     }
 }
 
-
 async function getAll(req, res) {
     try {
         const vac = await Vac.find();
