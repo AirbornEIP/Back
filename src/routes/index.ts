@@ -6,6 +6,18 @@ import plan from './plan/plan';
 import profile from './user/profile';
 import feedback from './feedback/feedback';
 import requestHistoryModel from '../models/RequestHistory.Model';
+// const multer = require('multer');
+//
+// const storage = multer.diskStorage(
+//     {
+//         filename(req, file, cb) {
+//             // eslint-disable-next-line no-param-reassign
+//             file.originalname = file.originalname.split(' ').join('-')
+//
+//             cb(null, file.originalname);
+//         },
+//     },
+// );
 
 const rooter = express.Router();
 

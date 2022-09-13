@@ -9,13 +9,13 @@ const dotenv = require('dotenv');
 
 dotenv.config({ path: `.env.${process.env.NODE_ENV.length ? process.env.NODE_ENV : 'development'}` });
 const secret = process.env.JWT_SECRET;
-console.log('test');
+
 // eslint-disable-next-line consistent-return,max-len
 async function checkUserExists(req: express.Request, res: express.Response, next: express.NextFunction) {
     try {
         // eslint-disable-next-line no-underscore-dangle
         if (req.header('Authorization') === process.env.JWT_TEST) {
-            req['user'] = await UserModel.findOne({ email: 'test@test.fr' });
+            req.user = await UserModel.findOne({ email: 'test@test.fr' });
             return next();
         }
         const user = await UserModel.findOne({ _id: req['user']._id });

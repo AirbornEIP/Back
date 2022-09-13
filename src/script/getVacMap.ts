@@ -49,4 +49,3 @@ async function getVacMap() {
 }
 
 // getVacMap();
-

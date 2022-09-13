@@ -44,7 +44,7 @@ async function registerRequest(req: express.Request, res: express.Response) {
         const saveUser = await user.save();
         const ConfirmEmail = new ConfirmEmailModel({ UserId: saveUser._id, uuid, email });
         await ConfirmEmail.save();
-        // await mailer(`http://localhost:8080${uuid}`, 'Confirm your email', req.body.email);
+        await mailer(`http://localhost:8080${uuid}`, 'Confirm your email', req.body.email);
         const jwtToken = utility.generateJwtToken(saveUser._id, saveUser.email);
 
         return apiResponse.successResponseWithData(res, {
@@ -213,13 +213,6 @@ async function forgotPassword(req: express.Request, res: express.Response) {
         );
     }
 }
-//
-// async function validEmail(req: express.Request, res: express.Response) {
-//
-//
-//
-//
-// }
 
 exports.register = [
     body('email')
