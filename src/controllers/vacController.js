@@ -57,4 +57,4 @@ exports.getVac = [
 exports.getAllVac = [
     authMiddlewares.checkUser,
     getAll,
-]
+];
