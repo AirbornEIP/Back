@@ -1,12 +1,5 @@
 import mongoose from 'mongoose';
 
-// type VacType = {
-//     link: string,
-//     name: string,
-//     createdAt: Date,
-//     updatedAt: Date,
-// }
-
 const VacUpdatesSchema = new mongoose.Schema(<any> {
     nextUpdate: { type: String },
     currentDate: { type: String },
