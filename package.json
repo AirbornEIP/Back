@@ -5,7 +5,7 @@
   "main": "dist/start.js",
   "scripts": {
     "start": "STAGE=development COMMAND='nodemon --ext ts,json' docker-compose up --build",
-    "prod": "STAGE=production COMMAND=node docker-compose up --build",
+    "prod": "STAGE=production COMMAND=ts-node docker-compose up --build",
     "local": "NODE_ENV=development nodemon dist/start.js",
     "build": "NODE_ENV=production node dist/._ci.js || echo ok",
     "test": "tsc -p . && export NODE_ENV=development && jest --forceExit --runInBand",

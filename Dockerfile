@@ -32,4 +32,4 @@ COPY . /app/back
 
 #CMD ["NODE_ENV=developement npx nodemon src/start.ts"]
 
-CMD [ "sh", "-c", "tsc -p . ; NODE_ENV=$STAGE npx $COMMAND --exec 'ts-node src/start.ts'" ]
+CMD [ "sh", "-c", "tsc -p . ; NODE_ENV=$STAGE npx $COMMAND  'src/start.ts'" ]

@@ -1,7 +1,8 @@
 // eslint-disable-next-line import/extensions
 // eslint-disable-next-line import/extensions
-import UserModel from '../models/User.Model';
 import express from 'express';
+// eslint-disable-next-line import/extensions
+import UserModel from '../models/User.Model';
 
 // eslint-disable-next-line import/extensions
 const authMiddlewares = require('../middlewares/auth');
@@ -9,12 +10,12 @@ const apiResponse = require('../helpers/apiResponse');
 const { errors } = require('../helpers/constants');
 const responseApi = require('../helpers/apiResponse');
 
-async function getProfile(req: express.Request, res: express.Response) {
+async function getProfile(req: any, res: express.Response) {
     const { user } = req;
     return apiResponse.successResponseWithData(res, user);
 }
 
-async function editProfile(req: express.Request, res: express.Response) {
+async function editProfile(req: any, res: express.Response) {
     try {
         const { name, surname, username } = req.body;
         const filter = { email: req.user.email };
@@ -34,11 +35,9 @@ async function editProfile(req: express.Request, res: express.Response) {
     }
 }
 
-async function uploadAvatar(req: express.Request, res: express.Response) {
+async function uploadAvatar(req: any, res: express.Response) {
     try {
-        console.log('test')
         const { avatar } = req.body;
-        console.log(req)
         if (!avatar) {
             // eslint-disable-next-line max-len
             return apiResponse.errorResponse(res, errors.formMissing.code, errors.formMissing.message);
@@ -52,7 +51,7 @@ async function uploadAvatar(req: express.Request, res: express.Response) {
 }
 
 // eslint-disable-next-line consistent-return
-async function banUser(req: express.Request, res: express.Response) {
+async function banUser(req: any, res: express.Response) {
     try {
         if (!req.body.email || req.body.status === 'undefined') {
             return (responseApi.errorResponse(res, 13, 'email or status not found'));
@@ -73,7 +72,7 @@ async function banUser(req: express.Request, res: express.Response) {
 }
 
 // eslint-disable-next-line consistent-return
-async function changeTheme(req: express.Request, res: express.Response) {
+async function changeTheme(req: any, res: express.Response) {
     try {
         const { theme } = req.body;
 
@@ -89,7 +88,7 @@ async function changeTheme(req: express.Request, res: express.Response) {
     }
 }
 
-async function getTheme(req: express.Request, res: express.Response) {
+async function getTheme(req: any, res: express.Response) {
     try {
         return apiResponse.successResponseWithData(res, req.user.theme);
     } catch (e) {

@@ -11,7 +11,7 @@ async function get(req, res) {
             // eslint-disable-next-line max-len
             return responseApi.errorResponse(res, errors.missArgument.code, errors.missArgument.message);
         }
-        const response = await fetch('https://avwx.rest/api/metar/' + req.body.airport + '?airport=true&format=json&onfail=cache', {
+        const response = await fetch(`https://avwx.rest/api/metar/${req.body.airport}?airport=true&format=json&onfail=cache`, {
             headers: { Authorization },
         });
         return responseApi.successResponseWithData(res, await response.json());
