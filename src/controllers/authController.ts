@@ -175,7 +175,7 @@ async function changePassword(req: express.Request, res: express.Response) {
         }
         const id = UserPassword.UserId;
         // eslint-disable-next-line max-len
-        const user = await UserModel.findOneAndUpdate({ _id: id }, { password: hash, updateAt: Date.now });
+        const user = await UserModel.findOneAndUpdate({ _id: id }, { password: hash, updateAt: Date.now});
         if (user) {
             await ForgotPassword.findOneAndDelete(uuid);
             return responseApi.successResponse(res, 'Password has been updated');

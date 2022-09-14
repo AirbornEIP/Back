@@ -10,6 +10,7 @@ import mongoose from 'mongoose';
 const VacSchema = new mongoose.Schema(<any> {
     link: { type: String, required: true },
     name: { type: String, required: true },
+    fullName: { type: String, required: true },
     createdAt: { type: Date, required: true, default: Date.now },
     updatedAt: { type: Date, required: false },
 });

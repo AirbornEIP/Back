@@ -1,8 +1,9 @@
 const express = require('express');
 
-const app = express.Router();
+const proxyRouter = express.Router();
 const proxy = require('../controllers/proxy');
 
-app.post('/metar', proxy.metar);
+proxyRouter.post('/metar', proxy.metar);
 
-module.exports = app;
+export default proxyRouter;
+

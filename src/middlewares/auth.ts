@@ -11,21 +11,22 @@ dotenv.config({ path: `.env.${process.env.NODE_ENV.length ? process.env.NODE_ENV
 const secret = process.env.JWT_SECRET;
 
 // eslint-disable-next-line consistent-return,max-len
-async function checkUserExists(req: express.Request, res: express.Response, next: express.NextFunction) {
+async function checkUserExists(req: any, res: express.Response, next: express.NextFunction) {
     try {
         // eslint-disable-next-line no-underscore-dangle
         if (req.header('Authorization') === process.env.JWT_TEST) {
             req.user = await UserModel.findOne({ email: 'test@test.fr' });
             return next();
         }
-        const user = await UserModel.findOne({ _id: req['user']._id });
+        // eslint-disable-next-line no-underscore-dangle
+        const user = await UserModel.findOne({ _id: req.user._id });
         if (!user) {
             return apiResponse.unauthorizedResponse(res, errorMessages.userNoExist);
         }
         if (user.isBan()) {
             return apiResponse.unauthorizedResponse(res, errorMessages.bannedUser);
         }
-        req['user'] = user;
+        req.user = user;
         return next();
     } catch (e) {
         console.log(e);
@@ -33,7 +34,7 @@ async function checkUserExists(req: express.Request, res: express.Response, next
 }
 
 // eslint-disable-next-line max-len,consistent-return
-async function checkValidationEmail(req: express.Request, res: express.Response, next: express.NextFunction) {
+async function checkValidationEmail(req: any, res: express.Response, next: express.NextFunction) {
     try {
         if (!req.user) {
             return apiResponse.unauthorizedResponse(res, errorMessages.emailNotVerified);
