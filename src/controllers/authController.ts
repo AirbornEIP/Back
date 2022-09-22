@@ -147,7 +147,6 @@ async function registerGoogle(req: express.Request, res: express.Response) {
             body: qs.stringify(params),
         });
         const json = await t.json();
-        console.log(json);
         return responseApi.successResponse(res, json);
     } catch (e) {
         console.log(e);
