@@ -35,7 +35,6 @@ async function getAll(req, res) {
                 errors.wrongAirport.message,
             );
         }
-        let send = { ...vac };
 
         return responseApi.successResponseWithData(res, { link: vac });
     } catch (e) {

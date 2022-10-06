@@ -1,6 +1,12 @@
 import mongoose from 'mongoose';
 
-const VacUpdatesSchema = new mongoose.Schema(<any> {
+type Vac = {
+    nextUpdate: string,
+    currentDate: string,
+    createdAt: Date,
+    updatedAt: Date,
+}
+const VacUpdatesSchema = new mongoose.Schema<Vac>({
     nextUpdate: { type: String },
     currentDate: { type: String },
     createdAt: { type: Date, required: true, default: Date.now },

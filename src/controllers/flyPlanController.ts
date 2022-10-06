@@ -1,10 +1,64 @@
+import type express from 'express';
+
 const responseApi = require('../helpers/apiResponse');
 const { errors } = require('../helpers/constants');
+
 const flyPlan = require('../models/FlyPlan.Model');
 // eslint-disable-next-line import/extensions
 const authMiddlewares = require('../middlewares/auth');
+const flyplanHistory = require('../models/FlyplanHistory');
 
-async function addPlan(req, res) {
+// async function getHistory(req: express.Request, res: express.Response) {
+//     try {
+//         const {title} = req.body;
+//
+//         const idHistory = await flyplanHistory.find({ flyplanId: Flyplan._id });
+//
+//         return 0;
+//     } catch (e) {
+//         console.log(e);
+//         return responseApi.errorResponse(
+//             res,
+//             errors.interneError.code,
+//             errors.interneError.message,
+//         );
+//     }
+// }
+
+async function addHistory(req: express.Request, res: express.Response) {
+    try {
+        const { title, data } = req.body;
+        if (!title || !data) {
+            return responseApi.errorResponse(res, errors.wrongBody.code, errors.wrongBody.message);
+        }
+        const Flyplan = await flyPlan.findOne({
+            userId: req.user.id,
+            title: req.body.title,
+        });
+        // eslint-disable-next-line no-underscore-dangle
+        const idHistory = await flyplanHistory.find({ flyplanId: Flyplan._id });
+        // eslint-disable-next-line new-cap
+        const history = new flyplanHistory({
+            // eslint-disable-next-line no-underscore-dangle
+            flyplanId: Flyplan._id,
+            data,
+            titleParent: Flyplan.title,
+            userId: req.user._id,
+            id: idHistory[idHistory.length - 1].id + 1,
+        });
+        await history.save();
+        return res.send('History saved');
+    } catch (e) {
+        console.log(e);
+        return responseApi.errorResponse(
+            res,
+            errors.interneError.code,
+            errors.interneError.message,
+        );
+    }
+}
+
+async function addPlan(req: express.Request, res: express.Response) {
     try {
         let isPublic = false;
         if (!req.body.title || !req.body.data || typeof req.body.data !== 'string') {
@@ -39,7 +93,7 @@ async function addPlan(req, res) {
     }
 }
 
-async function removePlan(req, res) {
+async function removePlan(req: express.Request, res: express.Response) {
     try {
         if (!req.body.remove) {
             return responseApi.errorResponse(
@@ -65,7 +119,7 @@ async function removePlan(req, res) {
     }
 }
 
-async function getPlan(req, res) {
+async function getPlan(req: express.Request, res: express.Response) {
     try {
         const list = await flyPlan.findOne({ userId: req.user.id, title: req.body.title });
         if (!req.body.title) {
@@ -85,7 +139,7 @@ async function getPlan(req, res) {
     }
 }
 
-async function getAllPlan(req, res) {
+async function getAllPlan(req: express.Request, res: express.Response) {
     try {
         const list = await flyPlan.find({ userId: req.user.id });
         if (list.length >= 1) return responseApi.successResponseWithData(res, list);
@@ -118,3 +172,13 @@ exports.getAll = [
     authMiddlewares.checkUser,
     getAllPlan,
 ];
+
+exports.addHistory = [
+    authMiddlewares.checkUser,
+    addHistory,
+];
+
+// exports.addHistory = [
+//     authMiddlewares.checkUser,
+//     // getHistory,
+// ];

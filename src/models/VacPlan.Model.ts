@@ -1,13 +1,14 @@
 import mongoose from 'mongoose';
 
-// type VacType = {
-//     link: string,
-//     name: string,
-//     createdAt: Date,
-//     updatedAt: Date,
-// }
+type VacType = {
+    link: string,
+    name: string,
+    fullName: string,
+    createdAt: Date,
+    updatedAt: Date,
+}
 
-const VacSchema = new mongoose.Schema(<any> {
+const VacSchema = new mongoose.Schema<VacType>({
     link: { type: String, required: true },
     name: { type: String, required: true },
     fullName: { type: String, required: true },
@@ -17,5 +18,3 @@ const VacSchema = new mongoose.Schema(<any> {
 
 const Vac = mongoose.model('Vac', VacSchema);
 module.exports = Vac;
-
-// export default Vac;
