@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
 
-const database = 'mongodb://mongoDB:27017/test';
-
+const database = 'mongodb://root:password@mongo:27017/?authSource=admin';
 const connectDB = async () => {
     try {
         await mongoose.connect(database, {
