@@ -17,18 +17,15 @@ async function getProfile(req: any, res: express.Response) {
 
 async function editProfile(req: any, res: express.Response) {
     try {
-        const { name, surname, username } = req.body;
+        const { name, surname } = req.body;
         const filter = { email: req.user.email };
         // eslint-disable-next-line no-unused-expressions
         (name && name !== req.user.name ? req.user.name = name : 0);
-        // eslint-disable-next-line no-unused-expressions
-        (username && username !== req.user.username ? req.user.username = name : 0);
         // eslint-disable-next-line no-unused-expressions
         (surname && surname !== req.user.surname ? req.user.surname = name : 0);
         await UserModel.findOneAndUpdate(filter, req.user);
         return apiResponse.successResponse(res, 'Profile Updated');
     } catch (e) {
-        // eslint-disable-next-line max-len
         console.log(e);
         // eslint-disable-next-line max-len
         return apiResponse.errorResponse(res, errors.interneError.code, errors.interneError.message);

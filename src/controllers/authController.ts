@@ -25,11 +25,11 @@ import { mailer } from '../helpers/mailer';
 async function registerRequest(req: express.Request, res: express.Response) {
     try {
         const {
-            email, password, username, surname, name,
+            email, password, surname, name,
         } = req.body;
         const hash = await bcrypt.hash(password, 10);
         const uuid = uuidv4();
-        if (!email || !password || !username || !surname || !name) {
+        if (!email || !password || !surname || !name) {
             // eslint-disable-next-line max-len
             return responseApi.errorResponse(res, errors.formMissing.code, errors.formMissing.message);
         }
@@ -37,7 +37,6 @@ async function registerRequest(req: express.Request, res: express.Response) {
         const user = new UserModel({
             email,
             password: hash,
-            username,
             surname,
             name,
         });
@@ -52,7 +51,6 @@ async function registerRequest(req: express.Request, res: express.Response) {
             profile: {
                 id: saveUser._id,
                 email,
-                username,
                 name,
                 surname,
             },
@@ -175,7 +173,7 @@ async function changePassword(req: express.Request, res: express.Response) {
         }
         const id = UserPassword.UserId;
         // eslint-disable-next-line max-len
-        const user = await UserModel.findOneAndUpdate({ _id: id }, { password: hash, updateAt: Date.now});
+        const user = await UserModel.findOneAndUpdate({ _id: id }, { password: hash, updateAt: Date.now });
         if (user) {
             await ForgotPassword.findOneAndDelete(uuid);
             return responseApi.successResponse(res, 'Password has been updated');

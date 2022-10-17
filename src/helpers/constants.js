@@ -73,10 +73,6 @@ exports.errors = {
         code: 11,
         message: 'Name is undefined',
     },
-    usernameMissing: {
-        code: 12,
-        message: 'Username is missing',
-    },
     missArgument: {
         code: 13,
         message: 'Airport or token are missed in the body',
@@ -105,6 +101,7 @@ exports.errors = {
         code: 19,
         message: 'Argument missing in form.',
     },
+
     queryMissing: {
         code: 20,
         message: 'Query missing.',
@@ -116,5 +113,21 @@ exports.errors = {
     emailNotConfirmed: {
         code: 22,
         message: 'UUID not found',
+    },
+    addPlaneError: {
+        code: 23,
+        message: 'Registration or Model or Vmax or  MountingSpeed or Altitude are missing',
+    },
+    planeMiss: {
+        code: 24,
+        message: 'Registration is missing in the query',
+    },
+    noPlaneAreRegistered: {
+        code: 25,
+        message: 'Plane not found.',
+    },
+    planeExist: {
+        code: 26,
+        message: 'plane already exist',
     },
 };
