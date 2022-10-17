@@ -75,7 +75,7 @@ exports.errors = {
     },
     missArgument: {
         code: 13,
-        message: 'Airport or token are missed in the body',
+        message: 'Airport are missed in the body',
     },
     wrongBody: {
         code: 14,

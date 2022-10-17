@@ -2,8 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import * as apiResponse from './helpers/apiResponse';
-// eslint-disable-next-line import/extensions
-import apiRoutes from './routes/index';
+
+const { routes } = require('./routes/index.ts');
 
 dotenv.config({ path: '.env.'.concat(process.env.NODE_ENV.length ? process.env.NODE_ENV : 'development') });
 
@@ -22,7 +22,7 @@ app.get('/', (req: express.Request, res: express.Response) => {
     res.send('API running');
 });
 
-app.use('/api/', apiRoutes);
+app.use('/api/', routes);
 
 app.all('*', (req: express.Request, res: express.Response) => apiResponse.notFoundResponse(res, 'Not found'));
 
