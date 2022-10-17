@@ -7,7 +7,7 @@ import plan from './plan/plan';
 import plane from './plane/plane';
 import profile from './user/profile';
 import feedback from './feedback/feedback';
-import requestHistoryModel from '../models/RequestHistory.Model';
+import RequestHistoryModel from '../models/RequestHistory.Model';
 
 const rooter = express.Router();
 
