@@ -10,6 +10,7 @@ const date = '08 SEP 2022';
 let nextUpdate = '';
 
 // eslint-disable-next-line func-names
+
 exports.script = async function () {
     let dateSave = await UpdateVac.find();
     if (dateSave.length === 0) {
@@ -54,7 +55,6 @@ async function getVacMap() {
     } catch (e) {
         const data = await UpdateVac.find();
         UpdateVac.findOneAndUpdate({}, { currentDate: data.nextUpdate });
-        console.log('ERROOOOOR');
         return console.log(e);
     }
 }
