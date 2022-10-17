@@ -7,7 +7,6 @@ info:
     name: Apache 2.0
     url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
 host: 'localhost:8080'
-basePath: /v1
 tags:
   - name: Authentification
     description: All routes concerning authentification
@@ -24,8 +23,6 @@ paths:
         - Authentification
       summary: Login
       description: 'Login if the user exist in the database'
-      consumes:
-        - application/json
       produces:
         - application/json
       requestBody:
@@ -96,7 +93,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UserLog'
+              $ref: '#/components/schemas/forgot-password'
       responses:
         '200':
           description: Success
@@ -127,7 +124,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UserLog'
+              $ref: '#/components/schemas/changePassword'
       responses:
         '200':
           description: Success
@@ -241,6 +238,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiResponseFalse'
+
   /api/profile/get:
     get:
       tags:
@@ -279,7 +277,122 @@ paths:
               schema:
                 $ref: '#/components/schemas/ApiResponseFalse'
 
-
+  /api/flyplan/get:
+    post:
+      tags:
+        - Flyplan
+      summary: Get flyplan
+      description: Get flyplan
+      operationId: createUser
+      produces:
+        - application/xml
+        - application/json
+      requestBody:
+        description: User to retrieve
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FlyPlan'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseTrue'
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseFalse'
+  /api/flyplan/remove:
+    post:
+      tags:
+        - Flyplan
+      summary: remove flyplan
+      description: remove flyplan
+      operationId: createUser
+      produces:
+        - application/xml
+        - application/json
+      requestBody:
+        description: User to retrieve
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/removeFlyplan'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseTrue'
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseFalse'
+  /api/flyplan/getAll:
+    get:
+      tags:
+        - Flyplan
+      summary: get All flyplan
+      description: get all flyplan
+      operationId: createUser
+      produces:
+        - application/xml
+        - application/json
+      requestBody:
+        description: User to retrieve
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseTrue'
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseFalse'
+  /api/flyplan/add:
+    post:
+      tags:
+        - Flyplan
+      summary: Post flyplan
+      description: post flyplan
+      operationId: createUser
+      produces:
+        - application/xml
+        - application/json
+      requestBody:
+        description: User to retrieve
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FlyPlan'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseTrue'
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseFalse'
   /api/profile/getTheme:
     get:
       tags:
@@ -310,9 +423,38 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiResponseFalse'
-
-  /api/plan/taf:
-    get:
+  /api/profile/uploadAvatar:
+    post:
+      tags:
+        - Profile
+      summary: upload avatar image
+      description: upload avatar
+      operationId: createUser
+      produces:
+        - application/xml
+        - application/json
+      requestBody:
+        description: User to retrieve
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UploadAvatar'
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseTrue'
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseFalse'
+  /api/plan/taf/get:
+    post:
       tags:
         - Flight Plan
       summary: Get TAF Plan
@@ -341,8 +483,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/ApiResponseFalse'
 
-  /api/plan/vac:
-    get:
+  /api/plan/vac/get:
+    post:
       tags:
         - Flight Plan
       summary: Get VAC Plan
@@ -369,11 +511,37 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiResponseFalse'
-  /api/plan/notam:
+                $ref:
+  /api/plan/vac/getAll:
     get:
       tags:
         - Flight Plan
+      summary: Get VAC Plan
+      description: Get the current VAC plan attached to an airport
+      produces:
+        - application/xml
+        - application/json
+      requestBody:
+        description: Aiport details to find attached plan
+        required: true
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseTrue'
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseFalse'
+
+  /api/plan/notam/get:
+    post:
+      tags:
+        - Get NOTAM
       summary: Get NOTAM Plan
       description: Get the current NOTAM plan attached to an airport
       produces:
@@ -399,40 +567,75 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiResponseFalse'
-/api/feedback:
-  get:
-    tags:
-      - FeedBack
-    summary: Get, Post FeedBack
-    description: Get and Post Feedback
-    produces:
-      - application/xml
-      - application/json
-    requestBody:
-      description: Name and description from FeedBack
-      required: true
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Plan'
-    responses:
-      '200':
-        description: Success
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ApiResponseTrue'
-      '400':
-        description: Invalid input
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ApiResponseFalse'
 
+  /api/feedback/get?UserId:
+    get:
+      tags:
+        - FeedBack
+      summary: Get, Post FeedBack
+      description: Get and Post Feedback
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseTrue'
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponseFalse'
 
-
-
-
+  /api/feedback/getAll:
+      get:
+        tags:
+          - FeedBack
+        summary: Get, Post FeedBack
+        description: Get and Post Feedback
+        responses:
+          '200':
+            description: Success
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ApiResponseTrue'
+          '400':
+            description: Invalid input
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ApiResponseFalse'
+  /api/feedback/post:
+      post:
+        tags:
+          - FeedBack
+        summary: Get, Post FeedBack
+        description: Get and Post Feedback
+        produces:
+          - application/xml
+          - application/json
+        requestBody:
+          description: Name and description from FeedBack
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/postFB'
+        responses:
+          '200':
+            description: Success
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ApiResponseTrue'
+          '400':
+            description: Invalid input
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ApiResponseFalse'
 components:
   schemas:
     User:
@@ -492,6 +695,22 @@ components:
           type: string
       xml:
         name: User
+    forgot-password:
+      type: object
+      properties:
+        email:
+          type: string
+      xml:
+        name: User
+    changePassword:
+      type: object
+      properties:
+        username:
+          uuid: string
+        password:
+          type: string
+      xml:
+        name: User
     UserName:
       type: object
       properties:
@@ -503,6 +722,37 @@ components:
       type: object
       properties:
         airport:
+          type: string
+    removeFlyplan:
+        type: object
+        properties:
+          remove:
+            type: string
+    FlyPlan:
+      type: object
+      properties:
+        title:
+          type: string
+    AddFlyPlan:
+      type: object
+      properties:
+        title:
+          type: string
+        data:
+          type: string
+        isPublic:
+          type: boolean
+    UploadAvatar:
+      type: object
+      properties:
+        avatar:
+          type: string
+    postFB:
+      type: object
+      properties:
+        title:
+          type: string
+        message:
           type: string
 
 

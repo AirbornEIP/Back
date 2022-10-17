@@ -71,8 +71,10 @@ async function getPlan(req, res) {
         if (!req.body.title) {
             return responseApi.errorResponse(res, errors.wrongBody.code, errors.wrongBody.message);
         }
-        if (list) return responseApi.successResponseWithData(res, list);
-        return responseApi.errorResponse(res, errors.noOnePlan.code, errors.noOnePlan.message);
+        if (!list) {
+            return responseApi.errorResponse(res, errors.noOnePlan.code, errors.noOnePlan.message);
+        }
+        return responseApi.successResponseWithData(res, list);
     } catch (e) {
         console.log(e);
         return responseApi.errorResponse(
