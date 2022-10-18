@@ -1,41 +1,54 @@
-// eslint-disable-next-line import/extensions
-// eslint-disable-next-line import/extensions
 import express from 'express';
-// eslint-disable-next-line import/extensions
-import UserModel from '../models/User.Model';
 
-// eslint-disable-next-line import/extensions
-const authMiddlewares = require('../middlewares/auth');
+const { UserModel } = require('../models/User.Model.ts');
+const authMiddlewares = require('../middlewares/auth.ts');
 const apiResponse = require('../helpers/apiResponse');
 const { errors } = require('../helpers/constants');
 const responseApi = require('../helpers/apiResponse');
 
-async function getProfile(req: any, res: express.Response) {
+type users = {
+    email: string,
+    password: string,
+    banned: boolean,
+    verifiedEmail: boolean,
+    name: string,
+    id: string,
+    avatar: string,
+    surname: string,
+    theme: boolean,
+    admin: boolean,
+    language: number,
+    createdAt: Date,
+    updatedAt: Date,
+}
+
+type request = express.Request & {
+    user: users
+}
+
+async function getProfile(req: request, res: express.Response) {
     const { user } = req;
     return apiResponse.successResponseWithData(res, user);
 }
 
-async function editProfile(req: any, res: express.Response) {
+async function editProfile(req: request, res: express.Response) {
     try {
-        const { name, surname, username } = req.body;
+        const { name, surname } = req.body;
         const filter = { email: req.user.email };
         // eslint-disable-next-line no-unused-expressions
         (name && name !== req.user.name ? req.user.name = name : 0);
-        // eslint-disable-next-line no-unused-expressions
-        (username && username !== req.user.username ? req.user.username = name : 0);
         // eslint-disable-next-line no-unused-expressions
         (surname && surname !== req.user.surname ? req.user.surname = name : 0);
         await UserModel.findOneAndUpdate(filter, req.user);
         return apiResponse.successResponse(res, 'Profile Updated');
     } catch (e) {
-        // eslint-disable-next-line max-len
         console.log(e);
         // eslint-disable-next-line max-len
         return apiResponse.errorResponse(res, errors.interneError.code, errors.interneError.message);
     }
 }
 
-async function uploadAvatar(req: any, res: express.Response) {
+async function uploadAvatar(req: request, res: express.Response) {
     try {
         const { avatar } = req.body;
         if (!avatar) {
@@ -51,7 +64,7 @@ async function uploadAvatar(req: any, res: express.Response) {
 }
 
 // eslint-disable-next-line consistent-return
-async function banUser(req: any, res: express.Response) {
+async function banUser(req: request, res: express.Response) {
     try {
         if (!req.body.email || req.body.status === 'undefined') {
             return (responseApi.errorResponse(res, 13, 'email or status not found'));
@@ -72,7 +85,7 @@ async function banUser(req: any, res: express.Response) {
 }
 
 // eslint-disable-next-line consistent-return
-async function changeTheme(req: any, res: express.Response) {
+async function changeTheme(req: request, res: express.Response) {
     try {
         const { theme } = req.body;
 
@@ -88,7 +101,7 @@ async function changeTheme(req: any, res: express.Response) {
     }
 }
 
-async function getTheme(req: any, res: express.Response) {
+async function getTheme(req: request, res: express.Response) {
     try {
         return apiResponse.successResponseWithData(res, req.user.theme);
     } catch (e) {

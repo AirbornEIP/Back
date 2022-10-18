@@ -10,6 +10,8 @@ const date = '08 SEP 2022';
 let nextUpdate = '';
 
 // eslint-disable-next-line func-names
+
+// eslint-disable-next-line func-names
 exports.script = async function () {
     let dateSave = await UpdateVac.find();
     if (dateSave.length === 0) {
@@ -24,18 +26,24 @@ exports.script = async function () {
     await getVacMap();
 };
 
+async function getNextDate(page) {
+    nextUpdate = page.split("<span class='headerDate'>");
+    // nextUpdate[1] = nextUpdate[1].split('<');
+    nextUpdate = nextUpdate[2].split('<');
+    console.log(nextUpdate[0]);
+
+    await UpdateVac.findOneAndUpdate({ nextUpdate: nextUpdate[0].replace(/ /g, '_') });
+    await vacPlan.remove();
+}
+
+// eslint-disable-next-line consistent-return
 async function getVacMap() {
     try {
         const vacDate = await UpdateVac.find();
         const link = `https://www.sia.aviation-civile.gouv.fr/dvd/eAIP_${vacDate[0].currentDate}/Atlas-VAC/FR/header.htm`;
         let page = await fetch(link);
         page = await page.text();
-        page = page.split('\n');
-
-        nextUpdate = page[16].split('<span class=\'headerDate\'>');
-        nextUpdate[1] = nextUpdate[1].split('<');
-        await UpdateVac.findOneAndUpdate({ nextUpdate: nextUpdate[1][0].replace(/ /g, '_') });
-        await vacPlan.remove();
+        await getNextDate(page);
         await Promise.all(aerodrome.map(async (data, index) => {
             const plan = await vacPlan.create({
                 link: `https://www.sia.aviation-civile.gouv.fr/dvd/eAIP_${vacDate[0].currentDate}/Atlas-VAC/PDF_AIPparSSection/VAC/AD/AD-2.${data}.pdf`,
@@ -49,7 +57,6 @@ async function getVacMap() {
     } catch (e) {
         const data = await UpdateVac.find();
         UpdateVac.findOneAndUpdate({}, { currentDate: data.nextUpdate });
-        console.log('ERROOOOOR');
         return console.log(e);
     }
 }
