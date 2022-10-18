@@ -1,5 +1,10 @@
+import type { FlyplanType } from './Type';
+
 const mongoose = require('mongoose');
-const userSchema = new mongoose.Schema({
+
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+const Flyplan = new mongoose.Schema<FlyplanType>({
     title: { type: String, required: true },
     userId: { type: mongoose.ObjectId, required: true },
     isPublic: { type: Boolean, required: false, default: false },
@@ -9,5 +14,4 @@ const userSchema = new mongoose.Schema({
     createdAt: { type: Date, required: true, default: Date.now },
 });
 
-const flyPlan = mongoose.model('flyPlan', userSchema);
-module.exports = flyPlan;
+exports.FlyPlanModel = mongoose.model('flyPlan', Flyplan);

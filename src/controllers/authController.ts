@@ -3,24 +3,18 @@ import bcrypt from 'bcryptjs';
 import { body } from 'express-validator';
 import fetch from 'node-fetch';
 import qs from 'qs';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { v4 as uuidv4 } from 'uuid';
 import type express from 'express';
-// eslint-disable-next-line import/extensions
-import UserModel from '../models/User.Model';
 import ConfirmEmailModel from '../models/ConfirmationMail.model';
-// eslint-disable-next-line import/extensions
-import * as validationMiddlewares from '../middlewares/validation';
-// eslint-disable-next-line import/no-duplicates
-import apiResponse from '../helpers/apiResponse';
+import responseApi from '../helpers/apiResponse';
 import ForgotPassword from '../models/ForgotPassword';
 import utility from '../helpers/utility';
 import { errorMessages, validationMessages, errors } from '../helpers/constants';
-// eslint-disable-next-line import/no-duplicates
-import responseApi from '../helpers/apiResponse';
 import { mailer } from '../helpers/mailer';
+
+const UserModel = require('../models/User.Model.ts');
+const { ...validationMiddlewares } = require('../middlewares/validation.ts');
 // import { checkValidationEmail } from '../../middlewares/auth';
-// import { checkValidation } from '../middlewares/validation';
 
 async function registerRequest(req: express.Request, res: express.Response) {
     try {
@@ -46,7 +40,7 @@ async function registerRequest(req: express.Request, res: express.Response) {
         await mailer(`http://localhost:8080${uuid}`, 'Confirm your email', req.body.email);
         const jwtToken = utility.generateJwtToken(saveUser._id, saveUser.email);
 
-        return apiResponse.successResponseWithData(res, {
+        return responseApi.successResponseWithData(res, {
             jwtToken,
             profile: {
                 id: saveUser._id,
@@ -56,16 +50,10 @@ async function registerRequest(req: express.Request, res: express.Response) {
             },
         });
     } catch (e) {
-        console.log(e);
-        return responseApi.errorResponse(
-            res,
-            errors.interneError.code,
-            errors.interneError.message,
-        );
+        return responseApi.internError(res, e);
     }
 }
 
-// eslint-disable-next-line consistent-return
 async function confirmEmail(req: express.Request, res: express.Response) {
     try {
         const { uuid } = req.body;
@@ -84,7 +72,7 @@ async function confirmEmail(req: express.Request, res: express.Response) {
         // eslint-disable-next-line max-len
         return responseApi.errorResponse(res, errors.emailNotConfirmed.code, errors.emailNotConfirmed.message);
     } catch (e) {
-        console.log(e);
+        return responseApi.internError(res, e);
     }
 }
 
@@ -93,21 +81,16 @@ async function loginRequest(req: express.Request, res: express.Response) {
         const { email, password } = req.body;
         const user = await UserModel.findOne({ email });
         if (!user) {
-            return apiResponse.unauthorizedResponse(res, errorMessages.wrongCredentials);
+            return responseApi.unauthorizedResponse(res, errorMessages.wrongCredentials);
         }
-        console.log(password);
         const isPasswordCorrect = await user.isPasswordCorrect(password);
-        console.log(isPasswordCorrect);
         if (!isPasswordCorrect) {
-            return apiResponse.unauthorizedResponse(res, errorMessages.wrongCredentials);
+            return responseApi.unauthorizedResponse(res, errorMessages.wrongCredentials);
         }
-        if (user.isBan()) {
-            return apiResponse.unauthorizedResponse(res, errorMessages.bannedUser);
-        }
-
+        if (user.isBan()) return responseApi.unauthorizedResponse(res, errorMessages.bannedUser);
         const jwtToken = utility.generateJwtToken(user._id, user.email);
 
-        return apiResponse.successResponseWithData(res, {
+        return responseApi.successResponseWithData(res, {
             jwtToken,
             profile: {
                 id: user._id,
@@ -115,12 +98,7 @@ async function loginRequest(req: express.Request, res: express.Response) {
             },
         });
     } catch (e) {
-        console.log(e);
-        return responseApi.errorResponse(
-            res,
-            errors.interneError.code,
-            errors.interneError.message,
-        );
+        return responseApi.internError(res, e);
     }
 }
 
@@ -128,7 +106,7 @@ async function registerGoogle(req: express.Request, res: express.Response) {
     try {
         const code = decodeURIComponent(req.body.code);
         if (!code) {
-            return apiResponse.errorResponse(res, 0, errorMessages.invalidToken);
+            return responseApi.errorResponse(res, 0, errorMessages.invalidToken);
         }
         const params = {
             code,
@@ -141,18 +119,12 @@ async function registerGoogle(req: express.Request, res: express.Response) {
         const t = await fetch('https://oauth2.googleapis.com/token', {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
-            // eslint-disable-next-line no-undef
             body: qs.stringify(params),
         });
         const json = await t.json();
         return responseApi.successResponse(res, json);
     } catch (e) {
-        console.log(e);
-        return responseApi.errorResponse(
-            res,
-            errors.interneError.code,
-            errors.interneError.message,
-        );
+        return responseApi.internError(res, e);
     }
 }
 
@@ -179,7 +151,6 @@ async function changePassword(req: express.Request, res: express.Response) {
         }
         return responseApi.errorResponse(res, errors.userNoExist.code, errors.userNoExist.message);
     } catch (e) {
-        console.log(e);
         return responseApi.errorResponse(res, e);
     }
 }
@@ -202,12 +173,7 @@ async function forgotPassword(req: express.Request, res: express.Response) {
         await modelForgotPassword.save();
         return responseApi.successResponse(res, 'Email sent');
     } catch (e) {
-        console.log(e);
-        return responseApi.errorResponse(
-            res,
-            errors.interneError.code,
-            errors.interneError.message,
-        );
+        return responseApi.internError(res, e);
     }
 }
 

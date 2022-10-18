@@ -1,14 +1,5 @@
 import mongoose from 'mongoose';
-
-type PlaneType = {
-    userId: string,
-    Registration: string,
-    Model: number,
-    Vmax: number,
-    MountingSpeed: number
-    Altitude: number,
-    updatedAt: Date,
-};
+import type { PlaneType } from './Type';
 
 const PlaneSchema = new mongoose.Schema<PlaneType>({
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment

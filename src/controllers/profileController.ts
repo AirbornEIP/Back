@@ -1,4 +1,5 @@
 import express from 'express';
+import type { Request } from './Type';
 
 const { UserModel } = require('../models/User.Model.ts');
 const authMiddlewares = require('../middlewares/auth.ts');
@@ -6,32 +7,12 @@ const apiResponse = require('../helpers/apiResponse');
 const { errors } = require('../helpers/constants');
 const responseApi = require('../helpers/apiResponse');
 
-type users = {
-    email: string,
-    password: string,
-    banned: boolean,
-    verifiedEmail: boolean,
-    name: string,
-    id: string,
-    avatar: string,
-    surname: string,
-    theme: boolean,
-    admin: boolean,
-    language: number,
-    createdAt: Date,
-    updatedAt: Date,
-}
-
-type request = express.Request & {
-    user: users
-}
-
-async function getProfile(req: request, res: express.Response) {
+async function getProfile(req: Request, res: express.Response) {
     const { user } = req;
     return apiResponse.successResponseWithData(res, user);
 }
 
-async function editProfile(req: request, res: express.Response) {
+async function editProfile(req: Request, res: express.Response) {
     try {
         const { name, surname } = req.body;
         const filter = { email: req.user.email };
@@ -42,13 +23,11 @@ async function editProfile(req: request, res: express.Response) {
         await UserModel.findOneAndUpdate(filter, req.user);
         return apiResponse.successResponse(res, 'Profile Updated');
     } catch (e) {
-        console.log(e);
-        // eslint-disable-next-line max-len
-        return apiResponse.errorResponse(res, errors.interneError.code, errors.interneError.message);
+        return apiResponse.internError(res, e);
     }
 }
 
-async function uploadAvatar(req: request, res: express.Response) {
+async function uploadAvatar(req: Request, res: express.Response) {
     try {
         const { avatar } = req.body;
         if (!avatar) {
@@ -58,13 +37,11 @@ async function uploadAvatar(req: request, res: express.Response) {
         await UserModel.findOneAndUpdate({ email: req.user.email }, { avatar });
         return apiResponse.successResponse(res, 'avatar saved');
     } catch (e) {
-        // eslint-disable-next-line max-len
-        return apiResponse.errorResponse(res, errors.interneError.code, errors.interneError.message);
+        return apiResponse.internError(res, e);
     }
 }
 
-// eslint-disable-next-line consistent-return
-async function banUser(req: request, res: express.Response) {
+async function banUser(req: Request, res: express.Response) {
     try {
         if (!req.body.email || req.body.status === 'undefined') {
             return (responseApi.errorResponse(res, 13, 'email or status not found'));
@@ -80,12 +57,11 @@ async function banUser(req: request, res: express.Response) {
         }
         return (responseApi.errorResponse(res, 12, 'User are not an admin'));
     } catch (e) {
-        console.log(e);
+        return apiResponse.internError(res, e);
     }
 }
 
-// eslint-disable-next-line consistent-return
-async function changeTheme(req: request, res: express.Response) {
+async function changeTheme(req: Request, res: express.Response) {
     try {
         const { theme } = req.body;
 
@@ -96,17 +72,15 @@ async function changeTheme(req: request, res: express.Response) {
         await UserModel.findOneAndUpdate({ email: req.user.email }, { theme });
         return apiResponse.successResponse(res, 'Theme Updated');
     } catch (e) {
-        // eslint-disable-next-line max-len
-        return apiResponse.errorResponse(res, errors.errors.interneError.code, errors.errors.interneError.message);
+        return apiResponse.internError(res, e);
     }
 }
 
-async function getTheme(req: request, res: express.Response) {
+async function getTheme(req: Request, res: express.Response) {
     try {
         return apiResponse.successResponseWithData(res, req.user.theme);
     } catch (e) {
-        // eslint-disable-next-line max-len
-        return apiResponse.errorResponse(res, errors.errors.interneError.code, errors.errors.interneError.message);
+        return apiResponse.internError(res, e);
     }
 }
 

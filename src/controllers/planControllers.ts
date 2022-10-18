@@ -5,7 +5,7 @@ import { errors } from '../helpers/constants';
 
 const authMiddlewares = require('../middlewares/auth.ts');
 
-async function planCall(req: express.Request, res: express.Response) {
+async function getPlan(req: express.Request, res: express.Response) {
     try {
         if (!req.body.airport) {
             return responseApi.errorResponse(
@@ -28,15 +28,11 @@ async function planCall(req: express.Request, res: express.Response) {
 
         return responseApi.successResponseWithData(res, json);
     } catch (e) {
-        return responseApi.errorResponse(
-            res,
-            errors.interneError.code,
-            errors.interneError.message,
-        );
+        return responseApi.internError(res, e);
     }
 }
 
 exports.getPlan = [
     authMiddlewares.checkUser,
-    planCall,
+    getPlan,
 ];

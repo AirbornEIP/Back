@@ -1,71 +1,69 @@
 import type express from 'express';
+import type { Request } from './Type';
 
 const responseApi = require('../helpers/apiResponse');
 const { errors } = require('../helpers/constants');
+const authMiddlewares = require('../middlewares/auth.ts');
+const { FlyPlanModel } = require('../models/FlyPlan.Model.ts');
+const { FlyplanHistoryModel } = require('../models/FlyplanHistory.Model.ts');
 
-const flyPlan = require('../models/FlyPlan.Model');
-// eslint-disable-next-line import/extensions
-const authMiddlewares = require('../middlewares/auth');
-const flyplanHistory = require('../models/FlyplanHistory');
+async function getHistory(req: Request, res: express.Response) {
+    try {
+        const { title } = req.body;
+        const flyplan = await FlyPlanModel.findOne({ title, userId: req.user.id });
+        // eslint-disable-next-line max-len
+        if (!flyplan) return responseApi.errorResponse(res, errors.noOnePlan.code, errors.noOnePlan.message);
+        // eslint-disable-next-line max-len
+        const history = await FlyplanHistoryModel.find({ flyplanId: flyplan.id, userId: req.user.id });
+        // eslint-disable-next-line max-len
+        if (history.length === 0) return responseApi.errorResponse(res, errors.NoHistoryPlan.code, errors.NoHistoryPlan.message);
+        return responseApi.successResponseWithData(res, {
+            message: 'success',
+            history,
+        });
+    } catch (e) {
+        return responseApi.internError(res, e);
+    }
+}
 
-// async function getHistory(req: express.Request, res: express.Response) {
-//     try {
-//         const {title} = req.body;
-//
-//         const idHistory = await flyplanHistory.find({ flyplanId: Flyplan._id });
-//
-//         return 0;
-//     } catch (e) {
-//         console.log(e);
-//         return responseApi.errorResponse(
-//             res,
-//             errors.interneError.code,
-//             errors.interneError.message,
-//         );
-//     }
-// }
-
-async function addHistory(req: express.Request, res: express.Response) {
+async function addHistory(req: Request, res: express.Response) {
     try {
         const { title, data } = req.body;
         if (!title || !data) {
             return responseApi.errorResponse(res, errors.wrongBody.code, errors.wrongBody.message);
         }
-        const Flyplan = await flyPlan.findOne({
+        const flyPlan = await FlyPlanModel.findOne({
             userId: req.user.id,
             title: req.body.title,
         });
-        // eslint-disable-next-line no-underscore-dangle
-        const idHistory = await flyplanHistory.find({ flyplanId: Flyplan._id });
-        // eslint-disable-next-line new-cap
-        const history = new flyplanHistory({
-            // eslint-disable-next-line no-underscore-dangle
-            flyplanId: Flyplan._id,
+        const idHistory = await FlyplanHistoryModel.find({ flyplanId: flyPlan.id });
+        const history = new FlyplanHistoryModel({
+            flyplanId: flyPlan.id,
             data,
-            titleParent: Flyplan.title,
-            userId: req.user._id,
-            id: idHistory[idHistory.length - 1].id + 1,
+            titleParent: flyPlan.title,
+            userId: req.user.id,
+            id: idHistory.length !== 0 ? idHistory[idHistory.length - 1].id + 1 : 0,
         });
-        await history.save();
-        return res.send('History saved');
+        const { dataPlan = data, titleParent, id } = await history.save();
+        return responseApi.successResponseWithData(res, {
+            message: 'History saved.',
+            data: dataPlan,
+            titleParent,
+            id,
+        });
     } catch (e) {
-        console.log(e);
-        return responseApi.errorResponse(
-            res,
-            errors.interneError.code,
-            errors.interneError.message,
-        );
+        return responseApi.internError(res, e);
     }
 }
 
-async function addPlan(req: express.Request, res: express.Response) {
+async function addPlan(req: Request, res: express.Response) {
     try {
         let isPublic = false;
         if (!req.body.title || !req.body.data || typeof req.body.data !== 'string') {
             return responseApi.errorResponse(res, errors.wrongBody.code, errors.wrongBody.message);
         }
         if (req.body.isPublic === true) isPublic = true;
-        const checkExistingPlan = await flyPlan.findOne({
+        const checkExistingPlan = await FlyPlanModel.findOne({
             userId: req.user.id,
             title: req.body.title,
         });
@@ -75,7 +73,7 @@ async function addPlan(req: express.Request, res: express.Response) {
                 errors.planAlreadyExist.message);
         }
         // eslint-disable-next-line new-cap
-        const plan = new flyPlan({
+        const plan = new FlyPlanModel({
             userId: req.user.id,
             title: req.body.title,
             isPublic,
@@ -84,16 +82,11 @@ async function addPlan(req: express.Request, res: express.Response) {
         await plan.save();
         return responseApi.successResponse(res, 'Success');
     } catch (e) {
-        console.log(e);
-        return responseApi.errorResponse(
-            res,
-            errors.interneError.code,
-            errors.interneError.message,
-        );
+        return responseApi.internError(res, e);
     }
 }
 
-async function removePlan(req: express.Request, res: express.Response) {
+async function removePlan(req: Request, res: express.Response) {
     try {
         if (!req.body.remove) {
             return responseApi.errorResponse(
@@ -102,7 +95,8 @@ async function removePlan(req: express.Request, res: express.Response) {
                 errors.removeMissing.message,
             );
         }
-        const search = await flyPlan.deleteOne({ title: req.body.remove, userId: req.user.id });
+        // eslint-disable-next-line max-len
+        const search = await FlyPlanModel.deleteOne({ title: req.body.remove, userId: req.user.id });
         if (search.deletedCount < 1) {
             return responseApi.errorResponse(res, // aucune recherche de ce type exite
                 errors.missingPlan.code,
@@ -110,18 +104,13 @@ async function removePlan(req: express.Request, res: express.Response) {
         }
         return responseApi.successResponse(res, 'your search has been deleted');
     } catch (e) {
-        console.log(e);
-        return responseApi.errorResponse(
-            res,
-            errors.interneError.code,
-            errors.interneError.message,
-        );
+        return responseApi.internError(res, e);
     }
 }
 
-async function getPlan(req: express.Request, res: express.Response) {
+async function getPlan(req: Request, res: express.Response) {
     try {
-        const list = await flyPlan.findOne({ userId: req.user.id, title: req.body.title });
+        const list = await FlyPlanModel.findOne({ userId: req.user.id, title: req.body.title });
         if (!req.body.title) {
             return responseApi.errorResponse(res, errors.wrongBody.code, errors.wrongBody.message);
         }
@@ -130,27 +119,17 @@ async function getPlan(req: express.Request, res: express.Response) {
         }
         return responseApi.successResponseWithData(res, list);
     } catch (e) {
-        console.log(e);
-        return responseApi.errorResponse(
-            res,
-            errors.interneError.code,
-            errors.interneError.message,
-        );
+        return responseApi.internError(res, e);
     }
 }
 
-async function getAllPlan(req: express.Request, res: express.Response) {
+async function getAllPlan(req: Request, res: express.Response) {
     try {
-        const list = await flyPlan.find({ userId: req.user.id });
+        const list = await FlyPlanModel.find({ userId: req.user.id });
         if (list.length >= 1) return responseApi.successResponseWithData(res, list);
         return responseApi.errorResponse(res, errors.noOnePlan.error, errors.noOnePlan.message);
     } catch (e) {
-        console.log(e);
-        return responseApi.errorResponse(
-            res,
-            errors.interneError.code,
-            errors.interneError.message,
-        );
+        return responseApi.internError(res, e);
     }
 }
 
@@ -178,7 +157,7 @@ exports.addHistory = [
     addHistory,
 ];
 
-// exports.addHistory = [
-//     authMiddlewares.checkUser,
-//     // getHistory,
-// ];
+exports.getHistory = [
+    authMiddlewares.checkUser,
+    getHistory,
+];

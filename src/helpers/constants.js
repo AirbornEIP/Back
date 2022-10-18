@@ -130,4 +130,8 @@ exports.errors = {
         code: 26,
         message: 'plane already exist',
     },
+    NoHistoryPlan: {
+        code: 27,
+        message: "This plan does't contain a history",
+    },
 };

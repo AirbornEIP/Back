@@ -1,8 +1,9 @@
-const express = require('express');
+import express from 'express';
+
 const { getPlan } = require('../../controllers/planControllers.ts');
+const vac = require('./vac');
 
 const router = express.Router();
-const vac = require('./vac');
 
 router.use('/vac/', vac);
 router.use('/notam', getPlan);

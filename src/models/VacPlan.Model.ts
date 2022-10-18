@@ -1,12 +1,5 @@
 import mongoose from 'mongoose';
-
-type VacType = {
-    link: string,
-    name: string,
-    fullName: string,
-    createdAt: Date,
-    updatedAt: Date,
-}
+import type { VacType } from './Type';
 
 const VacSchema = new mongoose.Schema<VacType>({
     link: { type: String, required: true },

@@ -1,4 +1,5 @@
 import express from 'express';
+import type { Request } from './Type';
 
 const { PlaneModel } = require('../models/Plane.Model.ts');
 const authMiddlewares = require('../middlewares/auth.ts');
@@ -6,27 +7,7 @@ const planesMiddlewares = require('../middlewares/planes.ts');
 const responseApi = require('../helpers/apiResponse');
 const { errors } = require('../helpers/constants');
 
-type user = {
-    email: string,
-    password: string,
-    banned: boolean,
-    verifiedEmail: boolean,
-    name: string,
-    id: string,
-    avatar: string,
-    surname: string,
-    theme: boolean,
-    admin: boolean,
-    language: number,
-    createdAt: Date,
-    updatedAt: Date,
-}
-
-type request = express.Request & {
-  user: user
-}
-
-async function AddPlane(req: request, res: express.Response) {
+async function AddPlane(req: Request, res: express.Response) {
     try {
         console.log(req.user.id);
         const {
@@ -54,16 +35,11 @@ async function AddPlane(req: request, res: express.Response) {
                 { ...saved._doc },
         }));
     } catch (e) {
-        console.log(e);
-        return responseApi.errorResponse(
-            res,
-            errors.interneError.code,
-            errors.interneError.message,
-        );
+        return responseApi.internError(res, e);
     }
 }
 
-async function getAllPlane(req: request, res: express.Response) {
+async function getAllPlane(req: Request, res: express.Response) {
     try {
         const planes = await PlaneModel.find({ userId: req.user.id });
 
@@ -76,16 +52,11 @@ async function getAllPlane(req: request, res: express.Response) {
             },
         }));
     } catch (e) {
-        console.log(e);
-        return responseApi.errorResponse(
-            res,
-            errors.interneError.code,
-            errors.interneError.message,
-        );
+        return responseApi.internError(res, e);
     }
 }
 
-async function removePlane(req: request, res: express.Response) {
+async function removePlane(req: Request, res: express.Response) {
     try {
         const { Registration } = req.body;
         // eslint-disable-next-line max-len
@@ -107,16 +78,11 @@ async function removePlane(req: request, res: express.Response) {
             },
         });
     } catch (e) {
-        console.log(e);
-        return responseApi.errorResponse(
-            res,
-            errors.interneError.code,
-            errors.interneError.message,
-        );
+        return responseApi.internError(res, e);
     }
 }
 
-async function getPlane(req: request, res: express.Response) {
+async function getPlane(req: Request, res: express.Response) {
     try {
         const { Registration } = req.query;
         // eslint-disable-next-line max-len
@@ -138,12 +104,7 @@ async function getPlane(req: request, res: express.Response) {
             },
         });
     } catch (e) {
-        console.log(e);
-        return responseApi.errorResponse(
-            res,
-            errors.interneError.code,
-            errors.interneError.message,
-        );
+        return responseApi.internError(res, e);
     }
 }
 

@@ -1,7 +1,7 @@
-const authMiddlewares = require('../middlewares/auth');
+const authMiddlewares = require('../middlewares/auth.ts');
 const responseApi = require('../helpers/apiResponse');
 const { errors } = require('../helpers/constants');
-const Vac = require('../models/VacPlan.Model');
+const Vac = require('../models/VacPlan.Model.ts');
 
 async function get(req, res) {
     try {
@@ -16,12 +16,7 @@ async function get(req, res) {
         }
         return responseApi.successResponseWithData(res, { link: vac.link });
     } catch (e) {
-        console.log(e);
-        return responseApi.errorResponse(
-            res,
-            errors.interneError.code,
-            errors.interneError.message,
-        );
+        return responseApi.internError(res, e);
     }
 }
 
@@ -38,12 +33,7 @@ async function getAll(req, res) {
 
         return responseApi.successResponseWithData(res, { link: vac });
     } catch (e) {
-        console.log(e);
-        return responseApi.errorResponse(
-            res,
-            errors.interneError.code,
-            errors.interneError.message,
-        );
+        return responseApi.internError(res, e);
     }
 }
 

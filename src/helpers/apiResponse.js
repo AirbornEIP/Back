@@ -1,3 +1,5 @@
+const { errors } = require('./constants');
+
 exports.successResponse = (res, msg) => {
     const data = {
         message: msg,
@@ -13,6 +15,14 @@ exports.errorResponse = (res, errorCode, msg) => {
         Code: errorCode,
     };
     return res.status(500).json(data);
+};
+exports.internError = (res, e) => {
+    console.log(e);
+    return this.errorResponse(
+        res,
+        errors.interneError.code,
+        errors.interneError.message,
+    );
 };
 
 exports.notFoundResponse = (res, msg) => {

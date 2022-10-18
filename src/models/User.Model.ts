@@ -1,20 +1,6 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
-
-type user = {
-    email: string,
-    password: string,
-    banned: boolean,
-    verifiedEmail: boolean,
-    name: string,
-    avatar: string,
-    surname: string,
-    theme: boolean,
-    admin: boolean,
-    language: number,
-    createdAt: Date,
-    updatedAt: Date,
-}
+import type { user } from './Type';
 
 const userSchema = new mongoose.Schema<user>({
     email: { type: String, required: true },
@@ -40,4 +26,5 @@ userSchema.methods.isPasswordCorrect = async function (password: string) {
 // eslint-disable-next-line func-names
 userSchema.methods.isBan = function () { return this.banned; };
 
-export default mongoose.model('User', userSchema);
+const UserModel = mongoose.model('User', userSchema);
+module.exports = UserModel;

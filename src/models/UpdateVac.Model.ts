@@ -1,11 +1,6 @@
 import mongoose from 'mongoose';
+import type { Vac } from './Type';
 
-type Vac = {
-    nextUpdate: string,
-    currentDate: string,
-    createdAt: Date,
-    updatedAt: Date,
-}
 const VacUpdatesSchema = new mongoose.Schema<Vac>({
     nextUpdate: { type: String },
     currentDate: { type: String },
@@ -15,5 +10,3 @@ const VacUpdatesSchema = new mongoose.Schema<Vac>({
 
 const VacUpdate = mongoose.model('VacUpdate', VacUpdatesSchema);
 module.exports = VacUpdate;
-
-// export default Vac;
