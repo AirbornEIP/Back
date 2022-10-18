@@ -2,8 +2,8 @@ import dotenv from 'dotenv';
 import scripts from './script/getVacMap';
 // eslint-disable-next-line import/extensions
 import connectDB from './database';
-
-const app = require('./app.ts');
+// eslint-disable-next-line import/extensions
+import app from './app';
 
 dotenv.config({ path: `.env.${process.env.NODE_ENV.length ? process.env.NODE_ENV : 'development'}` });
 
