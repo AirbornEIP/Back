@@ -5,7 +5,6 @@ import { errorMessages } from '../helpers/constants';
 
 const UserModel = require('../models/User.Model.ts');
 
-// eslint-disable-next-line max-len
 export const checkEmailDuplication = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     const user = await UserModel.findOne({ email: req.body.email });
     if (user) {
@@ -14,7 +13,6 @@ export const checkEmailDuplication = async (req: express.Request, res: express.R
     return next();
 };
 
-// eslint-disable-next-line max-len
 export const checkValidation = (req: express.Request, res: express.Response, next: express.NextFunction) => {
     const errorsData = validationResult(req);
     if (!errorsData.isEmpty()) {

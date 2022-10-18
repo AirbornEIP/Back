@@ -11,11 +11,8 @@ async function getHistory(req: Request, res: express.Response) {
     try {
         const { title } = req.body;
         const flyplan = await FlyPlanModel.findOne({ title, userId: req.user.id });
-        // eslint-disable-next-line max-len
         if (!flyplan) return responseApi.errorResponse(res, errors.noOnePlan.code, errors.noOnePlan.message);
-        // eslint-disable-next-line max-len
         const history = await FlyplanHistoryModel.find({ flyplanId: flyplan.id, userId: req.user.id });
-        // eslint-disable-next-line max-len
         if (history.length === 0) return responseApi.errorResponse(res, errors.NoHistoryPlan.code, errors.NoHistoryPlan.message);
         return responseApi.successResponseWithData(res, {
             message: 'success',
@@ -72,7 +69,7 @@ async function addPlan(req: Request, res: express.Response) {
                 errors.planAlreadyExist.code,
                 errors.planAlreadyExist.message);
         }
-        // eslint-disable-next-line new-cap
+
         const plan = new FlyPlanModel({
             userId: req.user.id,
             title: req.body.title,
@@ -95,7 +92,6 @@ async function removePlan(req: Request, res: express.Response) {
                 errors.removeMissing.message,
             );
         }
-        // eslint-disable-next-line max-len
         const search = await FlyPlanModel.deleteOne({ title: req.body.remove, userId: req.user.id });
         if (search.deletedCount < 1) {
             return responseApi.errorResponse(res, // aucune recherche de ce type exite

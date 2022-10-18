@@ -24,7 +24,6 @@ async function registerRequest(req: express.Request, res: express.Response) {
         const hash = await bcrypt.hash(password, 10);
         const uuid = uuidv4();
         if (!email || !password || !surname || !name) {
-            // eslint-disable-next-line max-len
             return responseApi.errorResponse(res, errors.formMissing.code, errors.formMissing.message);
         }
 
@@ -58,10 +57,7 @@ async function confirmEmail(req: express.Request, res: express.Response) {
     try {
         const { uuid } = req.body;
 
-        if (!uuid) {
-            // eslint-disable-next-line max-len
-            return responseApi.errorResponse(res, errors.formMissing.code, errors.formMissing.message);
-        }
+        if (!uuid) return responseApi.errorResponse(res, errors.formMissing.code, errors.formMissing.message);
         const confMail = await ConfirmEmailModel.findOne({ uuid });
         if (confMail) {
             await UserModel.findOneAndUpdate({ _id: confMail.UserId }, { verifiedEmail: true });
@@ -69,7 +65,6 @@ async function confirmEmail(req: express.Request, res: express.Response) {
             await mailer('Your account has been created', 'Account Airborn created', req.body.email);
             return responseApi.successResponse(res, 'Email confirmed');
         }
-        // eslint-disable-next-line max-len
         return responseApi.errorResponse(res, errors.emailNotConfirmed.code, errors.emailNotConfirmed.message);
     } catch (e) {
         return responseApi.internError(res, e);
@@ -143,7 +138,6 @@ async function changePassword(req: express.Request, res: express.Response) {
             );
         }
         const id = UserPassword.UserId;
-        // eslint-disable-next-line max-len
         const user = await UserModel.findOneAndUpdate({ _id: id }, { password: hash, updateAt: Date.now });
         if (user) {
             await ForgotPassword.findOneAndDelete(uuid);
@@ -151,7 +145,7 @@ async function changePassword(req: express.Request, res: express.Response) {
         }
         return responseApi.errorResponse(res, errors.userNoExist.code, errors.userNoExist.message);
     } catch (e) {
-        return responseApi.errorResponse(res, e);
+        return responseApi.internError(res, e);
     }
 }
 
@@ -168,7 +162,6 @@ async function forgotPassword(req: express.Request, res: express.Response) {
             );
         }
         await mailer(`http://0.0.0.0:3000/reset?${uuid}`, 'Forgot Password Airborn', email);
-        // eslint-disable-next-line max-len
         const modelForgotPassword = new ForgotPassword({ UserId: user._id, uuid, createdAt: Date.now });
         await modelForgotPassword.save();
         return responseApi.successResponse(res, 'Email sent');

@@ -9,7 +9,6 @@ const { errors } = require('../helpers/constants');
 
 async function AddPlane(req: Request, res: express.Response) {
     try {
-        console.log(req.user.id);
         const {
             Registration,
             Model,
@@ -17,7 +16,6 @@ async function AddPlane(req: Request, res: express.Response) {
             MountingSpeed,
             Altitude,
         } = req.body;
-        // eslint-disable-next-line max-len
         if (!Registration || !Model || !Vmax || !MountingSpeed || !Altitude) return (responseApi.errorResponse(res, errors.addPlaneError.code, errors.addPlaneError.message));
         const plane = new PlaneModel({
             Registration,
@@ -43,9 +41,7 @@ async function getAllPlane(req: Request, res: express.Response) {
     try {
         const planes = await PlaneModel.find({ userId: req.user.id });
 
-        // eslint-disable-next-line max-len
         if (!planes) return responseApi.errorResponse(res, errors.noPlaneAreRegistered.code, errors.noPlaneAreRegistered.message);
-
         return (await responseApi.successResponseWithData(res, {
             data: {
                 planes,
@@ -59,10 +55,8 @@ async function getAllPlane(req: Request, res: express.Response) {
 async function removePlane(req: Request, res: express.Response) {
     try {
         const { Registration } = req.body;
-        // eslint-disable-next-line max-len
         if (!Registration) return (responseApi.errorResponse(res, errors.planeMiss.code, errors.planeMiss.message));
         const plane = await PlaneModel.findOneAndDelete({ Registration, userId: req.user.id });
-        // eslint-disable-next-line max-len
         if (!plane) return (responseApi.errorResponse(res, errors.noPlaneAreRegistered.code, errors.noPlaneAreRegistered.message));
         const {
             Model, Vmax, MountingSpeed, Altitude,
@@ -85,10 +79,8 @@ async function removePlane(req: Request, res: express.Response) {
 async function getPlane(req: Request, res: express.Response) {
     try {
         const { Registration } = req.query;
-        // eslint-disable-next-line max-len
         if (!Registration) return (responseApi.errorResponse(res, errors.planeMiss.code, errors.planeMiss.message));
         const plane = await PlaneModel.findOne({ Registration, userId: req.user.id });
-        // eslint-disable-next-line max-len
         if (!plane) return (responseApi.errorResponse(res, errors.noPlaneAreRegistered.code, errors.noPlaneAreRegistered.message));
         const {
             Model, Vmax, MountingSpeed, Altitude,

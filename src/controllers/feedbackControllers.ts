@@ -9,13 +9,10 @@ const authMiddlewares = require('../middlewares/auth.ts');
 async function get(req: Request, res: express.Response) {
     try {
         const id = req.query;
-        // eslint-disable-next-line max-len
         if (!id) return responseApi.errorResponse(res, errors.queryMissing.code, errors.queryMissing.message);
         const feedsback = await feedback.find({ userId: req.user.id });
-        if (!feedsback) {
-            // eslint-disable-next-line max-len
-            return responseApi.errorResponse(res, errors.userNoData.code, errors.userNoData.message);
-        }
+        if (!feedsback) return responseApi.errorResponse(res, errors.userNoData.code, errors.userNoData.message);
+
         return responseApi.successResponseWithData(res, feedsback);
     } catch (e) {
         return responseApi.internError(res, e);
@@ -25,10 +22,7 @@ async function get(req: Request, res: express.Response) {
 async function getAll(req: Request, res: express.Response) {
     try {
         const feedsback = await feedback.find();
-        if (!feedsback) {
-            // eslint-disable-next-line max-len
-            return responseApi.errorResponse(res, errors.userNoData.code, errors.userNoData.message);
-        }
+        if (!feedsback) return responseApi.errorResponse(res, errors.userNoData.code, errors.userNoData.message);
         return responseApi.successResponseWithData(res, feedsback);
     } catch (e) {
         return responseApi.internError(res, e);
@@ -38,7 +32,6 @@ async function getAll(req: Request, res: express.Response) {
 async function post(req: Request, res: express.Response) {
     try {
         const { message, title } = req.body;
-        // eslint-disable-next-line max-len
         if (!title || !message) return responseApi.errorResponse(res, errors.formMissing.code, errors.formMissing.message);
         // eslint-disable-next-line new-cap
         const feed = new feedback({

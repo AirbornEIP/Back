@@ -31,7 +31,6 @@ async function uploadAvatar(req: Request, res: express.Response) {
     try {
         const { avatar } = req.body;
         if (!avatar) {
-            // eslint-disable-next-line max-len
             return apiResponse.errorResponse(res, errors.formMissing.code, errors.formMissing.message);
         }
         await UserModel.findOneAndUpdate({ email: req.user.email }, { avatar });
@@ -46,12 +45,10 @@ async function banUser(req: Request, res: express.Response) {
         if (!req.body.email || req.body.status === 'undefined') {
             return (responseApi.errorResponse(res, 13, 'email or status not found'));
         }
-
         if (typeof req.body.status !== 'boolean') {
             return (responseApi.errorResponse(res, 14, 'status is not a boolean'));
         }
         if (req.user.admin === true) {
-            // eslint-disable-next-line max-len
             await UserModel.findOneAndUpdate({ email: req.body.email }, { banned: req.body.status });
             return responseApi.successResponse(res, req.body.status === true ? 'User are banned' : 'User are unbanned');
         }
@@ -66,7 +63,6 @@ async function changeTheme(req: Request, res: express.Response) {
         const { theme } = req.body;
 
         if (theme === undefined || typeof theme !== typeof true) {
-            // eslint-disable-next-line max-len
             return responseApi.errorResponse(res, errors.errors.formMissing.code, errors.errors.formMissing.message);
         }
         await UserModel.findOneAndUpdate({ email: req.user.email }, { theme });

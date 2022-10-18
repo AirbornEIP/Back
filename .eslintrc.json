@@ -23,8 +23,8 @@
         "indent": ["error", 4],
         "no-console": "off",
         "no-plusplus": "off",
-
-        ////! TypeScript
+        "max-len": "off",
+      ////! TypeScript
         // enable require
         "@typescript-eslint/no-var-requires": "off",
         // Suppress missing return type on function
