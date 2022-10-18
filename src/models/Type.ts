@@ -31,6 +31,16 @@ export type Vac = {
     updatedAt: Date,
 }
 
+export type FeedBackType = {
+    title: string,
+    name: string,
+    surname: string,
+    email: string,
+    userId: string,
+    test: string,
+    createdAt: Date,
+}
+
 export type VacType = {
     link: string,
     name: string,
