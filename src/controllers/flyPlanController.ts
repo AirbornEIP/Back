@@ -1,8 +1,8 @@
 import type express from 'express';
 import type { Request } from './Type';
 
-const responseApi = require('../helpers/apiResponse');
-const { errors } = require('../helpers/constants');
+const responseApi = require('../helpers/apiResponse.ts');
+const { errors } = require('../helpers/constants.ts');
 const authMiddlewares = require('../middlewares/auth.ts');
 const { FlyPlanModel } = require('../models/FlyPlan.Model.ts');
 const { FlyplanHistoryModel } = require('../models/FlyplanHistory.Model.ts');

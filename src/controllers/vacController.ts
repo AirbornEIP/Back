@@ -1,9 +1,12 @@
+import express from 'express';
+import type { Request } from './Type';
+
 const authMiddlewares = require('../middlewares/auth.ts');
-const responseApi = require('../helpers/apiResponse');
-const { errors } = require('../helpers/constants');
+const responseApi = require('../helpers/apiResponse.ts');
+const { errors } = require('../helpers/constants.ts');
 const Vac = require('../models/VacPlan.Model.ts');
 
-async function get(req, res) {
+async function get(req: Request, res: express.Response) {
     try {
         const filter = { name: req.body.airport };
         const vac = await Vac.findOne(filter);
@@ -20,7 +23,7 @@ async function get(req, res) {
     }
 }
 
-async function getAll(req, res) {
+async function getAll(req: Request, res: express.Response) {
     try {
         const vac = await Vac.find();
         if (!vac) {

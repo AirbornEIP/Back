@@ -5,14 +5,16 @@ import fetch from 'node-fetch';
 import qs from 'qs';
 import { v4 as uuidv4 } from 'uuid';
 import type express from 'express';
-import ConfirmEmailModel from '../models/ConfirmationMail.model';
-import responseApi from '../helpers/apiResponse';
-import ForgotPassword from '../models/ForgotPassword';
-import utility from '../helpers/utility';
-import { errorMessages, validationMessages, errors } from '../helpers/constants';
-import { mailer } from '../helpers/mailer';
+import type { Request } from './Type';
 
-const UserModel = require('../models/User.Model.ts');
+const authMiddlewares = require('../middlewares/auth.ts');
+const ConfirmEmailModel = require('../models/ConfirmationMail.model.ts');
+const ForgotPassword = require('../models/ForgotPassword.ts');
+const utility = require('../helpers/utility.ts');
+const { errorMessages, validationMessages, errors } = require('../helpers/constants.ts');
+const { mailer } = require('../helpers/mailer.ts');
+const responseApi = require('../helpers/apiResponse.ts');
+const { UserModel } = require('../models/User.Model.ts');
 const { ...validationMiddlewares } = require('../middlewares/validation.ts');
 // import { checkValidationEmail } from '../../middlewares/auth';
 
@@ -21,6 +23,7 @@ async function registerRequest(req: express.Request, res: express.Response) {
         const {
             email, password, surname, name,
         } = req.body;
+        console.log(req.body.surname);
         const hash = await bcrypt.hash(password, 10);
         const uuid = uuidv4();
         if (!email || !password || !surname || !name) {
@@ -47,6 +50,22 @@ async function registerRequest(req: express.Request, res: express.Response) {
                 name,
                 surname,
             },
+        });
+    } catch (e) {
+        return responseApi.internError(res, e);
+    }
+}
+
+async function deleteUser(req: Request, res: express.Response) {
+    try {
+        const { user } = req;
+        const result = await UserModel.findOneAndDelete({ _id: user.id, email: user.email });
+        console.log(result);
+        return responseApi.successResponseWithData(res, {
+            message: 'Account deleted',
+            id: result.id,
+            email: result.email,
+            name: result.name,
         });
     } catch (e) {
         return responseApi.internError(res, e);
@@ -207,6 +226,10 @@ exports.confirmEmail = [
     confirmEmail,
 ];
 
+exports.deleteUser = [
+    authMiddlewares.checkUser,
+    deleteUser,
+];
 // exports.validEmail = [
 //     validEmail,
 // ];

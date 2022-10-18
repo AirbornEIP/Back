@@ -1,7 +1,8 @@
 import type express from 'express';
 import type { Request } from '../controllers/Type';
-import apiResponse from '../helpers/apiResponse';
-import { errors } from '../helpers/constants';
+
+const errors = require('../helpers/constants.ts');
+const apiResponse = require('../helpers/apiResponse.ts');
 
 const { PlaneModel } = require('../models/Plane.Model.ts');
 

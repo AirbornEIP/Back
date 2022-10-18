@@ -1,7 +1,7 @@
 import express from 'express';
 
 const { getPlan } = require('../../controllers/planControllers.ts');
-const vac = require('./vac');
+const vac = require('./vac.ts');
 
 const router = express.Router();
 

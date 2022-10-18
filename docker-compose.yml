@@ -17,7 +17,7 @@ services:
       - mongoDB
 
   mongoDB:
-    image: mongo
+    image: mongo:5
     restart: always
     logging:
       driver: none

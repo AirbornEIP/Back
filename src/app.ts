@@ -1,8 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import * as apiResponse from './helpers/apiResponse';
 
+const apiResponse = require('./helpers/apiResponse.ts');
 const { routes } = require('./routes/index.ts');
 
 dotenv.config({ path: '.env.'.concat(process.env.NODE_ENV.length ? process.env.NODE_ENV : 'development') });

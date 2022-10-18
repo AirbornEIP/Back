@@ -1,9 +1,10 @@
 import express from 'express';
-import authRouter from './user/auth';
-import flyPlan from './plan/flyPlan';
-import profile from './user/profile';
-import feedback from './feedback/feedback';
-import RequestHistoryModel from '../models/RequestHistory.Model';
+
+const authRouter = require('./user/auth.ts');
+const flyPlan = require('./plan/flyPlan.ts');
+const profile = require('./user/profile.ts');
+const feedback = require('./feedback/feedback.ts');
+const RequestHistoryModel = require('../models/RequestHistory.Model.ts');
 
 const plane = require('./plane/plane.ts');
 const plan = require('./plan/plan.ts');
