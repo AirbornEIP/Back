@@ -15,4 +15,4 @@ app.listen(port, () => {
     console.log(`backend listening at http://localhost:${port}`);
 });
 
-scripts.script();
+// scripts.script();
