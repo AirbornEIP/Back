@@ -15,9 +15,8 @@ services:
       - 8080:8080
     depends_on:
       - mongoDB
-
   mongoDB:
-    image: mongo
+    image: mongo:5
     restart: always
     logging:
       driver: none

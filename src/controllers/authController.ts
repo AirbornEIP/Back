@@ -12,7 +12,7 @@ import utility from '../helpers/utility';
 import { errorMessages, validationMessages, errors } from '../helpers/constants';
 import { mailer } from '../helpers/mailer';
 
-const UserModel = require('../models/User.Model.ts');
+const { UserModel } = require('../models/User.Model.ts');
 const { ...validationMiddlewares } = require('../middlewares/validation.ts');
 // import { checkValidationEmail } from '../../middlewares/auth';
 

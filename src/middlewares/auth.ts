@@ -18,7 +18,7 @@ async function checkUserExists(req: Request, res: express.Response, next: expres
             return next();
         }
         // eslint-disable-next-line no-underscore-dangle
-        const user = await UserModel.findOne({ _id: req.user.id });
+        const user = await UserModel.findOne({ id: req.user.id });
         if (!user) {
             return apiResponse.unauthorizedResponse(res, errorMessages.userNoExist);
         }

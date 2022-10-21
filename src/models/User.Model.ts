@@ -27,4 +27,4 @@ userSchema.methods.isPasswordCorrect = async function (password: string) {
 userSchema.methods.isBan = function () { return this.banned; };
 
 const UserModel = mongoose.model('User', userSchema);
-module.exports = UserModel;
+exports.UserModel = UserModel;

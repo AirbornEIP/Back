@@ -3,7 +3,7 @@ import type express from 'express';
 import apiResponse from '../helpers/apiResponse';
 import { errorMessages } from '../helpers/constants';
 
-const UserModel = require('../models/User.Model.ts');
+const { UserModel } = require('../models/User.Model.ts');
 
 export const checkEmailDuplication = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     const user = await UserModel.findOne({ email: req.body.email });
