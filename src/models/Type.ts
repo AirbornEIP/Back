@@ -83,6 +83,7 @@ export type FlyplanHistoryType = {
 
 export type FlyplanType = {
     title: string,
+    ownerName: string,
     userId: string,
     isPublic: boolean,
     history: [string],

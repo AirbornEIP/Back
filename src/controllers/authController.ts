@@ -23,7 +23,6 @@ async function registerRequest(req: express.Request, res: express.Response) {
         const {
             email, password, surname, name,
         } = req.body;
-        console.log(req.body.surname);
         const hash = await bcrypt.hash(password, 10);
         const uuid = uuidv4();
         if (!email || !password || !surname || !name) {
