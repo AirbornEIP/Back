@@ -2,9 +2,10 @@ import jwt from 'express-jwt';
 import type express from 'express';
 import type { Request } from '../controllers/Type';
 
-const dotenv = require('dotenv');
-const apiResponse = require('../helpers/apiResponse.ts');
+const responseApi = require('../helpers/apiResponse.ts');
 const { errorMessages } = require('../helpers/constants.ts');
+
+const dotenv = require('dotenv');
 const { UserModel } = require('../models/User.Model.ts');
 
 dotenv.config({ path: `.env.${process.env.NODE_ENV.length ? process.env.NODE_ENV : 'development'}` });
@@ -18,25 +19,27 @@ async function checkUserExists(req: Request, res: express.Response, next: expres
         }
         // eslint-disable-next-line no-underscore-dangle
         const user = await UserModel.findOne({ id: req.user.id });
-        if (!user) return apiResponse.unauthorizedResponse(res, errorMessages.userNoExist);
+        if (!user) {
+            return responseApi.unauthorizedResponse(res, errorMessages.userNoExist);
+        }
         if (user.isBan()) {
-            return apiResponse.unauthorizedResponse(res, errorMessages.bannedUser);
+            return responseApi.unauthorizedResponse(res, errorMessages.bannedUser);
         }
         req.user = user;
         return next();
     } catch (e) {
-        return apiResponse.internError(res, e);
+        return responseApi.internError(res, e);
     }
 }
 
 async function checkValidationEmail(req: Request, res: express.Response, next: express.NextFunction) {
     try {
         if (!req.user) {
-            return apiResponse.unauthorizedResponse(res, errorMessages.emailNotVerified);
+            return responseApi.unauthorizedResponse(res, errorMessages.emailNotVerified);
         }
         return next();
     } catch (e) {
-        return apiResponse.internError(res, e);
+        return responseApi.internError(res, e);
     }
 }
 exports.checkUser = [

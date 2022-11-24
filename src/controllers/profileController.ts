@@ -3,9 +3,9 @@ import type { Request } from './Type';
 
 const { UserModel } = require('../models/User.Model.ts');
 const authMiddlewares = require('../middlewares/auth.ts');
-const apiResponse = require('../helpers/apiResponse');
-const { errors } = require('../helpers/constants');
-const responseApi = require('../helpers/apiResponse');
+const apiResponse = require('../helpers/apiResponse.ts');
+const errors = require('../helpers/constants.ts');
+const responseApi = require('../helpers/apiResponse.ts');
 
 async function getProfile(req: Request, res: express.Response) {
     const { user } = req;
@@ -14,12 +14,14 @@ async function getProfile(req: Request, res: express.Response) {
 
 async function editProfile(req: Request, res: express.Response) {
     try {
-        const { name, surname } = req.body;
+        const { name, surname, email } = req.body;
         const filter = { email: req.user.email };
         // eslint-disable-next-line no-unused-expressions
         (name && name !== req.user.name ? req.user.name = name : 0);
         // eslint-disable-next-line no-unused-expressions
         (surname && surname !== req.user.surname ? req.user.surname = name : 0);
+        // eslint-disable-next-line no-unused-expressions
+        (email && email !== req.user.email ? req.user.email = email : 0);
         await UserModel.findOneAndUpdate(filter, req.user);
         return apiResponse.successResponse(res, 'Profile Updated');
     } catch (e) {

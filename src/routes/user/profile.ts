@@ -1,15 +1,15 @@
 import express from 'express';
 
-const profileController = require('../../controllers/profileController');
+const { getProfile, editProfile, banUser, changeTheme, getTheme, uploadAvatar } = require('../../controllers/profileController.ts');
 
 const router = express.Router();
 
-router.get('/get', profileController.getProfile);
+router.get('/get', getProfile);
 
-router.patch('/update', profileController.editProfile);
-router.patch('/banUser', profileController.banUser);
-router.patch('/changeTheme', profileController.changeTheme);
-router.get('/getTheme', profileController.getTheme);
-router.post('/uploadAvatar', profileController.uploadAvatar);
+router.patch('/update', editProfile);
+router.patch('/banUser', banUser);
+router.patch('/changeTheme', changeTheme);
+router.get('/getTheme', getTheme);
+router.post('/uploadAvatar', uploadAvatar);
 // router.patch('changeLanguage', )
 module.exports = router;
