@@ -10,4 +10,5 @@ const VacSchema = new mongoose.Schema<VacType>({
 });
 
 const Vac = mongoose.model('Vac', VacSchema);
+
 module.exports = Vac;

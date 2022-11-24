@@ -1,8 +1,8 @@
 const got = require('got');
 const jsdom = require('jsdom');
+const vacPlan = require('../models/VacPlan.Model.ts');
 
 const { JSDOM } = jsdom;
-const vacPlan = require('../models/VacPlan.Model.ts');
 
 const vgmUrl = 'http://www.aero-hesbaye.be/vac/vac_fr.htm';
 // eslint-disable-next-line import/order
@@ -27,31 +27,43 @@ function getInitial(link) {
 }
 
 async function getVac() {
-    const response = await got(vgmUrl);
-    const dom = new JSDOM(response.body);
+    try {
+        const response = await got(vgmUrl);
+        const dom = new JSDOM(response.body);
+        const nodeList = [...dom.window.document.querySelectorAll('a')];
 
-    const nodeList = [...dom.window.document.querySelectorAll('a')];
-
-    nodeList.filter(isMidi).filter(noParens).forEach(async (link) => {
-        const initial = getInitial(link.href);
-        if (initial.length < 5) {
-            const plan = await vacPlan.create({
-                link: link.href,
-                name: getInitial(link.href),
-                fullName: link.text,
+        nodeList.filter(isMidi)
+            .filter(noParens)
+            .forEach(async (link) => {
+                const initial = getInitial(link.href);
+                if (initial.length < 5) {
+                    const plan = await vacPlan.create({
+                        link: link.href,
+                        name: getInitial(link.href),
+                        fullName: link.text,
+                    });
+                    await plan.save();
+                }
             });
-            await plan.save();
-        }
-    });
-    console.log('Vac plan savec');
+        console.log('Vac plan saved');
+    } catch (e) {
+        console.log(e);
+    }
 }
 
 const script = async function Vac() {
-    await vacPlan.collection.drop();
-    await getVac();
-    cron.schedule('0 0 */3 * * *', async () => {
-        await vacPlan.collection.drop();
+    try {
+        const collection = await vacPlan.find();
+        if (collection.length !== 0) {
+            await vacPlan.collection.drop();
+        }
         await getVac();
-    });
+        cron.schedule('0 0 */3 * * *', async () => {
+            await vacPlan.collection.drop();
+            await getVac();
+        });
+    } catch (e) {
+        console.log(e);
+    }
 };
 export default script;

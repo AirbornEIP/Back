@@ -7,12 +7,15 @@ import app from './app';
 
 dotenv.config({ path: `.env.${process.env.NODE_ENV.length ? process.env.NODE_ENV : 'development'}` });
 
-const port = process.env.PORT;
+async function main() {
+    const port = process.env.PORT;
 
-connectDB().then((r) => console.log('Connected'));
+    connectDB().then((r) => console.log('Connected'));
 
-app.listen(port, () => {
-    console.log(`backend listening at http://localhost:${port}`);
-});
+    app.listen(port, () => {
+        console.log(`backend listening at http://localhost:${port}`);
+    });
+    await scripts();
+}
+main();
 
-scripts();
