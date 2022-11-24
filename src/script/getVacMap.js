@@ -47,6 +47,7 @@ async function getVac() {
 }
 
 const script = async function Vac() {
+    await vacPlan.collection.drop();
     await getVac();
     cron.schedule('0 0 */3 * * *', async () => {
         await vacPlan.collection.drop();
