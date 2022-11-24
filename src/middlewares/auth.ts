@@ -2,10 +2,9 @@ import jwt from 'express-jwt';
 import type express from 'express';
 import type { Request } from '../controllers/Type';
 
-import apiResponse from '../helpers/apiResponse';
-import { errorMessages } from '../helpers/constants';
-
 const dotenv = require('dotenv');
+const apiResponse = require('../helpers/apiResponse.ts');
+const { errorMessages } = require('../helpers/constants.ts');
 const { UserModel } = require('../models/User.Model.ts');
 
 dotenv.config({ path: `.env.${process.env.NODE_ENV.length ? process.env.NODE_ENV : 'development'}` });
@@ -19,9 +18,7 @@ async function checkUserExists(req: Request, res: express.Response, next: expres
         }
         // eslint-disable-next-line no-underscore-dangle
         const user = await UserModel.findOne({ id: req.user.id });
-        if (!user) {
-            return apiResponse.unauthorizedResponse(res, errorMessages.userNoExist);
-        }
+        if (!user) return apiResponse.unauthorizedResponse(res, errorMessages.userNoExist);
         if (user.isBan()) {
             return apiResponse.unauthorizedResponse(res, errorMessages.bannedUser);
         }

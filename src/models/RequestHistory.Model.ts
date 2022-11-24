@@ -1,6 +1,7 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
+import type { RequestHistoryType } from './Type';
 
-const Request = new mongoose.Schema({
+const Request = new mongoose.Schema<RequestHistoryType>({
     link: { type: String, required: true },
     method: { type: String, required: true },
     body: { type: JSON, required: false },
@@ -8,5 +9,4 @@ const Request = new mongoose.Schema({
     createdAt: { type: Date, required: true, default: Date.now },
 });
 
-const RequestHistory = mongoose.model('RequestHistory', Request);
-module.exports = RequestHistory;
+module.exports = mongoose.model('RequestHistory', Request);

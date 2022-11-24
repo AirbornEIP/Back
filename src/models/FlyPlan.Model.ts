@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 // @ts-ignore
 const Flyplan = new mongoose.Schema<FlyplanType>({
     title: { type: String, required: true },
+    ownerName: { type: String, required: true },
     userId: { type: mongoose.ObjectId, required: true },
     isPublic: { type: Boolean, required: false, default: false },
     history: { type: [mongoose.ObjectId] },

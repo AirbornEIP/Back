@@ -1,7 +1,8 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
+import type { ConfirmEmailType } from './Type';
 
-const ConfirmMail = new mongoose.Schema({
-    UserId: { type: mongoose.ObjectId, required: true },
+const ConfirmMail = new mongoose.Schema<ConfirmEmailType>({
+    UserId: { type: mongoose.Types.ObjectId, required: true },
     email: { type: String, required: true },
     uuid: { type: String, required: true },
     createdAt: { type: Date, required: true, default: Date.now },

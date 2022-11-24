@@ -26,5 +26,4 @@ userSchema.methods.isPasswordCorrect = async function (password: string) {
 // eslint-disable-next-line func-names
 userSchema.methods.isBan = function () { return this.banned; };
 
-const UserModel = mongoose.model('User', userSchema);
-exports.UserModel = UserModel;
+exports.UserModel = mongoose.model('User', userSchema);

@@ -4,8 +4,8 @@ import type { Request } from './Type';
 const { PlaneModel } = require('../models/Plane.Model.ts');
 const authMiddlewares = require('../middlewares/auth.ts');
 const planesMiddlewares = require('../middlewares/planes.ts');
-const responseApi = require('../helpers/apiResponse');
-const { errors } = require('../helpers/constants');
+const responseApi = require('../helpers/apiResponse.ts');
+const { errors } = require('../helpers/constants.ts');
 
 async function AddPlane(req: Request, res: express.Response) {
     try {

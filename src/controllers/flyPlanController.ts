@@ -1,8 +1,8 @@
 import type express from 'express';
 import type { Request } from './Type';
 
-const responseApi = require('../helpers/apiResponse');
-const { errors } = require('../helpers/constants');
+const responseApi = require('../helpers/apiResponse.ts');
+const { errors } = require('../helpers/constants.ts');
 const authMiddlewares = require('../middlewares/auth.ts');
 const { FlyPlanModel } = require('../models/FlyPlan.Model.ts');
 const { FlyplanHistoryModel } = require('../models/FlyplanHistory.Model.ts');
@@ -72,6 +72,7 @@ async function addPlan(req: Request, res: express.Response) {
 
         const plan = new FlyPlanModel({
             userId: req.user.id,
+            ownerName: req.user.name,
             title: req.body.title,
             isPublic,
             data: req.body.data,
@@ -119,7 +120,25 @@ async function getPlan(req: Request, res: express.Response) {
     }
 }
 
-async function getAllPlan(req: Request, res: express.Response) {
+async function getAllDate(req: Request, res: express.Response) {
+    try {
+        const plans = await FlyPlanModel.find();
+        const dates = plans.map((data) => ({
+            name: data.ownerName ? data.ownerName : 'undefined',
+            state: data.isPublic,
+            date: data.createdAt,
+        }));
+        return (responseApi.successResponseWithData(res, {
+            message: 'success',
+            dates,
+            size: dates.length,
+        }));
+    } catch (e) {
+        return responseApi.internError(res, e);
+    }
+}
+
+async function getAll(req: Request, res: express.Response) {
     try {
         const list = await FlyPlanModel.find({ userId: req.user.id });
         if (list.length >= 1) return responseApi.successResponseWithData(res, list);
@@ -145,7 +164,7 @@ exports.get = [
 
 exports.getAll = [
     authMiddlewares.checkUser,
-    getAllPlan,
+    getAll,
 ];
 
 exports.addHistory = [
@@ -156,4 +175,8 @@ exports.addHistory = [
 exports.getHistory = [
     authMiddlewares.checkUser,
     getHistory,
+];
+
+exports.getAllDate = [
+    getAllDate,
 ];

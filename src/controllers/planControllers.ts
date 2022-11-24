@@ -1,8 +1,8 @@
 import fetch from 'node-fetch';
 import type express from 'express';
-import responseApi from '../helpers/apiResponse';
-import { errors } from '../helpers/constants';
 
+const errors = require('../helpers/constants.ts');
+const responseApi = require('../helpers/apiResponse.ts');
 const authMiddlewares = require('../middlewares/auth.ts');
 
 async function getPlan(req: express.Request, res: express.Response) {

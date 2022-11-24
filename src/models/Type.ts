@@ -1,3 +1,5 @@
+import mongoose from 'mongoose';
+
 export type user = {
     email: string,
     password: string,
@@ -31,6 +33,26 @@ export type Vac = {
     updatedAt: Date,
 }
 
+export type ConfirmEmailType = {
+    UserId: string,
+    email: string,
+    uuid: string,
+    createdAt: Date,
+}
+
+export type ForgotPasswordType = {
+    UserId: mongoose.Types.ObjectId,
+    uuid: string,
+}
+
+export type RequestHistoryType = {
+    link: string,
+    method: string,
+    body: JSON,
+    header: mongoose.Types.Array<Headers>,
+    createdAt: Date,
+}
+
 export type FeedBackType = {
     title: string,
     name: string,
@@ -61,6 +83,7 @@ export type FlyplanHistoryType = {
 
 export type FlyplanType = {
     title: string,
+    ownerName: string,
     userId: string,
     isPublic: boolean,
     history: [string],
