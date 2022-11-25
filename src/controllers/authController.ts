@@ -38,7 +38,7 @@ async function registerRequest(req: express.Request, res: express.Response) {
         const saveUser = await user.save();
         const ConfirmEmail = new ConfirmEmailModel({ UserId: saveUser._id, uuid, email });
         await ConfirmEmail.save();
-        await mailer(`http://localhost:8080${uuid}`, 'Confirm your email', req.body.email);
+        await mailer(`http://localhost:8080?uuid=${uuid}`, 'Confirm your email', req.body.email);
         const jwtToken = utility.generateJwtToken(saveUser._id, saveUser.email);
 
         return responseApi.successResponseWithData(res, {
@@ -179,7 +179,7 @@ async function forgotPassword(req: express.Request, res: express.Response) {
                 errors.unknownUser.message,
             );
         }
-        await mailer(`http://0.0.0.0:3000/reset?${uuid}`, 'Forgot Password Airborn', email);
+        await mailer(`http://0.0.0.0:3000/changepassword?uuid=${uuid}`, 'Forgot Password Airborn', email);
         const modelForgotPassword = new ForgotPassword({ UserId: user._id, uuid, createdAt: Date.now });
         await modelForgotPassword.save();
         return responseApi.successResponse(res, 'Email sent');
