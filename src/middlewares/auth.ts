@@ -13,12 +13,7 @@ const secret = process.env.JWT_SECRET;
 
 async function checkUserExists(req: Request, res: express.Response, next: express.NextFunction) {
     try {
-        if (req.header('Authorization') === process.env.JWT_TEST) {
-            req.user = await UserModel.findOne({ email: 'test@test.fr' });
-            return next();
-        }
-        // eslint-disable-next-line no-underscore-dangle
-        const user = await UserModel.findOne({ id: req.user.id });
+        const user = await UserModel.findOne({ _id: req.user._id });
         if (!user) {
             return responseApi.unauthorizedResponse(res, errorMessages.userNoExist);
         }
@@ -30,6 +25,14 @@ async function checkUserExists(req: Request, res: express.Response, next: expres
     } catch (e) {
         return responseApi.internError(res, e);
     }
+}
+
+async function isAdmin(req: Request, res: express.Response, next: express.NextFunction) {
+    if (req.user.admin === false) {
+        console.log('tes')
+        return responseApi.internError(res, 'This account are not an admin');
+    }
+    return next();
 }
 
 async function checkValidationEmail(req: Request, res: express.Response, next: express.NextFunction) {
@@ -49,4 +52,8 @@ exports.checkUser = [
 
 exports.checkValidationEmail = [
     checkValidationEmail,
+];
+
+exports.isAdmin = [
+    isAdmin,
 ];

@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 export type user = {
     email: string,
     password: string,
-    id: string,
+    _id: string,
     banned: boolean,
     verifiedEmail: boolean,
     name: string,

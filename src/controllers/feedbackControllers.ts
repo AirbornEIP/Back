@@ -1,8 +1,8 @@
 import type express from 'express';
 import type { Request } from './Type';
 
-const responseApi = require('../helpers/apiResponse');
-const { errors } = require('../helpers/constants');
+const responseApi = require('../helpers/apiResponse.ts');
+const { errors } = require('../helpers/constants.ts');
 const feedback = require('../models/FeedBack.Model.ts');
 const authMiddlewares = require('../middlewares/auth.ts');
 
@@ -36,7 +36,7 @@ async function post(req: Request, res: express.Response) {
         // eslint-disable-next-line new-cap
         const feed = new feedback({
             title,
-            userId: req.user.id,
+            userId: req.user._id,
             surname: req.user.surname,
             name: req.user.name,
             email: req.user.email,
