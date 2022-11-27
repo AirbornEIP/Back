@@ -6,8 +6,8 @@ const vac = require('./vac.ts');
 const router = express.Router();
 
 router.use('/vac/', vac);
-router.use('/notam', getPlan);
-router.use('/taf', getPlan);
-router.use('/metar', getPlan);
+router.get('/notam', getPlan);
+router.get('/taf', getPlan);
+router.get('/metar', getPlan);
 
 module.exports = router;

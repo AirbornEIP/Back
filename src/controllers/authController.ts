@@ -57,14 +57,12 @@ async function registerRequest(req: express.Request, res: express.Response) {
 
 async function deleteUser(req: Request, res: express.Response) {
     try {
-        const { user } = req;
-        const result = await UserModel.findOneAndDelete({ _id: user.id, email: user.email });
-        console.log(result);
+        const { email } = req.body;
+
+        await UserModel.findOneAndDelete({ email });
         return responseApi.successResponseWithData(res, {
             message: 'Account deleted',
-            id: result.id,
-            email: result.email,
-            name: result.name,
+            email,
         });
     } catch (e) {
         return responseApi.internError(res, e);
@@ -227,6 +225,7 @@ exports.confirmEmail = [
 
 exports.deleteUser = [
     authMiddlewares.checkUser,
+    authMiddlewares.isAdmin,
     deleteUser,
 ];
 // exports.validEmail = [
