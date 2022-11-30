@@ -29,7 +29,6 @@ async function checkUserExists(req: Request, res: express.Response, next: expres
 
 async function isAdmin(req: Request, res: express.Response, next: express.NextFunction) {
     if (req.user.admin === false) {
-        console.log('tes')
         return responseApi.internError(res, 'This account are not an admin');
     }
     return next();

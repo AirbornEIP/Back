@@ -10,7 +10,7 @@ async function get(req: Request, res: express.Response) {
     try {
         const id = req.query;
         if (!id) return responseApi.errorResponse(res, errors.queryMissing.code, errors.queryMissing.message);
-        const feedsback = await feedback.find({ userId: req.user.id });
+        const feedsback = await feedback.find({ userId: req.user._id });
         if (!feedsback) return responseApi.errorResponse(res, errors.userNoData.code, errors.userNoData.message);
 
         return responseApi.successResponseWithData(res, feedsback);
