@@ -6,7 +6,7 @@ const {
 
 const app = express.Router();
 
-app.post('/get', get);
+app.get('/get', get);
 app.post('/add', add);
 app.post('/remove', remove);
 app.post('/addHistory', addHistory);
