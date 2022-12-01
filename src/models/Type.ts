@@ -20,6 +20,9 @@ export type PlaneType = {
     userId: string,
     Registration: string,
     Model: number,
+    Name: string,
+    Consommation: number,
+    FuelCapacity: number,
     Vmax: number,
     MountingSpeed: number
     Altitude: number,

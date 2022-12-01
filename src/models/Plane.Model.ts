@@ -11,6 +11,8 @@ const PlaneSchema = new mongoose.Schema<PlaneType>({
     Vmax: { type: Number, required: true },
     MountingSpeed: { type: Number, required: true },
     Altitude: { type: Number, required: true },
+    Consommation: { type: Number, required: true },
+    FuelCapacity: { type: Number, required: true },
     createdAt: { type: Date, required: true, default: Date.now },
     updatedAt: { type: Date, required: false },
 });

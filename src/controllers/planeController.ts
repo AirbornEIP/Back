@@ -16,12 +16,16 @@ async function AddPlane(req: Request, res: express.Response) {
             MountingSpeed,
             Altitude,
             Name,
+            FuelCapacity,
+            Consommation,
         } = req.body;
-        if (!Registration || !Name || !Model || !Vmax || !MountingSpeed || !Altitude) return (responseApi.errorResponse(res, errors.addPlaneError.code, errors.addPlaneError.message));
+        if (!Registration || !Name || !Model || !Vmax || !MountingSpeed || !Altitude || !FuelCapacity || !Consommation) return (responseApi.errorResponse(res, errors.addPlaneError.code, errors.addPlaneError.message));
         const plane = new PlaneModel({
             Registration,
             Model,
             Vmax,
+            FuelCapacity,
+            Consommation,
             MountingSpeed,
             Altitude,
             Name,
@@ -78,6 +82,7 @@ async function removePlane(req: Request, res: express.Response) {
         return responseApi.internError(res, e);
     }
 }
+
 
 async function getPlane(req: Request, res: express.Response) {
     try {

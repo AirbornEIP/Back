@@ -7,5 +7,4 @@ router.post('/add', plane.add);
 router.get('/get', plane.get);
 router.get('/getAll', plane.getAll);
 router.delete('/delete', plane.delete);
-
 module.exports = router;
