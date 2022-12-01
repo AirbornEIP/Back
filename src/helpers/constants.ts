@@ -116,7 +116,7 @@ exports.errors = {
     },
     addPlaneError: {
         code: 23,
-        message: 'Registration or Model or Vmax or  MountingSpeed or Altitude are missing',
+        message: 'Registration or Model or Vmax or  MountingSpeed or Name or Altitude are missing',
     },
     planeMiss: {
         code: 24,

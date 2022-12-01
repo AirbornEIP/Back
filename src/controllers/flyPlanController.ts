@@ -10,9 +10,9 @@ const { FlyplanHistoryModel } = require('../models/FlyplanHistory.Model.ts');
 async function getHistory(req: Request, res: express.Response) {
     try {
         const { title } = req.body;
-        const flyplan = await FlyPlanModel.findOne({ title, userId: req.user.id });
+        const flyplan = await FlyPlanModel.findOne({ title, userId: req.user._id });
         if (!flyplan) return responseApi.errorResponse(res, errors.noOnePlan.code, errors.noOnePlan.message);
-        const history = await FlyplanHistoryModel.find({ flyplanId: flyplan.id, userId: req.user.id });
+        const history = await FlyplanHistoryModel.find({ flyplanId: flyplan.id, userId: req.user._id });
         if (history.length === 0) return responseApi.errorResponse(res, errors.NoHistoryPlan.code, errors.NoHistoryPlan.message);
         return responseApi.successResponseWithData(res, {
             message: 'success',
@@ -30,7 +30,7 @@ async function addHistory(req: Request, res: express.Response) {
             return responseApi.errorResponse(res, errors.wrongBody.code, errors.wrongBody.message);
         }
         const flyPlan = await FlyPlanModel.findOne({
-            userId: req.user.id,
+            userId: req.user._id,
             title: req.body.title,
         });
         const idHistory = await FlyplanHistoryModel.find({ flyplanId: flyPlan.id });
@@ -38,7 +38,7 @@ async function addHistory(req: Request, res: express.Response) {
             flyplanId: flyPlan.id,
             data,
             titleParent: flyPlan.title,
-            userId: req.user.id,
+            userId: req.user._id,
             id: idHistory.length !== 0 ? idHistory[idHistory.length - 1].id + 1 : 0,
         });
         const { dataPlan = data, titleParent, id } = await history.save();
@@ -61,7 +61,7 @@ async function addPlan(req: Request, res: express.Response) {
         }
         if (req.body.isPublic === true) isPublic = true;
         const checkExistingPlan = await FlyPlanModel.findOne({
-            userId: req.user.id,
+            userId: req.user._id,
             title: req.body.title,
         });
         if (checkExistingPlan) {
@@ -71,7 +71,7 @@ async function addPlan(req: Request, res: express.Response) {
         }
 
         const plan = new FlyPlanModel({
-            userId: req.user.id,
+            userId: req.user._id,
             ownerName: req.user.name,
             title: req.body.title,
             isPublic,
@@ -93,7 +93,7 @@ async function removePlan(req: Request, res: express.Response) {
                 errors.removeMissing.message,
             );
         }
-        const search = await FlyPlanModel.deleteOne({ title: req.body.remove, userId: req.user.id });
+        const search = await FlyPlanModel.deleteOne({ title: req.body.remove, userId: req.user._id });
         if (search.deletedCount < 1) {
             return responseApi.errorResponse(res, // aucune recherche de ce type exite
                 errors.missingPlan.code,
@@ -107,7 +107,7 @@ async function removePlan(req: Request, res: express.Response) {
 
 async function getPlan(req: Request, res: express.Response) {
     try {
-        const list = await FlyPlanModel.findOne({ userId: req.user.id, title: req.body.title });
+        const list = await FlyPlanModel.findOne({ userId: req.user._id, title: req.body.title });
         if (!req.body.title) {
             return responseApi.errorResponse(res, errors.wrongBody.code, errors.wrongBody.message);
         }
@@ -140,7 +140,7 @@ async function getAllDate(req: Request, res: express.Response) {
 
 async function getAll(req: Request, res: express.Response) {
     try {
-        const list = await FlyPlanModel.find({ userId: req.user.id });
+        const list = await FlyPlanModel.find({ userId: req.user._id });
         if (list.length >= 1) return responseApi.successResponseWithData(res, list);
         return responseApi.errorResponse(res, errors.noOnePlan.error, errors.noOnePlan.message);
     } catch (e) {

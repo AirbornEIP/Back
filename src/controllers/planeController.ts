@@ -15,15 +15,17 @@ async function AddPlane(req: Request, res: express.Response) {
             Vmax,
             MountingSpeed,
             Altitude,
+            Name,
         } = req.body;
-        if (!Registration || !Model || !Vmax || !MountingSpeed || !Altitude) return (responseApi.errorResponse(res, errors.addPlaneError.code, errors.addPlaneError.message));
+        if (!Registration || !Name || !Model || !Vmax || !MountingSpeed || !Altitude) return (responseApi.errorResponse(res, errors.addPlaneError.code, errors.addPlaneError.message));
         const plane = new PlaneModel({
             Registration,
             Model,
             Vmax,
             MountingSpeed,
             Altitude,
-            userId: req.user.id,
+            Name,
+            userId: req.user._id,
         });
         const saved = await plane.save();
         return (responseApi.successResponseWithData(res, {
@@ -39,7 +41,7 @@ async function AddPlane(req: Request, res: express.Response) {
 
 async function getAllPlane(req: Request, res: express.Response) {
     try {
-        const planes = await PlaneModel.find({ userId: req.user.id });
+        const planes = await PlaneModel.find({ userId: req.user._id });
 
         if (!planes) return responseApi.errorResponse(res, errors.noPlaneAreRegistered.code, errors.noPlaneAreRegistered.message);
         return (await responseApi.successResponseWithData(res, {
@@ -56,14 +58,15 @@ async function removePlane(req: Request, res: express.Response) {
     try {
         const { Registration } = req.body;
         if (!Registration) return (responseApi.errorResponse(res, errors.planeMiss.code, errors.planeMiss.message));
-        const plane = await PlaneModel.findOneAndDelete({ Registration, userId: req.user.id });
+        const plane = await PlaneModel.findOneAndDelete({ Registration, userId: req.user._id });
         if (!plane) return (responseApi.errorResponse(res, errors.noPlaneAreRegistered.code, errors.noPlaneAreRegistered.message));
         const {
-            Model, Vmax, MountingSpeed, Altitude,
+            Model, Vmax, MountingSpeed, Altitude, name,
         } = plane;
         return responseApi.successResponseWithData(res, {
             message: 'Successfully deleted',
             plane: {
+                name,
                 Registration,
                 Model,
                 Vmax,
@@ -80,14 +83,15 @@ async function getPlane(req: Request, res: express.Response) {
     try {
         const { Registration } = req.query;
         if (!Registration) return (responseApi.errorResponse(res, errors.planeMiss.code, errors.planeMiss.message));
-        const plane = await PlaneModel.findOne({ Registration, userId: req.user.id });
+        const plane = await PlaneModel.findOne({ Registration, userId: req.user._id });
         if (!plane) return (responseApi.errorResponse(res, errors.noPlaneAreRegistered.code, errors.noPlaneAreRegistered.message));
         const {
-            Model, Vmax, MountingSpeed, Altitude,
+            Model, Vmax, MountingSpeed, Altitude, name,
         } = plane;
         return responseApi.successResponseWithData(res, {
             message: 'Success',
             plane: {
+                name,
                 Registration,
                 Model,
                 Vmax,

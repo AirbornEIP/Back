@@ -4,6 +4,7 @@ import type { PlaneType } from './Type';
 const PlaneSchema = new mongoose.Schema<PlaneType>({
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
+    Name: { type: String, required: true },
     userId: { type: mongoose.ObjectId, required: true },
     Registration: { type: String, required: true },
     Model: { type: String, required: true },
